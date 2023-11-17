@@ -1,25 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+
+import Loginpage from "./Component/Loginpage";
+import PermanentDrawerLeft from "./Component/Searchapp";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Loginpage />}></Route>
+          <Route
+            path="job-description"
+            element={<PermanentDrawerLeft />}
+          ></Route>
+          <Route path="*" element={<>Error 404</>}></Route>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
