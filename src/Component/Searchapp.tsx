@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -16,7 +16,6 @@ import InfoIcon from "@mui/icons-material/Info";
 import Logo from "./logo.png";
 import { Dialog, MenuItem, TextField } from "@mui/material";
 import { jobListings } from "../jobListData";
-import Profile from "./profilepicture.png";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import MergeTypeIcon from "@mui/icons-material/MergeType";
@@ -66,7 +65,7 @@ export default function PermanentDrawerLeft(props: any) {
   const [completeDetails, setCompleteDetails] = useState<any>(null);
   const [openInfo, setOpenInfo] = useState(false);
   const [openContact, setOpenContact] = useState(false);
-
+  const [userData, setuserData] = useState<any>(null);
   const openContactDialog = () => {
     setOpenContact(true);
   };
@@ -85,6 +84,13 @@ export default function PermanentDrawerLeft(props: any) {
   const close = () => {
     setOpenDetails(false);
   };
+
+  useEffect(() => {
+    const localStorageUserData = localStorage.getItem("userData");
+    if (localStorageUserData) {
+      setuserData(JSON.parse(localStorageUserData));
+    }
+  }, []);
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -150,20 +156,29 @@ export default function PermanentDrawerLeft(props: any) {
           anchor="left"
         >
           <Toolbar />
+          <div
+            style={{
+              display: "flex",
+              textAlign: "center",
+              justifyContent: "center",
+              marginTop: "-70px",
+            }}
+          >
+            <h2>{userData && userData.fullName}</h2>
+          </div>
           <Typography sx={{ textAlign: "center", lineHeight: "0.5" }}>
             <img
               style={{
                 width: "120px",
                 height: "120px",
                 borderRadius: "50%",
-                backgroundColor: "#fff",
-                border: "3px solid #008ae6",
+                border: "5px solid gray",
               }}
-              src={Profile}
+              src={userData && userData.image}
               alt=""
             />
-            <h2>Anchal Singh</h2>
-            <p>Software Engineer</p>
+            <p>{userData && userData.userName}</p>
+            <p>{userData && userData.industry}</p>
           </Typography>
           <Divider />
           <Typography>
@@ -563,13 +578,11 @@ export default function PermanentDrawerLeft(props: any) {
                 style={{
                   backgroundColor: "#1a75ff",
                   color: "#fff",
-                  width: "20%",
-                  padding: "10px 20px",
+                  padding: "5px 20px",
                   fontSize: "20px",
                   border: "none",
                   borderRadius: "50px",
                   cursor: "pointer",
-                  fontWeight: "bold",
                   textAlign: "center",
                 }}
               >

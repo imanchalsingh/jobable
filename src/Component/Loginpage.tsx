@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Logo from "./logo.png";
 import Halflogo from "./halflogo.png";
-import { DialogContent, IconButton } from "@mui/material";
+import {
+  DialogActions,
+  DialogContent,
+  FormControl,
+  IconButton,
+} from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
 import Dialog from "@mui/material/Dialog";
 import CloseIcon from "@mui/icons-material/Close";
@@ -11,7 +16,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import DialogActions from "@mui/material/DialogActions";
+import Checkbox from "@mui/material/Checkbox";
 
 const industries = [
   {
@@ -32,6 +37,20 @@ const industries = [
   },
 ];
 export default function Loginpage(props: any) {
+  const [userData, setUserData] = useState({
+    image: "",
+    fullName: "",
+    userName: "",
+    email: "",
+    location: "",
+    role: "",
+    company: "",
+    industry: "",
+    experience: "",
+    education: "",
+    skill: "",
+  });
+  const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const notify = () => toast("Welcome to Jobable!");
   const history = useNavigate();
   const [loginDialogOpen, setLoginDialogOpen] = useState(false);
@@ -40,6 +59,57 @@ export default function Loginpage(props: any) {
   };
   const close = () => {
     setLoginDialogOpen(false);
+  };
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleImageClick = () => {
+    if (inputRef.current) {
+      inputRef.current.click();
+    }
+  };
+  const [image, setImage] = useState<any>("");
+
+  const handleImageChange = (e: any) => {
+    const file = e.target.files[0];
+    const reader: FileReader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = (): void => {
+      const img: HTMLImageElement = new Image();
+      img.src = reader.result as string;
+      if (reader.result) {
+        setImage(img.src);
+        setUserData({ ...userData, image: img.src });
+      }
+      // img.onload = (): void => {
+      //   const canvas: HTMLCanvasElement = document.createElement("canvas");
+      //   const maxSize: number = Math.max(img.width, img.height);
+      //   canvas.width = maxSize;
+      //   canvas.height = maxSize;
+      //   const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
+      //   if (ctx) {
+      //     ctx.drawImage(
+      //       img,
+      //       (maxSize - img.width) / 2,
+      //       (maxSize - img.height) / 2
+      //     );
+      //     canvas.toBlob(
+      //       (blob: Blob | null): void => {
+      //         if (blob) {
+      //           const newFile: File = new File([blob], imgname, {
+      //             type: "image/png",
+      //             lastModified: Date.now(),
+      //           });
+      //           console.log(newFile);
+      //           setImage(file);
+      //         }
+      //       },
+      //       "image/jpeg",
+      //       0.8
+      //     );
+      //   }
+      // };
+    };
   };
   return (
     <>
@@ -54,32 +124,31 @@ export default function Loginpage(props: any) {
           marginTop: "-2%",
         }}
       >
-        <div>
-          <img src={Logo} alt="logo" />
-        </div>
+        <img src={Logo} alt="" />
         <div>
           <h1>Welcome to Jobable.com</h1>
           <p>This is our official website for job search</p>
           <button
             onClick={open}
             style={{
-              width: "38%",
-              padding: "10px 20px",
+              width: "33%",
+              padding: "5px 10px",
               backgroundColor: "#008ae6",
               fontSize: "20px",
               border: "none",
               borderRadius: "10px",
               cursor: "pointer",
-              fontWeight: "bold",
               textAlign: "center",
+              color: "#fff",
+              fontFamily: "Kanit",
             }}
           >
-            Login
+            Sign In
             <LoginIcon />
           </button>
         </div>
-        <p style={{ color: "gray" }}>
-          Don't have an account?<a href="/">sign in</a>
+        <p style={{ color: "gray", fontFamily: "Kanit" }}>
+          Don't have an account?<a href="/">login</a>
         </p>
       </div>
       {loginDialogOpen && (
@@ -113,43 +182,103 @@ export default function Loginpage(props: any) {
               <div>
                 <img style={{ width: "35px" }} src={Halflogo} alt="" />
               </div>
-              <div style={{ marginLeft: "10px" }}>Login</div>
+              <div style={{ marginLeft: "10px", fontFamily: "Kanit" }}>
+                Sign In
+              </div>
             </div>
             <DialogContent dividers>
-              <form>
+              <FormControl sx={{ marginTop: "-20px" }}>
+                <div onClick={handleImageClick} style={{ marginTop: "20px" }}>
+                  {image ? (
+                    <img
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        borderRadius: "50%",
+                      }}
+                      src={image}
+                      alt=""
+                    />
+                  ) : (
+                    <img
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        borderRadius: "50%",
+                      }}
+                      src="https://static.thenounproject.com/png/396915-200.png"
+                      alt=""
+                    />
+                  )}
+                  <input
+                    type="file"
+                    ref={inputRef}
+                    style={{ display: "none" }}
+                    defaultValue={userData.image}
+                    onChange={(e) => {
+                      setUserData({ ...userData, image: e.target.value });
+                      handleImageChange(e);
+                    }}
+                  />
+                </div>
                 <div>
                   <TextField
                     autoComplete="off"
+                    fullWidth
                     required
                     autoFocus
                     margin="dense"
                     id="name"
-                    label="First Name"
+                    label="Full Name"
                     type="text"
                     variant="standard"
-                    
+                    name="fullName"
+                    defaultValue={userData.fullName}
+                    onChange={(e) => {
+                      setUserData({ ...userData, fullName: e.target.value });
+                    }}
                   />
                   <TextField
-                    sx={{ marginLeft: "30px" }}
                     autoComplete="off"
                     required
                     autoFocus
                     margin="dense"
                     id="name"
-                    label="Last Name"
+                    label="User Name"
                     type="text"
                     variant="standard"
+                    name="userName"
+                    defaultValue={userData.userName}
+                    onChange={(e) => {
+                      setUserData({ ...userData, userName: e.target.value });
+                    }}
                   />
                 </div>
                 <TextField
                   required
                   autoFocus
                   margin="dense"
-                  id="name"
+                  id="email"
                   label="Email"
                   type="email"
                   fullWidth
                   variant="standard"
+                  name="email"
+                  defaultValue={userData.email}
+                  onChange={(e) => {
+                    setUserData({ ...userData, email: e.target.value });
+                  }}
+                />
+                <TextField
+                  autoComplete="off"
+                  required
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  label="Password"
+                  type="password"
+                  variant="standard"
+                  name="password"
                 />
                 <TextField
                   autoComplete="off"
@@ -161,6 +290,11 @@ export default function Loginpage(props: any) {
                   type="text"
                   fullWidth
                   variant="standard"
+                  name="location"
+                  defaultValue={userData.location}
+                  onChange={(e) => {
+                    setUserData({ ...userData, location: e.target.value });
+                  }}
                 />
                 <h5>Educational Informations</h5>
                 <div>
@@ -173,6 +307,11 @@ export default function Loginpage(props: any) {
                     label="Role"
                     type="text"
                     variant="standard"
+                    name="role"
+                    defaultValue={userData.role}
+                    onChange={(e) => {
+                      setUserData({ ...userData, role: e.target.value });
+                    }}
                   />
                   <TextField
                     sx={{ marginLeft: "30px" }}
@@ -184,6 +323,11 @@ export default function Loginpage(props: any) {
                     label="Experience"
                     type="number"
                     variant="standard"
+                    name="experience"
+                    defaultValue={userData.experience}
+                    onChange={(e) => {
+                      setUserData({ ...userData, experience: e.target.value });
+                    }}
                   />
                 </div>
                 <TextField
@@ -196,6 +340,11 @@ export default function Loginpage(props: any) {
                   fullWidth
                   type="text"
                   variant="standard"
+                  name="company"
+                  defaultValue={userData.company}
+                  onChange={(e) => {
+                    setUserData({ ...userData, company: e.target.value });
+                  }}
                 />
 
                 <Box component="form" noValidate autoComplete="off">
@@ -206,6 +355,11 @@ export default function Loginpage(props: any) {
                       select
                       label="Industry"
                       variant="standard"
+                      name="industry"
+                      defaultValue={userData.industry}
+                      onChange={(e) => {
+                        setUserData({ ...userData, industry: e.target.value });
+                      }}
                     >
                       {industries.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
@@ -225,6 +379,11 @@ export default function Loginpage(props: any) {
                   fullWidth
                   type="text"
                   variant="standard"
+                  name="education"
+                  defaultValue={userData.education}
+                  onChange={(e) => {
+                    setUserData({ ...userData, education: e.target.value });
+                  }}
                 />
                 <TextField
                   autoComplete="off"
@@ -236,33 +395,46 @@ export default function Loginpage(props: any) {
                   label="Skills"
                   type="text"
                   variant="standard"
+                  name="skill"
+                  defaultValue={userData.skill}
+                  onChange={(e) => {
+                    setUserData({ ...userData, skill: e.target.value });
+                  }}
                 />
-              </form>
+                <div>
+                  <Checkbox {...label} />
+                  I'm a robot.
+                </div>
+                <DialogActions>
+                  <button
+                    onClick={() => {
+                      notify();
+                      localStorage.setItem(
+                        "userData",
+                        JSON.stringify(userData)
+                      );
+                      setTimeout(() => {
+                        history("/job-description");
+                      }, 2000);
+                    }}
+                    type="submit"
+                    style={{
+                      width: "25%",
+                      padding: "5px 10px",
+                      backgroundColor: "#001433",
+                      fontSize: "20px",
+                      border: "none",
+                      borderRadius: "10px",
+                      cursor: "pointer",
+                      color: "#fff",
+                      fontFamily: "Kanit",
+                    }}
+                  >
+                    Sign In
+                  </button>
+                </DialogActions>
+              </FormControl>
             </DialogContent>
-            <DialogActions>
-              <button
-                onClick={() => {
-                  close();
-                  notify();
-                  setTimeout(() => {
-                    history("/job-description");
-                  }, 2000);
-                }}
-                style={{
-                  width: "25%",
-                  padding: "8px 20px",
-                  backgroundColor: "#00cc7a",
-                  fontSize: "20px",
-                  border: "none",
-                  borderRadius: "10px",
-                  cursor: "pointer",
-                  fontWeight: "bold",
-                  marginLeft: "71%",
-                }}
-              >
-                Save
-              </button>
-            </DialogActions>
           </Dialog>
         </React.Fragment>
       )}
