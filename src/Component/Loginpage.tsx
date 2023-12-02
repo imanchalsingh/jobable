@@ -49,6 +49,7 @@ export default function Loginpage(props: any) {
     experience: "",
     education: "",
     skill: "",
+    about: "",
   });
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const notify = () => toast("Welcome to Jobable!");
@@ -81,34 +82,6 @@ export default function Loginpage(props: any) {
         setImage(img.src);
         setUserData({ ...userData, image: img.src });
       }
-      // img.onload = (): void => {
-      //   const canvas: HTMLCanvasElement = document.createElement("canvas");
-      //   const maxSize: number = Math.max(img.width, img.height);
-      //   canvas.width = maxSize;
-      //   canvas.height = maxSize;
-      //   const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
-      //   if (ctx) {
-      //     ctx.drawImage(
-      //       img,
-      //       (maxSize - img.width) / 2,
-      //       (maxSize - img.height) / 2
-      //     );
-      //     canvas.toBlob(
-      //       (blob: Blob | null): void => {
-      //         if (blob) {
-      //           const newFile: File = new File([blob], imgname, {
-      //             type: "image/png",
-      //             lastModified: Date.now(),
-      //           });
-      //           console.log(newFile);
-      //           setImage(file);
-      //         }
-      //       },
-      //       "image/jpeg",
-      //       0.8
-      //     );
-      //   }
-      // };
     };
   };
   return (
@@ -188,7 +161,8 @@ export default function Loginpage(props: any) {
             </div>
             <DialogContent dividers>
               <FormControl sx={{ marginTop: "-20px" }}>
-                <div onClick={handleImageClick} style={{ marginTop: "20px" }}>
+                <h3>Upload your Profile Photo here</h3>
+                <div onClick={handleImageClick} style={{ marginTop: "5px" }}>
                   {image ? (
                     <img
                       style={{
@@ -221,7 +195,8 @@ export default function Loginpage(props: any) {
                     }}
                   />
                 </div>
-                <div>
+                <h3>Personal Informations</h3>
+                <div style={{ marginTop: "-10px" }}>
                   <TextField
                     autoComplete="off"
                     fullWidth
@@ -239,7 +214,6 @@ export default function Loginpage(props: any) {
                     }}
                   />
                   <TextField
-                    autoComplete="off"
                     required
                     autoFocus
                     margin="dense"
@@ -270,7 +244,6 @@ export default function Loginpage(props: any) {
                   }}
                 />
                 <TextField
-                  autoComplete="off"
                   required
                   autoFocus
                   margin="dense"
@@ -281,7 +254,6 @@ export default function Loginpage(props: any) {
                   name="password"
                 />
                 <TextField
-                  autoComplete="off"
                   required
                   autoFocus
                   margin="dense"
@@ -296,10 +268,9 @@ export default function Loginpage(props: any) {
                     setUserData({ ...userData, location: e.target.value });
                   }}
                 />
-                <h5>Educational Informations</h5>
-                <div>
+                <h3>Educational Informations</h3>
+                <div style={{ marginTop: "-10px" }}>
                   <TextField
-                    autoComplete="off"
                     required
                     autoFocus
                     margin="dense"
@@ -315,7 +286,6 @@ export default function Loginpage(props: any) {
                   />
                   <TextField
                     sx={{ marginLeft: "30px" }}
-                    autoComplete="off"
                     required
                     autoFocus
                     margin="dense"
@@ -331,7 +301,6 @@ export default function Loginpage(props: any) {
                   />
                 </div>
                 <TextField
-                  autoComplete="off"
                   required
                   autoFocus
                   margin="dense"
@@ -370,7 +339,6 @@ export default function Loginpage(props: any) {
                   </div>
                 </Box>
                 <TextField
-                  autoComplete="off"
                   required
                   autoFocus
                   margin="dense"
@@ -386,7 +354,6 @@ export default function Loginpage(props: any) {
                   }}
                 />
                 <TextField
-                  autoComplete="off"
                   required
                   autoFocus
                   margin="dense"
@@ -401,6 +368,15 @@ export default function Loginpage(props: any) {
                     setUserData({ ...userData, skill: e.target.value });
                   }}
                 />
+                <h3>Tell us about yourself</h3>
+                <textarea
+                  placeholder="You can write here, about your education, skills, experience and previous company experiences...."
+                  defaultValue={userData.about}
+                  onChange={(e) => {
+                    setUserData({ ...userData, about: e.target.value });
+                  }}
+                  style={{ width: "500px", height: "184px" }}
+                ></textarea>
                 <div>
                   <Checkbox {...label} />
                   I'm a robot.

@@ -14,7 +14,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import InfoIcon from "@mui/icons-material/Info";
 import Logo from "./logo.png";
-import { Dialog, MenuItem, TextField } from "@mui/material";
+import { Badge, Dialog, MenuItem, TextField } from "@mui/material";
 import { jobListings } from "../jobListData";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
@@ -35,6 +35,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import Button from "@mui/material/Button";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -44,8 +45,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
   },
 }));
-// const current = new Date();
-// const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
 const drawerWidth = 240;
 export default function PermanentDrawerLeft(props: any) {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -55,7 +54,10 @@ export default function PermanentDrawerLeft(props: any) {
   ) => {
     event.preventDefault();
   };
-  const notify = () => toast.success("Applied! They will contact you soon. ");
+  const notify = () =>
+    toast.info("Applied! They will contact you soon.", {
+      position: toast.POSITION.TOP_CENTER,
+    });
   const emailNotify = () => toast.success("Email Sent!");
 
   const [searchText, setSearchText] = useState("");
@@ -63,9 +65,27 @@ export default function PermanentDrawerLeft(props: any) {
   const [completeData] = useState(jobListings);
   const [openDetails, setOpenDetails] = useState(false);
   const [completeDetails, setCompleteDetails] = useState<any>(null);
+  const [appliedJobs, setAppliedJobs] = useState<any[]>([]);
+  const [openAppliedJobs, setOpenAppliedJobs] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
   const [openContact, setOpenContact] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
   const [userData, setuserData] = useState<any>(null);
+
+  const openAppliedJobDialog = () => {
+    setOpenAppliedJobs(true);
+  };
+  const closeAppliedJobDialog = () => {
+    setOpenAppliedJobs(false);
+  };
+
+  const openProfileDialog = () => {
+    setOpenProfile(true);
+  };
+  const closeProfileDialog = () => {
+    setOpenProfile(false);
+  };
+
   const openContactDialog = () => {
     setOpenContact(true);
   };
@@ -186,7 +206,14 @@ export default function PermanentDrawerLeft(props: any) {
               <ListItem>
                 <PersonIcon />
               </ListItem>
-              <ListItem sx={{ marginLeft: "-130px" }}>Profile</ListItem>
+              <ListItem
+                onClick={() => {
+                  openProfileDialog();
+                }}
+                sx={{ marginLeft: "-130px" }}
+              >
+                Profile
+              </ListItem>
             </ListItemButton>
           </Typography>
           <Typography>
@@ -444,6 +471,7 @@ export default function PermanentDrawerLeft(props: any) {
                   className="content"
                   key={idx}
                   style={{
+                    cursor: "pointer",
                     borderRadius: "15px",
                     marginTop: "20px",
                     display: "flex",
@@ -530,15 +558,15 @@ export default function PermanentDrawerLeft(props: any) {
             </div>
             <DialogContent dividers>
               <div style={{ padding: "10px 20px" }}>
-                <Typography gutterBottom>
+                <Typography gutterBottom sx={{ fontFamily: "Kanit" }}>
                   <BusinessCenterIcon sx={{ fontSize: "20px" }} />
                   {completeDetails.company}
                 </Typography>
-                <Typography gutterBottom>
+                <Typography gutterBottom sx={{ fontFamily: "Kanit" }}>
                   <LocationOnIcon sx={{ fontSize: "20px" }} />
                   {completeDetails.location}
                 </Typography>
-                <Typography gutterBottom>
+                <Typography gutterBottom sx={{ fontFamily: "Kanit" }}>
                   <CurrencyRupeeIcon sx={{ fontSize: "20px" }} />
                   {completeDetails.salary}
                 </Typography>
@@ -549,11 +577,11 @@ export default function PermanentDrawerLeft(props: any) {
                   <h3>Requirements</h3>
                   <p>{completeDetails.requirements}</p>
                 </div>
-                <Typography gutterBottom>
+                <Typography gutterBottom sx={{ fontFamily: "Kanit" }}>
                   <BusinessIcon sx={{ fontSize: "20px" }} />
                   {completeDetails.industry}
                 </Typography>
-                <Typography gutterBottom>
+                <Typography gutterBottom sx={{ fontFamily: "Kanit" }}>
                   <MergeTypeIcon sx={{ fontSize: "20px" }} />
                   {completeDetails.job_type}
                 </Typography>
@@ -574,6 +602,7 @@ export default function PermanentDrawerLeft(props: any) {
                   }, 1000);
 
                   close();
+                  setAppliedJobs([...appliedJobs, completeDetails]);
                 }}
                 style={{
                   backgroundColor: "#1a75ff",
@@ -584,6 +613,7 @@ export default function PermanentDrawerLeft(props: any) {
                   borderRadius: "50px",
                   cursor: "pointer",
                   textAlign: "center",
+                  fontFamily: "Kanit",
                 }}
               >
                 Apply
@@ -751,6 +781,191 @@ export default function PermanentDrawerLeft(props: any) {
                 Send
               </Button>
             </DialogActions>
+          </Dialog>
+        </React.Fragment>
+      )}
+      {openProfile && (
+        <React.Fragment>
+          <Dialog open={openProfile} fullScreen>
+            <IconButton
+              onClick={closeProfileDialog}
+              sx={{
+                position: "absolute",
+                left: 8,
+                top: 20,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <ArrowBackIcon />
+            </IconButton>
+            <div style={{ marginLeft: "40px" }}>
+              <h2
+                style={{
+                  marginLeft: "20px",
+                  fontFamily: "Gabarito, sans-serif",
+                }}
+              >
+                <p>{userData && userData.fullName}</p>
+              </h2>
+            </div>
+
+            <DialogContent dividers>
+              <div style={{ display: "flex", lineHeight: "0.5" }}>
+                <img
+                  style={{
+                    width: "120px",
+                    height: "120px",
+                    borderRadius: "50%",
+                    border: "5px solid gray",
+                  }}
+                  src={userData && userData.image}
+                  alt=""
+                />
+                <div style={{ marginLeft: "30px" }}>
+                  <h3>{userData && userData.userName}</h3>
+                  <h3 style={{ color: "gray" }}>{userData && userData.role}</h3>
+                  <Button
+                    style={{ fontFamily: "Kanit" }}
+                    onClick={openAppliedJobDialog}
+                  >
+                    <BusinessCenterIcon
+                      sx={{ fontSize: "18px", marginLeft: "-5px" }}
+                    />{" "}
+                    Your Jobs
+                  </Button>
+                </div>
+              </div>
+              <div>
+                <p>
+                  <LocationOnIcon sx={{ fontSize: "15px", color: "gray" }} />
+                  {userData && userData.location}
+                </p>
+                <p>
+                  Experience:
+                  <b style={{ marginLeft: "10px" }}>
+                    {userData && userData.experience}
+                  </b>
+                </p>
+                <div style={{ display: "flex" }}>
+                  <p>
+                    Which company do you work for?
+                    <b style={{ marginLeft: "10px" }}>
+                      {userData && userData.company}
+                    </b>
+                  </p>
+                </div>
+                <div style={{ display: "flex" }}>
+                  <p>
+                    Which industry is yours?
+                    <b style={{ marginLeft: "10px" }}>
+                      -{userData && userData.industry}
+                    </b>
+                  </p>
+                </div>
+
+                <div style={{ display: "flex" }}>
+                  <p>
+                    Education:
+                    <b style={{ marginLeft: "10px" }}>
+                      {userData && userData.education}
+                    </b>
+                  </p>
+                </div>
+                <p>
+                  Email:
+                  <b style={{ marginLeft: "10px" }}>
+                    {" "}
+                    {userData && userData.email}
+                  </b>
+                </p>
+                <p>
+                  Skill of yours?
+                  <b style={{ marginLeft: "10px" }}>
+                    {userData && userData.skill}
+                  </b>
+                </p>
+                <Divider />
+                <h3>About Me</h3>
+                <p>{userData && userData.about}</p>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </React.Fragment>
+      )}
+      {openAppliedJobs && appliedJobs && (
+        <React.Fragment>
+          <Dialog open={openAppliedJobs} fullScreen>
+            <IconButton
+              onClick={closeAppliedJobDialog}
+              sx={{
+                position: "absolute",
+                left: 8,
+                top: 10,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <ArrowBackIcon />
+            </IconButton>
+            <div>
+              <img
+                style={{ width: "15%", marginLeft: "50px" }}
+                src={Logo}
+                alt=""
+              />
+            </div>
+            <DialogContent dividers>
+              {appliedJobs &&
+                appliedJobs.map((i) => {
+                  return (
+                    <div
+                      style={{
+                        marginTop: "20px",
+                        padding: "20px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        borderTopRightRadius: "10px",
+                        borderBottomRightRadius: "10px",
+                        backgroundColor: "#e6e6e6",
+                        borderLeft: "5px solid #80bfff",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          width: "90%",
+                        }}
+                      >
+                        <img
+                          style={{ width: "40px", height: "40px" }}
+                          src={i.logo}
+                          alt=""
+                        />
+                        <div style={{ lineHeight: "0.8" }}>
+                          <h1 style={{ marginLeft: "20px" }}>{i.job_title}</h1>
+                          <p style={{ marginLeft: "20px", color: "#3399ff" }}>
+                            {userData && userData.userName} applied this job{" "}
+                            {Math.ceil(Math.random() * 10)} min ago
+                          </p>
+                        </div>
+                      </div>
+                      <div>
+                        <Badge
+                          sx={{ marginTop: "-15px" }}
+                          anchorOrigin={{
+                            vertical: "top",
+                            horizontal: "left",
+                          }}
+                        >
+                          <IconButton sx={{ color: "red" }}>
+                            <CloseIcon />
+                          </IconButton>
+                        </Badge>
+                      </div>
+                    </div>
+                  );
+                })}
+            </DialogContent>
           </Dialog>
         </React.Fragment>
       )}
