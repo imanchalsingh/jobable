@@ -111,6 +111,7 @@ export default function PermanentDrawerLeft(props: any) {
       setuserData(JSON.parse(localStorageUserData));
     }
   }, []);
+
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -915,7 +916,7 @@ export default function PermanentDrawerLeft(props: any) {
             </div>
             <DialogContent dividers>
               {appliedJobs &&
-                appliedJobs.map((i) => {
+                appliedJobs.map((i, id) => {
                   return (
                     <div
                       style={{
@@ -957,7 +958,14 @@ export default function PermanentDrawerLeft(props: any) {
                             horizontal: "left",
                           }}
                         >
-                          <IconButton sx={{ color: "red" }}>
+                          <IconButton
+                            onClick={() => {
+                              setAppliedJobs(
+                                appliedJobs.filter((val) => val.id !== i.id)
+                              );
+                            }}
+                            sx={{ color: "red" }}
+                          >
                             <CloseIcon />
                           </IconButton>
                         </Badge>
