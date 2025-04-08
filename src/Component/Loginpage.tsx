@@ -9,7 +9,6 @@ import {
   DialogContent,
   FormControl,
   IconButton,
-  Typography,
 } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
 import Dialog from "@mui/material/Dialog";
@@ -92,6 +91,64 @@ export default function Loginpage(props: any) {
   };
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Detect mobile screens
+
+  interface UserData {
+    image: string;
+    fullName: string;
+    userName: string;
+    email: string;
+    location: string;
+    role: string;
+    company: string;
+    industry: string;
+    experience: string;
+    education: string;
+    skill: string;
+    about: string;
+  }
+
+  interface HandleSubmitEvent extends React.FormEvent<HTMLFormElement> {}
+
+  const handleSubmit = (e: HandleSubmitEvent): void => {
+    e.preventDefault();
+
+    // Basic validation
+    const {
+      fullName,
+      userName,
+      email,
+      location,
+      role,
+      experience,
+      company,
+      industry,
+      education,
+      skill,
+    }: UserData = userData;
+
+    if (
+      !fullName ||
+      !userName ||
+      !email ||
+      !location ||
+      !role ||
+      !experience ||
+      !company ||
+      !industry ||
+      !education ||
+      !skill
+    ) {
+      alert("Please fill all required fields.");
+      return;
+    }
+
+    // Save and redirect
+    notify();
+    localStorage.setItem("userData", JSON.stringify(userData));
+    setTimeout(() => {
+      history("/job-description");
+    }, 2000);
+  };
 
   return (
     <>
@@ -479,15 +536,9 @@ export default function Loginpage(props: any) {
                 </div>
                 <DialogActions>
                   <button
-                    onClick={() => {
-                      notify();
-                      localStorage.setItem(
-                        "userData",
-                        JSON.stringify(userData)
-                      );
-                      setTimeout(() => {
-                        history("/job-description");
-                      }, 2000);
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleSubmit(e as unknown as HandleSubmitEvent);
                     }}
                     type="submit"
                     style={{
