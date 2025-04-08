@@ -298,264 +298,267 @@ export default function Loginpage(props: any) {
                   width: "100%",
                 }}
               >
-                <h3 style={{ fontSize: isMobile ? "16px" : "inherit" }}>
-                  Upload your Profile Photo here
-                </h3>
-                <div
-                  onClick={handleImageClick}
-                  style={{
-                    marginTop: "5px",
-                    display: "flex",
-                    justifyContent: "center",
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSubmit(e as unknown as HandleSubmitEvent);
                   }}
                 >
-                  {image ? (
-                    <img
-                      style={{
-                        width: isMobile ? "80px" : "100px",
-                        height: isMobile ? "80px" : "100px",
-                        borderRadius: "50%",
-                        maxWidth: "100%", // Ensure the image doesn't exceed the container width
-                      }}
-                      src={image}
-                      alt=""
-                    />
-                  ) : (
-                    <img
-                      style={{
-                        width: isMobile ? "80px" : "100px",
-                        height: isMobile ? "80px" : "100px",
-                        borderRadius: "50%",
-                        maxWidth: "100%", // Ensure the image doesn't exceed the container width
-                      }}
-                      src="https://static.thenounproject.com/png/396915-200.png"
-                      alt=""
-                    />
-                  )}
-                  <input
-                    type="file"
-                    ref={inputRef}
-                    style={{ display: "none" }}
-                    defaultValue={userData.image}
-                    onChange={(e) => {
-                      setUserData({ ...userData, image: e.target.value });
-                      handleImageChange(e);
-                    }}
-                  />
-                </div>
-                <h3 style={{ fontSize: isMobile ? "16px" : "inherit" }}>
-                  Personal Informations
-                </h3>
-                <div style={{ marginTop: "-10px" }}>
-                  <TextField
-                    autoComplete="off"
-                    fullWidth
-                    required
-                    autoFocus
-                    margin="dense"
-                    id="name"
-                    label="Full Name"
-                    type="text"
-                    variant="standard"
-                    name="fullName"
-                    defaultValue={userData.fullName}
-                    onChange={(e) => {
-                      setUserData({ ...userData, fullName: e.target.value });
-                    }}
-                  />
-                  <TextField
-                    required
-                    autoFocus
-                    margin="dense"
-                    id="name"
-                    label="User Name"
-                    type="text"
-                    variant="standard"
-                    name="userName"
-                    defaultValue={userData.userName}
-                    onChange={(e) => {
-                      setUserData({ ...userData, userName: e.target.value });
-                    }}
-                  />
-                </div>
-                <TextField
-                  required
-                  autoFocus
-                  margin="dense"
-                  id="email"
-                  label="Email"
-                  type="email"
-                  fullWidth
-                  variant="standard"
-                  name="email"
-                  defaultValue={userData.email}
-                  onChange={(e) => {
-                    setUserData({ ...userData, email: e.target.value });
-                  }}
-                />
-                <TextField
-                  required
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="Password"
-                  type="password"
-                  variant="standard"
-                  name="password"
-                />
-                <TextField
-                  required
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="Location"
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                  name="location"
-                  defaultValue={userData.location}
-                  onChange={(e) => {
-                    setUserData({ ...userData, location: e.target.value });
-                  }}
-                />
-                <h3>Educational Informations</h3>
-                <div style={{ marginTop: "-10px" }}>
-                  <TextField
-                    required
-                    autoFocus
-                    margin="dense"
-                    id="name"
-                    label="Role"
-                    type="text"
-                    variant="standard"
-                    name="role"
-                    defaultValue={userData.role}
-                    onChange={(e) => {
-                      setUserData({ ...userData, role: e.target.value });
-                    }}
-                  />
-                  <TextField
-                    sx={{ marginLeft: "30px" }}
-                    required
-                    autoFocus
-                    margin="dense"
-                    id="name"
-                    label="Experience"
-                    type="number"
-                    variant="standard"
-                    name="experience"
-                    defaultValue={userData.experience}
-                    onChange={(e) => {
-                      setUserData({ ...userData, experience: e.target.value });
-                    }}
-                  />
-                </div>
-                <TextField
-                  required
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="Company"
-                  fullWidth
-                  type="text"
-                  variant="standard"
-                  name="company"
-                  defaultValue={userData.company}
-                  onChange={(e) => {
-                    setUserData({ ...userData, company: e.target.value });
-                  }}
-                />
-                <Box component="form" noValidate autoComplete="off">
-                  <div>
-                    <TextField
-                      fullWidth
-                      id="standard-select-currency"
-                      select
-                      label="Industry"
-                      variant="standard"
-                      name="industry"
-                      defaultValue={userData.industry}
-                      onChange={(e) => {
-                        setUserData({ ...userData, industry: e.target.value });
-                      }}
-                    >
-                      {industries.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  </div>
-                </Box>
-                <TextField
-                  required
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="Education"
-                  fullWidth
-                  type="text"
-                  variant="standard"
-                  name="education"
-                  defaultValue={userData.education}
-                  onChange={(e) => {
-                    setUserData({ ...userData, education: e.target.value });
-                  }}
-                />
-                <TextField
-                  required
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  fullWidth
-                  label="Skills"
-                  type="text"
-                  variant="standard"
-                  name="skill"
-                  defaultValue={userData.skill}
-                  onChange={(e) => {
-                    setUserData({ ...userData, skill: e.target.value });
-                  }}
-                />
-                <h3>Tell us about yourself</h3>
-                <textarea
-                  placeholder="You can write here, about your education, skills, experience and previous company experiences...."
-                  defaultValue={userData.about}
-                  onChange={(e) => {
-                    setUserData({ ...userData, about: e.target.value });
-                  }}
-                  style={{
-                    width: isMobile ? "100%" : "500px",
-                    height: "184px",
-                    maxWidth: "100%", // Prevent textarea from exceeding the container width
-                  }}
-                ></textarea>
-                <div>
-                  <Checkbox {...label} />
-                  I'm a robot.
-                </div>
-                <DialogActions>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleSubmit(e as unknown as HandleSubmitEvent);
-                    }}
-                    type="submit"
+                  <h3 style={{ fontSize: isMobile ? "16px" : "inherit" }}>
+                    Upload your Profile Photo here
+                  </h3>
+                  <div
+                    onClick={handleImageClick}
                     style={{
-                      width: isMobile ? "50%" : "25%",
-                      padding: "5px 10px",
-                      backgroundColor: "#001433",
-                      fontSize: isMobile ? "16px" : "20px",
-                      border: "none",
-                      borderRadius: "10px",
-                      cursor: "pointer",
-                      color: "#fff",
-                      fontFamily: "Kanit",
+                      marginTop: "5px",
+                      display: "flex",
+                      justifyContent: "center",
                     }}
                   >
-                    Sign In
-                  </button>
-                </DialogActions>
+                    {image ? (
+                      <img
+                        style={{
+                          width: isMobile ? "80px" : "100px",
+                          height: isMobile ? "80px" : "100px",
+                          borderRadius: "50%",
+                          maxWidth: "100%", // Ensure the image doesn't exceed the container width
+                        }}
+                        src={image}
+                        alt=""
+                      />
+                    ) : (
+                      <img
+                        style={{
+                          width: isMobile ? "80px" : "100px",
+                          height: isMobile ? "80px" : "100px",
+                          borderRadius: "50%",
+                          maxWidth: "100%", // Ensure the image doesn't exceed the container width
+                        }}
+                        src="https://static.thenounproject.com/png/396915-200.png"
+                        alt=""
+                      />
+                    )}
+                    <input
+                      type="file"
+                      ref={inputRef}
+                      style={{ display: "none" }}
+                      defaultValue={userData.image}
+                      onChange={(e) => {
+                        setUserData({ ...userData, image: e.target.value });
+                        handleImageChange(e);
+                      }}
+                    />
+                  </div>
+                  <h3 style={{ fontSize: isMobile ? "16px" : "inherit" }}>
+                    Personal Informations
+                  </h3>
+                  <div style={{ marginTop: "-10px" }}>
+                    <TextField
+                      autoComplete="off"
+                      fullWidth
+                      required
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      label="Full Name"
+                      type="text"
+                      variant="standard"
+                      name="fullName"
+                      defaultValue={userData.fullName}
+                      onChange={(e) => {
+                        setUserData({ ...userData, fullName: e.target.value });
+                      }}
+                    />
+                    <TextField
+                      required
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      label="User Name"
+                      type="text"
+                      variant="standard"
+                      name="userName"
+                      defaultValue={userData.userName}
+                      onChange={(e) => {
+                        setUserData({ ...userData, userName: e.target.value });
+                      }}
+                    />
+                  </div>
+                  <TextField
+                    required
+                    autoFocus
+                    margin="dense"
+                    id="email"
+                    label="Email"
+                    type="email"
+                    fullWidth
+                    variant="standard"
+                    name="email"
+                    defaultValue={userData.email}
+                    onChange={(e) => {
+                      setUserData({ ...userData, email: e.target.value });
+                    }}
+                  />
+                  <TextField
+                    required
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Password"
+                    type="password"
+                    variant="standard"
+                    name="password"
+                  />
+                  <TextField
+                    required
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Location"
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                    name="location"
+                    defaultValue={userData.location}
+                    onChange={(e) => {
+                      setUserData({ ...userData, location: e.target.value });
+                    }}
+                  />
+                  <h3>Educational Informations</h3>
+                  <div style={{ marginTop: "-10px" }}>
+                    <TextField
+                      required
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      label="Role"
+                      type="text"
+                      variant="standard"
+                      name="role"
+                      defaultValue={userData.role}
+                      onChange={(e) => {
+                        setUserData({ ...userData, role: e.target.value });
+                      }}
+                    />
+                    <TextField
+                      sx={{ marginLeft: "30px" }}
+                      required
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      label="Experience"
+                      type="number"
+                      variant="standard"
+                      name="experience"
+                      defaultValue={userData.experience}
+                      onChange={(e) => {
+                        setUserData({ ...userData, experience: e.target.value });
+                      }}
+                    />
+                  </div>
+                  <TextField
+                    required
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Company"
+                    fullWidth
+                    type="text"
+                    variant="standard"
+                    name="company"
+                    defaultValue={userData.company}
+                    onChange={(e) => {
+                      setUserData({ ...userData, company: e.target.value });
+                    }}
+                  />
+                  <Box component="form" noValidate autoComplete="off">
+                    <div>
+                      <TextField
+                        fullWidth
+                        id="standard-select-currency"
+                        select
+                        label="Industry"
+                        variant="standard"
+                        name="industry"
+                        defaultValue={userData.industry}
+                        onChange={(e) => {
+                          setUserData({ ...userData, industry: e.target.value });
+                        }}
+                      >
+                        {industries.map((option) => (
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </div>
+                  </Box>
+                  <TextField
+                    required
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Education"
+                    fullWidth
+                    type="text"
+                    variant="standard"
+                    name="education"
+                    defaultValue={userData.education}
+                    onChange={(e) => {
+                      setUserData({ ...userData, education: e.target.value });
+                    }}
+                  />
+                  <TextField
+                    required
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    fullWidth
+                    label="Skills"
+                    type="text"
+                    variant="standard"
+                    name="skill"
+                    defaultValue={userData.skill}
+                    onChange={(e) => {
+                      setUserData({ ...userData, skill: e.target.value });
+                    }}
+                  />
+                  <h3>Tell us about yourself</h3>
+                  <textarea
+                    placeholder="You can write here, about your education, skills, experience and previous company experiences...."
+                    defaultValue={userData.about}
+                    onChange={(e) => {
+                      setUserData({ ...userData, about: e.target.value });
+                    }}
+                    style={{
+                      width: isMobile ? "100%" : "500px",
+                      height: "184px",
+                      maxWidth: "100%", // Prevent textarea from exceeding the container width
+                    }}
+                  ></textarea>
+                  <div>
+                    <Checkbox {...label} />
+                    I'm not a robot.
+                  </div>
+                  <DialogActions>
+                    <button
+                      type="submit"
+                      style={{
+                        width: isMobile ? "50%" : "25%",
+                        padding: "5px 10px",
+                        backgroundColor: "#001433",
+                        fontSize: isMobile ? "16px" : "20px",
+                        border: "none",
+                        borderRadius: "10px",
+                        cursor: "pointer",
+                        color: "#fff",
+                        fontFamily: "Kanit",
+                      }}
+                    >
+                      Sign In
+                    </button>
+                  </DialogActions>
+                </form>
               </FormControl>
             </DialogContent>
           </Dialog>
