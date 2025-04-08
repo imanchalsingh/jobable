@@ -2,10 +2,14 @@ import React, { useState, useRef } from "react";
 import Logo from "./logo.png";
 import Halflogo from "./halflogo.png";
 import {
+  Button,
+  Card,
+  CardContent,
   DialogActions,
   DialogContent,
   FormControl,
   IconButton,
+  Typography,
 } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
 import Dialog from "@mui/material/Dialog";
@@ -86,7 +90,6 @@ export default function Loginpage(props: any) {
       }
     };
   };
-
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Detect mobile screens
 
@@ -96,59 +99,84 @@ export default function Loginpage(props: any) {
         style={{
           display: "flex",
           justifyContent: "center",
-          flexDirection: "column",
-          height: "100vh",
-          textAlign: "center",
           alignItems: "center",
-          marginTop: isMobile ? "0" : "-2%",
-          padding: isMobile ? "10px" : "0",
-          overflowX: "hidden", // Prevent horizontal scrolling
-          maxWidth: "100vw", // Ensure the container doesn't exceed the viewport width
+          height: "100vh",
+          padding: "16px",
+          backgroundColor: "#f5f5f5",
         }}
       >
-        <img
-          src={Logo}
-          alt=""
-          style={{
-            width: isMobile ? "70%" : "auto",
-            maxWidth: "100%", // Ensure the image doesn't exceed the container width
-          }}
-        />
-        <div>
-          <h1 style={{ fontSize: isMobile ? "24px" : "36px" }}>
-            Welcome to Jobable.com
-          </h1>
-          <p style={{ fontSize: isMobile ? "14px" : "16px" }}>
-            This is our official website for job search
-          </p>
-          <button
-            onClick={open}
-            style={{
-              width: isMobile ? "80%" : "33%",
-              padding: "5px 10px",
-              backgroundColor: "#008ae6",
-              fontSize: isMobile ? "16px" : "20px",
-              border: "none",
-              borderRadius: "10px",
-              cursor: "pointer",
-              textAlign: "center",
-              color: "#fff",
-              fontFamily: "Kanit",
-            }}
-          >
-            Sign In
-            <LoginIcon />
-          </button>
-        </div>
-        <p
-          style={{
-            color: "gray",
-            fontFamily: "Kanit",
-            fontSize: isMobile ? "12px" : "14px",
+        <Card
+          sx={{
+            maxWidth: 400,
+            width: "100%",
+            textAlign: "center",
+            borderRadius: "16px",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+            backgroundColor: "#ffffff",
+            px: 3,
+            py: 4,
           }}
         >
-          Don't have an account? <a href="/">login</a>
-        </p>
+          <img
+            src={Logo}
+            alt="Jobable Logo"
+            style={{
+              width: isMobile ? "70%" : "200px",
+              margin: "0 auto 20px",
+            }}
+          />
+
+          <CardContent>
+            <h1
+              style={{
+                fontSize: isMobile ? "22px" : "30px",
+                fontFamily: "Gabarito, sans-serif",
+                marginBottom: "8px",
+              }}
+            >
+              Welcome to Jobable.com
+            </h1>
+            <p
+              style={{
+                fontSize: isMobile ? "13px" : "15px",
+                color: "#555",
+                marginBottom: "24px",
+              }}
+            >
+              Your trusted platform for job search and career growth.
+            </p>
+
+            <Button
+              onClick={open}
+              variant="contained"
+              startIcon={<LoginIcon />}
+              sx={{
+                py: "5px",
+                fontSize: "14px",
+                fontFamily: "Kanit",
+                borderRadius: "8px",
+                backgroundColor: "#008ae6",
+                textTransform: "none",
+                "&:hover": {
+                  backgroundColor: "#007acc",
+                },
+              }}
+            >
+              Sign In
+            </Button>
+
+            <p
+              style={{
+                marginTop: "16px",
+                fontSize: "13px",
+                color: "gray",
+                fontFamily: "Kanit",
+              }}
+            >
+              Don’t have an account? <a href="/">Login</a>
+            </p>
+          </CardContent>
+        </Card>
       </div>
       {loginDialogOpen && (
         <React.Fragment>

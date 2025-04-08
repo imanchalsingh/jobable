@@ -72,7 +72,7 @@ export const jobListings = [
     requirements:
       "Bachelor's degree in Graphic Design, proficiency in Adobe Creative Suite, a strong portfolio of design work.",
     posted_date: "2023-11-02",
-    logo: "https://www.logolynx.com/images/logolynx/89/892a552699184aae20902ca6d0aafe3a.png",
+    logo: "https://www.pngplay.com/wp-content/uploads/1/Letter-G-PNG-Stock-Photo.png",
   },
   {
     id: 6,
@@ -882,7 +882,7 @@ export const jobListings = [
     requirements:
       "Bachelor's degree in Design or related field, graphic design experience, proficiency in design software.",
     posted_date: "2023-11-02",
-    logo: "https://www.logolynx.com/images/logolynx/89/892a552699184aae20902ca6d0aafe3a.png",
+    logo: "https://www.pngplay.com/wp-content/uploads/1/Letter-G-PNG-Stock-Photo.png",
   },
   {
     job_id: 60,
