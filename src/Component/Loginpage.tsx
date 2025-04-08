@@ -17,6 +17,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 const industries = [
   {
@@ -84,6 +86,10 @@ export default function Loginpage(props: any) {
       }
     };
   };
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Detect mobile screens
+
   return (
     <>
       <div
@@ -94,20 +100,34 @@ export default function Loginpage(props: any) {
           height: "100vh",
           textAlign: "center",
           alignItems: "center",
-          marginTop: "-2%",
+          marginTop: isMobile ? "0" : "-2%",
+          padding: isMobile ? "10px" : "0",
+          overflowX: "hidden", // Prevent horizontal scrolling
+          maxWidth: "100vw", // Ensure the container doesn't exceed the viewport width
         }}
       >
-        <img src={Logo} alt="" />
+        <img
+          src={Logo}
+          alt=""
+          style={{
+            width: isMobile ? "70%" : "auto",
+            maxWidth: "100%", // Ensure the image doesn't exceed the container width
+          }}
+        />
         <div>
-          <h1>Welcome to Jobable.com</h1>
-          <p>This is our official website for job search</p>
+          <h1 style={{ fontSize: isMobile ? "24px" : "36px" }}>
+            Welcome to Jobable.com
+          </h1>
+          <p style={{ fontSize: isMobile ? "14px" : "16px" }}>
+            This is our official website for job search
+          </p>
           <button
             onClick={open}
             style={{
-              width: "33%",
+              width: isMobile ? "80%" : "33%",
               padding: "5px 10px",
               backgroundColor: "#008ae6",
-              fontSize: "20px",
+              fontSize: isMobile ? "16px" : "20px",
               border: "none",
               borderRadius: "10px",
               cursor: "pointer",
@@ -120,14 +140,27 @@ export default function Loginpage(props: any) {
             <LoginIcon />
           </button>
         </div>
-        <p style={{ color: "gray", fontFamily: "Kanit" }}>
-          Don't have an account?<a href="/">login</a>
+        <p
+          style={{
+            color: "gray",
+            fontFamily: "Kanit",
+            fontSize: isMobile ? "12px" : "14px",
+          }}
+        >
+          Don't have an account? <a href="/">login</a>
         </p>
       </div>
       {loginDialogOpen && (
         <React.Fragment>
           <Dialog
-            sx={{ padding: "50px 10px 50px 10px" }}
+            sx={{
+              padding: isMobile ? "20px 5px" : "50px 10px",
+              "& .MuiDialog-paper": {
+                width: isMobile ? "90%" : "500px",
+                maxWidth: "100%", // Prevent dialog from exceeding screen width
+                margin: "0 auto", // Center the dialog
+              },
+            }}
             open={loginDialogOpen}
             aria-labelledby="customized-dialog-title"
           >
@@ -145,30 +178,59 @@ export default function Loginpage(props: any) {
             </IconButton>
             <div
               style={{
-                fontSize: "30px",
+                fontSize: isMobile ? "20px" : "30px",
                 fontFamily: "Gabarito, sans-serif",
                 fontWeight: "bold",
                 display: "flex",
                 padding: "10px 20px",
+                maxWidth: "100%", // Prevent content from exceeding the dialog width
               }}
             >
               <div>
-                <img style={{ width: "35px" }} src={Halflogo} alt="" />
+                <img
+                  style={{
+                    width: isMobile ? "25px" : "35px",
+                    maxWidth: "100%", // Ensure the image doesn't exceed the container width
+                  }}
+                  src={Halflogo}
+                  alt=""
+                />
               </div>
-              <div style={{ marginLeft: "10px", fontFamily: "Kanit" }}>
+              <div
+                style={{
+                  marginLeft: "10px",
+                  fontFamily: "Kanit",
+                  fontSize: isMobile ? "18px" : "inherit",
+                }}
+              >
                 Sign In
               </div>
             </div>
             <DialogContent dividers>
-              <FormControl sx={{ marginTop: "-20px" }}>
-                <h3>Upload your Profile Photo here</h3>
-                <div onClick={handleImageClick} style={{ marginTop: "5px" }}>
+              <FormControl
+                sx={{
+                  marginTop: isMobile ? "0" : "-20px",
+                  width: "100%",
+                }}
+              >
+                <h3 style={{ fontSize: isMobile ? "16px" : "inherit" }}>
+                  Upload your Profile Photo here
+                </h3>
+                <div
+                  onClick={handleImageClick}
+                  style={{
+                    marginTop: "5px",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
                   {image ? (
                     <img
                       style={{
-                        width: "100px",
-                        height: "100px",
+                        width: isMobile ? "80px" : "100px",
+                        height: isMobile ? "80px" : "100px",
                         borderRadius: "50%",
+                        maxWidth: "100%", // Ensure the image doesn't exceed the container width
                       }}
                       src={image}
                       alt=""
@@ -176,9 +238,10 @@ export default function Loginpage(props: any) {
                   ) : (
                     <img
                       style={{
-                        width: "100px",
-                        height: "100px",
+                        width: isMobile ? "80px" : "100px",
+                        height: isMobile ? "80px" : "100px",
                         borderRadius: "50%",
+                        maxWidth: "100%", // Ensure the image doesn't exceed the container width
                       }}
                       src="https://static.thenounproject.com/png/396915-200.png"
                       alt=""
@@ -195,7 +258,9 @@ export default function Loginpage(props: any) {
                     }}
                   />
                 </div>
-                <h3>Personal Informations</h3>
+                <h3 style={{ fontSize: isMobile ? "16px" : "inherit" }}>
+                  Personal Informations
+                </h3>
                 <div style={{ marginTop: "-10px" }}>
                   <TextField
                     autoComplete="off"
@@ -315,7 +380,6 @@ export default function Loginpage(props: any) {
                     setUserData({ ...userData, company: e.target.value });
                   }}
                 />
-
                 <Box component="form" noValidate autoComplete="off">
                   <div>
                     <TextField
@@ -375,7 +439,11 @@ export default function Loginpage(props: any) {
                   onChange={(e) => {
                     setUserData({ ...userData, about: e.target.value });
                   }}
-                  style={{ width: "500px", height: "184px" }}
+                  style={{
+                    width: isMobile ? "100%" : "500px",
+                    height: "184px",
+                    maxWidth: "100%", // Prevent textarea from exceeding the container width
+                  }}
                 ></textarea>
                 <div>
                   <Checkbox {...label} />
@@ -395,10 +463,10 @@ export default function Loginpage(props: any) {
                     }}
                     type="submit"
                     style={{
-                      width: "25%",
+                      width: isMobile ? "50%" : "25%",
                       padding: "5px 10px",
                       backgroundColor: "#001433",
-                      fontSize: "20px",
+                      fontSize: isMobile ? "16px" : "20px",
                       border: "none",
                       borderRadius: "10px",
                       cursor: "pointer",
