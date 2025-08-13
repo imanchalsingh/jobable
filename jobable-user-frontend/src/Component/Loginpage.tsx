@@ -14,7 +14,6 @@ import LoginIcon from "@mui/icons-material/Login";
 import Dialog from "@mui/material/Dialog";
 import CloseIcon from "@mui/icons-material/Close";
 import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,23 +23,12 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 
 const industries = [
-  {
-    value: "Technology",
-    label: "Technology",
-  },
-  {
-    value: "Software Engineer",
-    label: "Software Engineer",
-  },
-  {
-    value: "Mechanical",
-    label: "Mechanical",
-  },
-  {
-    value: "Electronic",
-    label: "Electronic",
-  },
+  { value: "Technology", label: "Technology" },
+  { value: "Software Engineer", label: "Software Engineer" },
+  { value: "Mechanical", label: "Mechanical" },
+  { value: "Electronic", label: "Electronic" },
 ];
+
 export default function Loginpage(props: any) {
   const [userData, setUserData] = useState({
     image: "",
@@ -56,25 +44,22 @@ export default function Loginpage(props: any) {
     skill: "",
     about: "",
   });
+  
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const notify = () => toast("Welcome to Jobable!");
   const history = useNavigate();
   const [loginDialogOpen, setLoginDialogOpen] = useState(false);
-  const open = () => {
-    setLoginDialogOpen(true);
-  };
-  const close = () => {
-    setLoginDialogOpen(false);
-  };
+  const open = () => setLoginDialogOpen(true);
+  const close = () => setLoginDialogOpen(false);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [image, setImage] = useState<any>("");
 
   const handleImageClick = () => {
     if (inputRef.current) {
       inputRef.current.click();
     }
   };
-  const [image, setImage] = useState<any>("");
 
   const handleImageChange = (e: any) => {
     const file = e.target.files[0];
@@ -89,30 +74,13 @@ export default function Loginpage(props: any) {
       }
     };
   };
+  
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Detect mobile screens
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  interface UserData {
-    image: string;
-    fullName: string;
-    userName: string;
-    email: string;
-    location: string;
-    role: string;
-    company: string;
-    industry: string;
-    experience: string;
-    education: string;
-    skill: string;
-    about: string;
-  }
-
-  interface HandleSubmitEvent extends React.FormEvent<HTMLFormElement> {}
-
-  const handleSubmit = (e: HandleSubmitEvent): void => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
-    // Basic validation
     const {
       fullName,
       userName,
@@ -124,7 +92,7 @@ export default function Loginpage(props: any) {
       industry,
       education,
       skill,
-    }: UserData = userData;
+    } = userData;
 
     if (
       !fullName ||
@@ -138,11 +106,10 @@ export default function Loginpage(props: any) {
       !education ||
       !skill
     ) {
-      alert("Please fill all required fields.");
+      toast.error("Please fill all required fields.");
       return;
     }
 
-    // Save and redirect
     notify();
     localStorage.setItem("userData", JSON.stringify(userData));
     setTimeout(() => {
@@ -152,54 +119,34 @@ export default function Loginpage(props: any) {
 
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-          padding: "16px",
-          backgroundColor: "#f5f5f5",
-        }}
-      >
+      <div className="flex justify-center items-center min-h-screen p-4 bg-gradient-to-br from-blue-50 to-indigo-100">
         <Card
           sx={{
             maxWidth: 400,
             width: "100%",
             textAlign: "center",
-            borderRadius: "16px",
-            boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+            borderRadius: "24px",
+            boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
             backgroundColor: "#ffffff",
-            px: 3,
-            py: 4,
+            transition: "transform 0.3s ease, box-shadow 0.3s ease",
+            "&:hover": {
+              transform: "translateY(-5px)",
+              boxShadow: "0 25px 50px rgba(0,0,0,0.15)",
+            },
           }}
+          className="px-3 py-4 sm:px-6 sm:py-8"
         >
           <img
             src={Logo}
             alt="Jobable Logo"
-            style={{
-              width: isMobile ? "70%" : "200px",
-              margin: "0 auto 20px",
-            }}
+            className={`mx-auto mb-5 ${isMobile ? "w-3/4" : "w-48"} transition-all duration-300`}
           />
 
-          <CardContent>
-            <h1
-              style={{
-                fontSize: isMobile ? "22px" : "30px",
-                fontFamily: "Gabarito, sans-serif",
-                marginBottom: "8px",
-              }}
-            >
+          <CardContent className="pt-2">
+            <h1 className={`font-bold text-gray-800 mb-2 ${isMobile ? "text-2xl" : "text-3xl"}`}>
               Welcome to Jobable.com
             </h1>
-            <p
-              style={{
-                fontSize: isMobile ? "13px" : "15px",
-                color: "#555",
-                marginBottom: "24px",
-              }}
-            >
+            <p className={`text-gray-500 mb-6 ${isMobile ? "text-xs" : "text-sm"}`}>
               Your trusted platform for job search and career growth.
             </p>
 
@@ -208,136 +155,106 @@ export default function Loginpage(props: any) {
               variant="contained"
               startIcon={<LoginIcon />}
               sx={{
-                py: "5px",
+                py: "8px",
+                px: "24px",
                 fontSize: "14px",
                 fontFamily: "Kanit",
-                borderRadius: "8px",
+                borderRadius: "12px",
                 backgroundColor: "#008ae6",
                 textTransform: "none",
                 "&:hover": {
-                  backgroundColor: "#007acc",
+                  backgroundColor: "#0066b3",
+                  transform: "scale(1.02)",
                 },
+                transition: "all 0.3s ease",
               }}
             >
               Sign In
             </Button>
 
-            <p
-              style={{
-                marginTop: "16px",
-                fontSize: "13px",
-                color: "gray",
-                fontFamily: "Kanit",
-              }}
-            >
-              Don’t have an account? <a href="/">Login</a>
+            <p className="mt-4 text-xs text-gray-400">
+              Don't have an account?{" "}
+              <a href="/" className="text-blue-500 hover:text-blue-600 transition-colors">
+                Login
+              </a>
             </p>
           </CardContent>
         </Card>
       </div>
+
       {loginDialogOpen && (
-        <React.Fragment>
-          <Dialog
+        <Dialog
+          sx={{
+            "& .MuiDialog-paper": {
+              width: isMobile ? "90%" : "550px",
+              maxWidth: "100%",
+              margin: "0 auto",
+              borderRadius: "24px",
+            },
+          }}
+          open={loginDialogOpen}
+          aria-labelledby="customized-dialog-title"
+        >
+          <IconButton
+            onClick={close}
+            aria-label="close"
             sx={{
-              padding: isMobile ? "20px 5px" : "50px 10px",
-              "& .MuiDialog-paper": {
-                width: isMobile ? "90%" : "500px",
-                maxWidth: "100%", // Prevent dialog from exceeding screen width
-                margin: "0 auto", // Center the dialog
+              position: "absolute",
+              right: 12,
+              top: 12,
+              color: (theme) => theme.palette.grey[500],
+              zIndex: 1,
+              backgroundColor: "rgba(0,0,0,0.05)",
+              "&:hover": {
+                backgroundColor: "rgba(0,0,0,0.1)",
               },
             }}
-            open={loginDialogOpen}
-            aria-labelledby="customized-dialog-title"
           >
-            <IconButton
-              onClick={close}
-              aria-label="close"
-              sx={{
-                position: "absolute",
-                right: 8,
-                top: 8,
-                color: (theme) => theme.palette.grey[500],
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-            <div
-              style={{
-                fontSize: isMobile ? "20px" : "30px",
-                fontFamily: "Gabarito, sans-serif",
-                fontWeight: "bold",
-                display: "flex",
-                padding: "10px 20px",
-                maxWidth: "100%", // Prevent content from exceeding the dialog width
-              }}
-            >
-              <div>
-                <img
-                  style={{
-                    width: isMobile ? "25px" : "35px",
-                    maxWidth: "100%", // Ensure the image doesn't exceed the container width
-                  }}
-                  src={Halflogo}
-                  alt=""
-                />
-              </div>
-              <div
-                style={{
-                  marginLeft: "10px",
-                  fontFamily: "Kanit",
-                  fontSize: isMobile ? "18px" : "inherit",
-                }}
-              >
-                Sign In
-              </div>
+            <CloseIcon />
+          </IconButton>
+          
+          <div className="flex items-center gap-3 p-5 border-b border-gray-100">
+            <img
+              className={`${isMobile ? "w-6" : "w-8"} object-contain`}
+              src={Halflogo}
+              alt=""
+            />
+            <div className={`font-semibold text-gray-800 ${isMobile ? "text-xl" : "text-2xl"}`}>
+              Sign In
             </div>
-            <DialogContent dividers>
-              <FormControl
-                sx={{
-                  marginTop: isMobile ? "0" : "-20px",
-                  width: "100%",
-                }}
-              >
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    handleSubmit(e as unknown as HandleSubmitEvent);
-                  }}
-                >
-                  <h3 style={{ fontSize: isMobile ? "16px" : "inherit" }}>
-                    Upload your Profile Photo here
+          </div>
+          
+          <DialogContent dividers className="max-h-[70vh] overflow-y-auto">
+            <FormControl sx={{ width: "100%" }}>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="text-center">
+                  <h3 className="text-base font-semibold text-gray-700 mb-2">
+                    Upload your Profile Photo
                   </h3>
                   <div
                     onClick={handleImageClick}
-                    style={{
-                      marginTop: "5px",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
+                    className="mt-2 flex justify-center cursor-pointer group"
                   >
-                    {image ? (
-                      <img
-                        style={{
-                          width: isMobile ? "80px" : "100px",
-                          height: isMobile ? "80px" : "100px",
-                          borderRadius: "50%",
-                          maxWidth: "100%", // Ensure the image doesn't exceed the container width
-                        }}
-                        src={image}
-                        alt=""
-                      />
-                    ) : (
-                      <img
-                        style={{
-                          width: isMobile ? "80px" : "100px",
-                          height: isMobile ? "80px" : "100px",
-                          borderRadius: "50%",
-                          maxWidth: "100%", // Ensure the image doesn't exceed the container width
-                        }}
-                        src="https://static.thenounproject.com/png/396915-200.png"
-                        alt=""
-                      />
-                    )}
+                    <div className="relative">
+                      {image ? (
+                        <img
+                          className={`w-24 h-24 rounded-full object-cover border-4 border-blue-100 group-hover:border-blue-300 transition-all duration-300 ${isMobile ? "w-20 h-20" : "w-24 h-24"}`}
+                          src={image}
+                          alt="Profile"
+                        />
+                      ) : (
+                        <img
+                          className={`w-24 h-24 rounded-full object-cover border-4 border-gray-200 group-hover:border-blue-300 transition-all duration-300 ${isMobile ? "w-20 h-20" : "w-24 h-24"}`}
+                          src="https://static.thenounproject.com/png/396915-200.png"
+                          alt="Default profile"
+                        />
+                      )}
+                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 rounded-full transition-all duration-300">
+                        <span className="text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity">
+                          Click to change
+                        </span>
+                      </div>
+                    </div>
                     <input
                       type="file"
                       ref={inputRef}
@@ -349,20 +266,22 @@ export default function Loginpage(props: any) {
                       }}
                     />
                   </div>
-                  <h3 style={{ fontSize: isMobile ? "16px" : "inherit" }}>
-                    Personal Informations
+                </div>
+
+                <div>
+                  <h3 className="text-base font-semibold text-gray-700 mb-3 mt-2">
+                    Personal Information
                   </h3>
-                  <div style={{ marginTop: "-10px" }}>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <TextField
                       autoComplete="off"
                       fullWidth
                       required
-                      autoFocus
                       margin="dense"
-                      id="name"
                       label="Full Name"
                       type="text"
-                      variant="standard"
+                      variant="outlined"
+                      size="small"
                       name="fullName"
                       defaultValue={userData.fullName}
                       onChange={(e) => {
@@ -371,12 +290,11 @@ export default function Loginpage(props: any) {
                     />
                     <TextField
                       required
-                      autoFocus
                       margin="dense"
-                      id="name"
                       label="User Name"
                       type="text"
-                      variant="standard"
+                      variant="outlined"
+                      size="small"
                       name="userName"
                       defaultValue={userData.userName}
                       onChange={(e) => {
@@ -384,56 +302,61 @@ export default function Loginpage(props: any) {
                       }}
                     />
                   </div>
+                  
                   <TextField
                     required
-                    autoFocus
                     margin="dense"
-                    id="email"
                     label="Email"
                     type="email"
                     fullWidth
-                    variant="standard"
+                    variant="outlined"
+                    size="small"
                     name="email"
                     defaultValue={userData.email}
                     onChange={(e) => {
                       setUserData({ ...userData, email: e.target.value });
                     }}
                   />
+                  
                   <TextField
                     required
-                    autoFocus
                     margin="dense"
-                    id="name"
                     label="Password"
                     type="password"
-                    variant="standard"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
                     name="password"
                   />
+                  
                   <TextField
                     required
-                    autoFocus
                     margin="dense"
-                    id="name"
                     label="Location"
                     type="text"
                     fullWidth
-                    variant="standard"
+                    variant="outlined"
+                    size="small"
                     name="location"
                     defaultValue={userData.location}
                     onChange={(e) => {
                       setUserData({ ...userData, location: e.target.value });
                     }}
                   />
-                  <h3>Educational Informations</h3>
-                  <div style={{ marginTop: "-10px" }}>
+                </div>
+
+                <div>
+                  <h3 className="text-base font-semibold text-gray-700 mb-3">
+                    Educational Information
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <TextField
                       required
-                      autoFocus
                       margin="dense"
-                      id="name"
                       label="Role"
                       type="text"
-                      variant="standard"
+                      variant="outlined"
+                      size="small"
                       name="role"
                       defaultValue={userData.role}
                       onChange={(e) => {
@@ -441,14 +364,12 @@ export default function Loginpage(props: any) {
                       }}
                     />
                     <TextField
-                      sx={{ marginLeft: "30px" }}
                       required
-                      autoFocus
                       margin="dense"
-                      id="name"
-                      label="Experience"
+                      label="Experience (Years)"
                       type="number"
-                      variant="standard"
+                      variant="outlined"
+                      size="small"
                       name="experience"
                       defaultValue={userData.experience}
                       onChange={(e) => {
@@ -456,117 +377,121 @@ export default function Loginpage(props: any) {
                       }}
                     />
                   </div>
+                  
                   <TextField
                     required
-                    autoFocus
                     margin="dense"
-                    id="name"
                     label="Company"
                     fullWidth
                     type="text"
-                    variant="standard"
+                    variant="outlined"
+                    size="small"
                     name="company"
                     defaultValue={userData.company}
                     onChange={(e) => {
                       setUserData({ ...userData, company: e.target.value });
                     }}
                   />
-                  <Box component="form" noValidate autoComplete="off">
-                    <div>
-                      <TextField
-                        fullWidth
-                        id="standard-select-currency"
-                        select
-                        label="Industry"
-                        variant="standard"
-                        name="industry"
-                        defaultValue={userData.industry}
-                        onChange={(e) => {
-                          setUserData({ ...userData, industry: e.target.value });
-                        }}
-                      >
-                        {industries.map((option) => (
-                          <MenuItem key={option.value} value={option.value}>
-                            {option.label}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    </div>
-                  </Box>
+                  
+                  <TextField
+                    fullWidth
+                    select
+                    label="Industry"
+                    variant="outlined"
+                    size="small"
+                    margin="dense"
+                    name="industry"
+                    defaultValue={userData.industry}
+                    onChange={(e) => {
+                      setUserData({ ...userData, industry: e.target.value });
+                    }}
+                  >
+                    {industries.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  
                   <TextField
                     required
-                    autoFocus
                     margin="dense"
-                    id="name"
                     label="Education"
                     fullWidth
                     type="text"
-                    variant="standard"
+                    variant="outlined"
+                    size="small"
                     name="education"
                     defaultValue={userData.education}
                     onChange={(e) => {
                       setUserData({ ...userData, education: e.target.value });
                     }}
                   />
+                  
                   <TextField
                     required
-                    autoFocus
                     margin="dense"
-                    id="name"
                     fullWidth
                     label="Skills"
                     type="text"
-                    variant="standard"
+                    variant="outlined"
+                    size="small"
                     name="skill"
+                    placeholder="e.g., React, Python, AWS"
                     defaultValue={userData.skill}
                     onChange={(e) => {
                       setUserData({ ...userData, skill: e.target.value });
                     }}
                   />
-                  <h3>Tell us about yourself</h3>
+                </div>
+
+                <div>
+                  <h3 className="text-base font-semibold text-gray-700 mb-2">
+                    Tell us about yourself
+                  </h3>
                   <textarea
-                    placeholder="You can write here, about your education, skills, experience and previous company experiences...."
+                    placeholder="You can write here about your education, skills, experience and previous company experiences..."
                     defaultValue={userData.about}
                     onChange={(e) => {
                       setUserData({ ...userData, about: e.target.value });
                     }}
-                    style={{
-                      width: isMobile ? "100%" : "500px",
-                      height: "184px",
-                      maxWidth: "100%", // Prevent textarea from exceeding the container width
-                    }}
-                  ></textarea>
-                  <div>
-                    <Checkbox {...label} />
-                    I'm not a robot.
-                  </div>
-                  <DialogActions>
-                    <button
-                      type="submit"
-                      style={{
-                        width: isMobile ? "50%" : "25%",
-                        padding: "5px 10px",
-                        backgroundColor: "#001433",
-                        fontSize: isMobile ? "16px" : "20px",
-                        border: "none",
-                        borderRadius: "10px",
-                        cursor: "pointer",
-                        color: "#fff",
-                        fontFamily: "Kanit",
-                      }}
-                    >
-                      Sign In
-                    </button>
-                  </DialogActions>
-                </form>
-              </FormControl>
-            </DialogContent>
-          </Dialog>
-        </React.Fragment>
+                    className="w-full h-40 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                  />
+                </div>
+
+                <div className="flex items-center gap-2 py-2">
+                  <Checkbox {...label} />
+                  <span className="text-sm text-gray-600">I'm not a robot</span>
+                </div>
+
+                <DialogActions className="pt-4">
+                  <button
+                    type="submit"
+                    className={`bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium py-2 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg ${
+                      isMobile ? "w-1/2 text-base" : "w-1/3 text-lg"
+                    }`}
+                  >
+                    Sign In
+                  </button>
+                </DialogActions>
+              </form>
+            </FormControl>
+          </DialogContent>
+        </Dialog>
       )}
-      <div>
-        <ToastContainer />
-      </div>
+      
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 }
