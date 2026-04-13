@@ -19,9 +19,6 @@ import {
   CheckCircle,
   Sparkles,
   ArrowRight,
-  Github,
-  Linkedin,
-  Twitter
 } from "lucide-react";
 
 const industries = [
@@ -169,7 +166,7 @@ export default function Loginpage() {
               <div className="mt-6">
                 <p className="text-center text-gray-500 text-sm mb-4">Or continue with</p>
                 <div className="flex gap-3 justify-center">
-                  {[Github, Linkedin, Twitter].map((Icon, idx) => (
+                  {[].map((Icon, idx) => (
                     <button
                       key={idx}
                       className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors border border-purple-500/30"
@@ -395,8 +392,8 @@ export default function Loginpage() {
                     type="button"
                     onClick={() => setIsRobotChecked(!isRobotChecked)}
                     className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${isRobotChecked
-                        ? "bg-purple-600 border-purple-600"
-                        : "border-gray-600 hover:border-purple-500"
+                      ? "bg-purple-600 border-purple-600"
+                      : "border-gray-600 hover:border-purple-500"
                       }`}
                   >
                     {isRobotChecked && <CheckCircle className="w-4 h-4 text-white" />}
