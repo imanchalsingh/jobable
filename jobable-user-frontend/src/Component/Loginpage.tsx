@@ -18,6 +18,8 @@ import {
   UserCircle,
   CheckCircle,
   Sparkles,
+  Cat,
+  Link,
   ArrowRight,
 } from "lucide-react";
 
@@ -166,7 +168,7 @@ export default function Loginpage() {
               <div className="mt-6">
                 <p className="text-center text-gray-500 text-sm mb-4">Or continue with</p>
                 <div className="flex gap-3 justify-center">
-                  {[].map((Icon, idx) => (
+                  {[Cat, Link, X].map((Icon, idx) => (
                     <button
                       key={idx}
                       className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors border border-purple-500/30"
