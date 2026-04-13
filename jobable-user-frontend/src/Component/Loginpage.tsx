@@ -1,26 +1,28 @@
 import React, { useState, useRef } from "react";
-import Logo from "./logo.png";
-import Halflogo from "./halflogo.png";
-import {
-  Button,
-  Card,
-  CardContent,
-  DialogActions,
-  DialogContent,
-  FormControl,
-  IconButton,
-} from "@mui/material";
-import LoginIcon from "@mui/icons-material/Login";
-import Dialog from "@mui/material/Dialog";
-import CloseIcon from "@mui/icons-material/Close";
-import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
-import Checkbox from "@mui/material/Checkbox";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
+import {
+  LogIn,
+  X,
+  Upload,
+  User,
+  Mail,
+  Lock,
+  MapPin,
+  Briefcase,
+  GraduationCap,
+  Code,
+  Building,
+  Calendar,
+  UserCircle,
+  CheckCircle,
+  Sparkles,
+  ArrowRight,
+  Github,
+  Linkedin,
+  Twitter
+} from "lucide-react";
 
 const industries = [
   { value: "Technology", label: "Technology" },
@@ -29,7 +31,7 @@ const industries = [
   { value: "Electronic", label: "Electronic" },
 ];
 
-export default function Loginpage(props: any) {
+export default function Loginpage() {
   const [userData, setUserData] = useState({
     image: "",
     fullName: "",
@@ -44,41 +46,32 @@ export default function Loginpage(props: any) {
     skill: "",
     about: "",
   });
-  
-  const label = { inputProps: { "aria-label": "Checkbox demo" } };
-  const notify = () => toast("Welcome to Jobable!");
-  const history = useNavigate();
-  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
-  const open = () => setLoginDialogOpen(true);
-  const close = () => setLoginDialogOpen(false);
 
+  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRobotChecked, setIsRobotChecked] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [image, setImage] = useState<any>("");
+  const [image, setImage] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleImageClick = () => {
-    if (inputRef.current) {
-      inputRef.current.click();
+    inputRef.current?.click();
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        const result = reader.result as string;
+        setImage(result);
+        setUserData({ ...userData, image: result });
+      };
     }
   };
 
-  const handleImageChange = (e: any) => {
-    const file = e.target.files[0];
-    const reader: FileReader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = (): void => {
-      const img: HTMLImageElement = new Image();
-      img.src = reader.result as string;
-      if (reader.result) {
-        setImage(img.src);
-        setUserData({ ...userData, image: img.src });
-      }
-    };
-  };
-  
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const {
@@ -110,388 +103,397 @@ export default function Loginpage(props: any) {
       return;
     }
 
-    notify();
-    localStorage.setItem("userData", JSON.stringify(userData));
+    if (!isRobotChecked) {
+      toast.error("Please verify you're not a robot.");
+      return;
+    }
+
+    setIsLoading(true);
     setTimeout(() => {
-      history("/job-description");
-    }, 2000);
+      localStorage.setItem("userData", JSON.stringify(userData));
+      toast.success("Welcome to Jobable! 🎉");
+      setTimeout(() => {
+        navigate("/job-description");
+      }, 1500);
+    }, 1500);
   };
 
   return (
-    <>
-      <div className="flex justify-center items-center min-h-screen p-4 bg-gradient-to-br from-blue-50 to-indigo-100">
-        <Card
-          sx={{
-            maxWidth: 400,
-            width: "100%",
-            textAlign: "center",
-            borderRadius: "24px",
-            boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
-            backgroundColor: "#ffffff",
-            transition: "transform 0.3s ease, box-shadow 0.3s ease",
-            "&:hover": {
-              transform: "translateY(-5px)",
-              boxShadow: "0 25px 50px rgba(0,0,0,0.15)",
-            },
-          }}
-          className="px-3 py-4 sm:px-6 sm:py-8"
-        >
-          <img
-            src={Logo}
-            alt="Jobable Logo"
-            className={`mx-auto mb-5 ${isMobile ? "w-3/4" : "w-48"} transition-all duration-300`}
-          />
-
-          <CardContent className="pt-2">
-            <h1 className={`font-bold text-gray-800 mb-2 ${isMobile ? "text-2xl" : "text-3xl"}`}>
-              Welcome to Jobable.com
-            </h1>
-            <p className={`text-gray-500 mb-6 ${isMobile ? "text-xs" : "text-sm"}`}>
-              Your trusted platform for job search and career growth.
-            </p>
-
-            <Button
-              onClick={open}
-              variant="contained"
-              startIcon={<LoginIcon />}
-              sx={{
-                py: "8px",
-                px: "24px",
-                fontSize: "14px",
-                fontFamily: "Kanit",
-                borderRadius: "12px",
-                backgroundColor: "#008ae6",
-                textTransform: "none",
-                "&:hover": {
-                  backgroundColor: "#0066b3",
-                  transform: "scale(1.02)",
-                },
-                transition: "all 0.3s ease",
-              }}
-            >
-              Sign In
-            </Button>
-
-            <p className="mt-4 text-xs text-gray-400">
-              Don't have an account?{" "}
-              <a href="/" className="text-blue-500 hover:text-blue-600 transition-colors">
-                Login
-              </a>
-            </p>
-          </CardContent>
-        </Card>
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-purple-900 to-red-900 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-red-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
       </div>
 
-      {loginDialogOpen && (
-        <Dialog
-          sx={{
-            "& .MuiDialog-paper": {
-              width: isMobile ? "90%" : "550px",
-              maxWidth: "100%",
-              margin: "0 auto",
-              borderRadius: "24px",
-            },
-          }}
-          open={loginDialogOpen}
-          aria-labelledby="customized-dialog-title"
-        >
-          <IconButton
-            onClick={close}
-            aria-label="close"
-            sx={{
-              position: "absolute",
-              right: 12,
-              top: 12,
-              color: (theme) => theme.palette.grey[500],
-              zIndex: 1,
-              backgroundColor: "rgba(0,0,0,0.05)",
-              "&:hover": {
-                backgroundColor: "rgba(0,0,0,0.1)",
-              },
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-          
-          <div className="flex items-center gap-3 p-5 border-b border-gray-100">
-            <img
-              className={`${isMobile ? "w-6" : "w-8"} object-contain`}
-              src={Halflogo}
-              alt=""
-            />
-            <div className={`font-semibold text-gray-800 ${isMobile ? "text-xl" : "text-2xl"}`}>
-              Sign In
+      <div className="relative flex justify-center items-center min-h-screen p-4">
+        <div className="max-w-md w-full">
+          {/* Main Card */}
+          <div className="backdrop-blur-xl bg-gray-900/80 rounded-2xl shadow-2xl border border-purple-500/30 transform transition-all duration-500 hover:scale-105 hover:shadow-purple-500/20">
+            <div className="p-6 sm:p-8">
+              {/* Logo Section */}
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center justify-center w-20 h-20 bg-linear-to-br from-purple-500 to-red-500 rounded-2xl mb-4 shadow-lg animate-pulse">
+                  <Sparkles className="w-10 h-10 text-white" />
+                </div>
+                <h1 className="text-3xl sm:text-4xl font-bold bg-linear-to-r from-purple-400 via-pink-400 to-red-400 bg-clip-text text-transparent">
+                  Jobable
+                </h1>
+                <p className="text-gray-400 mt-2 text-sm sm:text-base">
+                  Your gateway to dream careers
+                </p>
+              </div>
+
+              {/* Welcome Text */}
+              <div className="text-center mb-6">
+                <h2 className="text-xl sm:text-2xl font-semibold text-white mb-2">
+                  Welcome Back!
+                </h2>
+                <p className="text-gray-400 text-sm">
+                  Join thousands of professionals finding their perfect role
+                </p>
+              </div>
+
+              {/* Sign In Button */}
+              <button
+                onClick={() => setLoginDialogOpen(true)}
+                className="w-full bg-linear-to-r from-purple-600 to-red-600 hover:from-purple-700 hover:to-red-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 shadow-lg hover:shadow-purple-500/25"
+              >
+                <LogIn className="w-5 h-5" />
+                Get Started
+                <ArrowRight className="w-4 h-4" />
+              </button>
+
+              {/* Social Login Options */}
+              <div className="mt-6">
+                <p className="text-center text-gray-500 text-sm mb-4">Or continue with</p>
+                <div className="flex gap-3 justify-center">
+                  {[Github, Linkedin, Twitter].map((Icon, idx) => (
+                    <button
+                      key={idx}
+                      className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors border border-purple-500/30"
+                    >
+                      <Icon className="w-5 h-5 text-gray-400 hover:text-purple-400" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <p className="mt-6 text-center text-xs text-gray-500">
+                By signing in, you agree to our{" "}
+                <a href="#" className="text-purple-400 hover:text-purple-300 transition-colors">
+                  Terms
+                </a>{" "}
+                and{" "}
+                <a href="#" className="text-purple-400 hover:text-purple-300 transition-colors">
+                  Privacy Policy
+                </a>
+              </p>
             </div>
           </div>
-          
-          <DialogContent dividers className="max-h-[70vh] overflow-y-auto">
-            <FormControl sx={{ width: "100%" }}>
-              <form onSubmit={handleSubmit} className="space-y-4">
+        </div>
+      </div>
+
+      {/* Sign In Dialog */}
+      {loginDialogOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
+          <div className="relative w-full max-w-2xl bg-linear-to-br from-gray-900 to-gray-800 rounded-2xl shadow-2xl border border-purple-500/30 max-h-[90vh] overflow-hidden animate-slideUp">
+            {/* Header */}
+            <div className="sticky top-0 z-10 bg-linear-to-r from-purple-600 to-red-600 p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Sparkles className="w-6 h-6 text-white" />
+                  <h2 className="text-xl font-bold text-white">Create Account</h2>
+                </div>
+                <button
+                  onClick={() => setLoginDialogOpen(false)}
+                  className="p-1 hover:bg-white/10 rounded-lg transition-colors"
+                >
+                  <X className="w-5 h-5 text-white" />
+                </button>
+              </div>
+            </div>
+
+            {/* Form Content */}
+            <div className="overflow-y-auto p-6 space-y-6 max-h-[calc(90vh-80px)] custom-scrollbar">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Profile Photo */}
                 <div className="text-center">
-                  <h3 className="text-base font-semibold text-gray-700 mb-2">
-                    Upload your Profile Photo
-                  </h3>
+                  <h3 className="text-white font-semibold mb-3">Profile Photo</h3>
                   <div
                     onClick={handleImageClick}
-                    className="mt-2 flex justify-center cursor-pointer group"
+                    className="inline-block cursor-pointer group"
                   >
                     <div className="relative">
                       {image ? (
                         <img
-                          className={`w-24 h-24 rounded-full object-cover border-4 border-blue-100 group-hover:border-blue-300 transition-all duration-300 ${isMobile ? "w-20 h-20" : "w-24 h-24"}`}
+                          className="w-24 h-24 rounded-full object-cover border-4 border-purple-500 group-hover:border-purple-400 transition-all duration-300"
                           src={image}
                           alt="Profile"
                         />
                       ) : (
-                        <img
-                          className={`w-24 h-24 rounded-full object-cover border-4 border-gray-200 group-hover:border-blue-300 transition-all duration-300 ${isMobile ? "w-20 h-20" : "w-24 h-24"}`}
-                          src="https://static.thenounproject.com/png/396915-200.png"
-                          alt="Default profile"
-                        />
+                        <div className="w-24 h-24 rounded-full bg-linear-to-br from-purple-600 to-red-600 flex items-center justify-center border-4 border-purple-500 group-hover:border-purple-400 transition-all duration-300">
+                          <UserCircle className="w-12 h-12 text-white" />
+                        </div>
                       )}
-                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 rounded-full transition-all duration-300">
-                        <span className="text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity">
-                          Click to change
-                        </span>
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <Upload className="w-6 h-6 text-white" />
                       </div>
                     </div>
                     <input
                       type="file"
                       ref={inputRef}
                       style={{ display: "none" }}
-                      defaultValue={userData.image}
-                      onChange={(e) => {
-                        setUserData({ ...userData, image: e.target.value });
-                        handleImageChange(e);
-                      }}
+                      onChange={handleImageChange}
+                      accept="image/*"
                     />
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="text-base font-semibold text-gray-700 mb-3 mt-2">
+                {/* Personal Information */}
+                <div className="space-y-3">
+                  <h3 className="text-purple-400 font-semibold flex items-center gap-2">
+                    <User className="w-4 h-4" />
                     Personal Information
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <TextField
-                      autoComplete="off"
-                      fullWidth
-                      required
-                      margin="dense"
-                      label="Full Name"
+                    <input
                       type="text"
-                      variant="outlined"
-                      size="small"
-                      name="fullName"
-                      defaultValue={userData.fullName}
-                      onChange={(e) => {
-                        setUserData({ ...userData, fullName: e.target.value });
-                      }}
+                      placeholder="Full Name *"
+                      value={userData.fullName}
+                      onChange={(e) => setUserData({ ...userData, fullName: e.target.value })}
+                      className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
                     />
-                    <TextField
-                      required
-                      margin="dense"
-                      label="User Name"
+                    <input
                       type="text"
-                      variant="outlined"
-                      size="small"
-                      name="userName"
-                      defaultValue={userData.userName}
-                      onChange={(e) => {
-                        setUserData({ ...userData, userName: e.target.value });
-                      }}
+                      placeholder="Username *"
+                      value={userData.userName}
+                      onChange={(e) => setUserData({ ...userData, userName: e.target.value })}
+                      className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
                     />
                   </div>
-                  
-                  <TextField
-                    required
-                    margin="dense"
-                    label="Email"
-                    type="email"
-                    fullWidth
-                    variant="outlined"
-                    size="small"
-                    name="email"
-                    defaultValue={userData.email}
-                    onChange={(e) => {
-                      setUserData({ ...userData, email: e.target.value });
-                    }}
-                  />
-                  
-                  <TextField
-                    required
-                    margin="dense"
-                    label="Password"
-                    type="password"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    name="password"
-                  />
-                  
-                  <TextField
-                    required
-                    margin="dense"
-                    label="Location"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                    size="small"
-                    name="location"
-                    defaultValue={userData.location}
-                    onChange={(e) => {
-                      setUserData({ ...userData, location: e.target.value });
-                    }}
-                  />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" />
+                      <input
+                        type="email"
+                        placeholder="Email *"
+                        value={userData.email}
+                        onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+                        className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
+                      />
+                    </div>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" />
+                      <input
+                        type="password"
+                        placeholder="Password *"
+                        className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
+                      />
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" />
+                    <input
+                      type="text"
+                      placeholder="Location *"
+                      value={userData.location}
+                      onChange={(e) => setUserData({ ...userData, location: e.target.value })}
+                      className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
+                    />
+                  </div>
                 </div>
 
-                <div>
-                  <h3 className="text-base font-semibold text-gray-700 mb-3">
-                    Educational Information
+                {/* Professional Information */}
+                <div className="space-y-3">
+                  <h3 className="text-purple-400 font-semibold flex items-center gap-2">
+                    <Briefcase className="w-4 h-4" />
+                    Professional Information
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <TextField
-                      required
-                      margin="dense"
-                      label="Role"
+                    <input
                       type="text"
-                      variant="outlined"
-                      size="small"
-                      name="role"
-                      defaultValue={userData.role}
-                      onChange={(e) => {
-                        setUserData({ ...userData, role: e.target.value });
-                      }}
+                      placeholder="Role/Position *"
+                      value={userData.role}
+                      onChange={(e) => setUserData({ ...userData, role: e.target.value })}
+                      className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
                     />
-                    <TextField
-                      required
-                      margin="dense"
-                      label="Experience (Years)"
-                      type="number"
-                      variant="outlined"
-                      size="small"
-                      name="experience"
-                      defaultValue={userData.experience}
-                      onChange={(e) => {
-                        setUserData({ ...userData, experience: e.target.value });
-                      }}
+                    <div className="relative">
+                      <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" />
+                      <input
+                        type="number"
+                        placeholder="Experience (Years) *"
+                        value={userData.experience}
+                        onChange={(e) => setUserData({ ...userData, experience: e.target.value })}
+                        className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
+                      />
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" />
+                    <input
+                      type="text"
+                      placeholder="Company *"
+                      value={userData.company}
+                      onChange={(e) => setUserData({ ...userData, company: e.target.value })}
+                      className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
                     />
                   </div>
-                  
-                  <TextField
-                    required
-                    margin="dense"
-                    label="Company"
-                    fullWidth
-                    type="text"
-                    variant="outlined"
-                    size="small"
-                    name="company"
-                    defaultValue={userData.company}
-                    onChange={(e) => {
-                      setUserData({ ...userData, company: e.target.value });
-                    }}
-                  />
-                  
-                  <TextField
-                    fullWidth
-                    select
-                    label="Industry"
-                    variant="outlined"
-                    size="small"
-                    margin="dense"
-                    name="industry"
-                    defaultValue={userData.industry}
-                    onChange={(e) => {
-                      setUserData({ ...userData, industry: e.target.value });
-                    }}
+                  <select
+                    value={userData.industry}
+                    onChange={(e) => setUserData({ ...userData, industry: e.target.value })}
+                    className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 text-white"
                   >
-                    {industries.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
+                    <option value="">Select Industry *</option>
+                    {industries.map((ind) => (
+                      <option key={ind.value} value={ind.value}>{ind.label}</option>
                     ))}
-                  </TextField>
-                  
-                  <TextField
-                    required
-                    margin="dense"
-                    label="Education"
-                    fullWidth
-                    type="text"
-                    variant="outlined"
-                    size="small"
-                    name="education"
-                    defaultValue={userData.education}
-                    onChange={(e) => {
-                      setUserData({ ...userData, education: e.target.value });
-                    }}
-                  />
-                  
-                  <TextField
-                    required
-                    margin="dense"
-                    fullWidth
-                    label="Skills"
-                    type="text"
-                    variant="outlined"
-                    size="small"
-                    name="skill"
-                    placeholder="e.g., React, Python, AWS"
-                    defaultValue={userData.skill}
-                    onChange={(e) => {
-                      setUserData({ ...userData, skill: e.target.value });
-                    }}
-                  />
+                  </select>
                 </div>
 
-                <div>
-                  <h3 className="text-base font-semibold text-gray-700 mb-2">
-                    Tell us about yourself
+                {/* Educational Information */}
+                <div className="space-y-3">
+                  <h3 className="text-purple-400 font-semibold flex items-center gap-2">
+                    <GraduationCap className="w-4 h-4" />
+                    Educational Information
                   </h3>
+                  <input
+                    type="text"
+                    placeholder="Education *"
+                    value={userData.education}
+                    onChange={(e) => setUserData({ ...userData, education: e.target.value })}
+                    className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
+                  />
+                  <div className="relative">
+                    <Code className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" />
+                    <input
+                      type="text"
+                      placeholder="Skills (comma separated) *"
+                      value={userData.skill}
+                      onChange={(e) => setUserData({ ...userData, skill: e.target.value })}
+                      className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
+                    />
+                  </div>
+                </div>
+
+                {/* About */}
+                <div className="space-y-3">
+                  <h3 className="text-purple-400 font-semibold">About You</h3>
                   <textarea
-                    placeholder="You can write here about your education, skills, experience and previous company experiences..."
-                    defaultValue={userData.about}
-                    onChange={(e) => {
-                      setUserData({ ...userData, about: e.target.value });
-                    }}
-                    className="w-full h-40 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                    placeholder="Tell us about your experience, skills, and career goals..."
+                    value={userData.about}
+                    onChange={(e) => setUserData({ ...userData, about: e.target.value })}
+                    rows={4}
+                    className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-500 resize-none"
                   />
                 </div>
 
-                <div className="flex items-center gap-2 py-2">
-                  <Checkbox {...label} />
-                  <span className="text-sm text-gray-600">I'm not a robot</span>
+                {/* Robot Check */}
+                <div className="flex items-center gap-3 py-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsRobotChecked(!isRobotChecked)}
+                    className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${isRobotChecked
+                        ? "bg-purple-600 border-purple-600"
+                        : "border-gray-600 hover:border-purple-500"
+                      }`}
+                  >
+                    {isRobotChecked && <CheckCircle className="w-4 h-4 text-white" />}
+                  </button>
+                  <span className="text-gray-300 text-sm">I'm not a robot</span>
                 </div>
 
-                <DialogActions className="pt-4">
-                  <button
-                    type="submit"
-                    className={`bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium py-2 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg ${
-                      isMobile ? "w-1/2 text-base" : "w-1/3 text-lg"
-                    }`}
-                  >
-                    Sign In
-                  </button>
-                </DialogActions>
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full bg-linear-to-r from-purple-600 to-red-600 hover:from-purple-700 hover:to-red-700 text-white font-semibold py-3 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                >
+                  {isLoading ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Creating Account...
+                    </div>
+                  ) : (
+                    "Create Account"
+                  )}
+                </button>
               </form>
-            </FormControl>
-          </DialogContent>
-        </Dialog>
+            </div>
+          </div>
+        </div>
       )}
-      
+
       <ToastContainer
         position="top-right"
         autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
+        theme="dark"
         closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
         pauseOnHover
-        theme="light"
       />
-    </>
+
+      <style>{`
+        @keyframes blob {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+        
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out;
+        }
+        
+        .animate-slideUp {
+          animation: slideUp 0.4s ease-out;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: #1f2937;
+          border-radius: 10px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: linear-gradient(to bottom, #9333ea, #ef4444);
+          border-radius: 10px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: linear-gradient(to bottom, #7e22ce, #dc2626);
+        }
+      `}</style>
+    </div>
   );
 }
