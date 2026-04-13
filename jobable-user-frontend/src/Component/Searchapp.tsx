@@ -1,67 +1,33 @@
 import React, { useState, useEffect } from "react";
-import MailIcon from "@mui/icons-material/Mail";
-import PersonIcon from "@mui/icons-material/Person";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import SettingsIcon from "@mui/icons-material/Settings";
-import InfoIcon from "@mui/icons-material/Info";
-import Logo from "./logo.png";
-import { jobListings } from "../jobListData";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
-import MergeTypeIcon from "@mui/icons-material/MergeType";
-import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
-import { styled } from "@mui/material/styles";
-import CloseIcon from "@mui/icons-material/Close";
-import BusinessIcon from "@mui/icons-material/Business";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Input from "@mui/material/Input";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import MenuIcon from "@mui/icons-material/Menu";
-import { Card, Grid, useMediaQuery } from "@mui/material";
 import {
-  Box,
-  Drawer,
-  CssBaseline,
-  AppBar,
-  Toolbar,
-  Typography,
-  Divider,
-  ListItem,
-  ListItemButton,
-  MenuItem,
-  TextField,
-  Dialog,
-  DialogContent,
-  DialogActions,
-  IconButton,
-  Button,
-} from "@mui/material";
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  "& .MuiDialogContent-root": {
-    padding: theme.spacing(2),
-  },
-  "& .MuiDialogActions-root": {
-    padding: theme.spacing(1),
-  },
-}));
-const drawerWidth = 240;
-export default function PermanentDrawerLeft(props: any) {
-  const [showPassword, setShowPassword] = React.useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
-  const notify = () => toast.info("Applied! They will contact you soon.");
-  const emailNotify = () => toast.success("Email Sent!");
+  Mail,
+  User,
+  Settings,
+  Info,
+  MapPin,
+  Briefcase,
+  IndianRupee,
+  X,
+  Building,
+  Eye,
+  EyeOff,
+  ArrowLeft,
+  Menu,
+  LogOut,
+  Award,
+  Clock,
+  TrendingUp,
+  Users,
+  Zap,
+  Search,
+} from "lucide-react";
+import { jobListings } from "../jobListData";
 
+export default function Dashboard() {
+  const [showPassword, setShowPassword] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState(jobListings);
   const [completeData] = useState(jobListings);
@@ -72,1144 +38,682 @@ export default function PermanentDrawerLeft(props: any) {
   const [openInfo, setOpenInfo] = useState(false);
   const [openContact, setOpenContact] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
-  const [userData, setuserData] = useState<any>(null);
+  const [userData, setUserData] = useState<any>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    jobType: "",
+    company: "",
+    location: "",
+    jobTitle: "",
+    industry: "",
+    salary: ""
+  });
 
-  const openAppliedJobDialog = () => {
-    setOpenAppliedJobs(true);
-  };
-  const closeAppliedJobDialog = () => {
-    setOpenAppliedJobs(false);
-  };
-
-  const openProfileDialog = () => {
-    setOpenProfile(true);
-  };
-  const closeProfileDialog = () => {
-    setOpenProfile(false);
-  };
-
-  const openContactDialog = () => {
-    setOpenContact(true);
-  };
-  const closeContactDialog = () => {
-    setOpenContact(false);
-  };
-  const openInfoDialog = () => {
-    setOpenInfo(true);
-  };
-  const closeInfoDialog = () => {
-    setOpenInfo(false);
-  };
-  const open = () => {
-    setOpenDetails(true);
-  };
-  const close = () => {
-    setOpenDetails(false);
-  };
+  const navigate = useNavigate();
 
   useEffect(() => {
     const localStorageUserData = localStorage.getItem("userData");
     if (localStorageUserData) {
-      setuserData(JSON.parse(localStorageUserData));
+      setUserData(JSON.parse(localStorageUserData));
     }
   }, []);
 
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const isMobile = useMediaQuery("(max-width:600px)");
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+  const handleLogout = () => {
+    localStorage.removeItem("userData");
+    toast.success("Logged out successfully!");
+    setTimeout(() => navigate("/"), 1500);
   };
 
-  const drawerContent = (
-    <>
-      <Toolbar />
-      <div
-        style={{
-          display: "flex",
-          textAlign: "center",
-          justifyContent: "center",
-          marginTop: "-50px",
-        }}
-      >
-        <h2>{userData && userData.fullName}</h2>
-      </div>
-      <Typography sx={{ textAlign: "center", lineHeight: "0.5" }}>
-        <img
-          style={{
-            width: "120px",
-            height: "120px",
-            borderRadius: "50%",
-            border: "5px solid gray",
-          }}
-          src={userData && userData.image}
-          alt=""
-        />
-        <div style={{ marginTop: "10px" }}>
-          <p style={{ marginTop: "10px", fontWeight: "bold" }}>
-            {userData && userData.userName}
-          </p>
-          <p style={{ marginTop: "10px", marginBottom: "10px" }}>
-            {userData && userData.industry}
-          </p>
-        </div>
-      </Typography>
-      <Divider />
-      <Typography>
-        <ListItemButton>
-          <ListItem>
-            <PersonIcon />
-          </ListItem>
-          <ListItem
-            onClick={() => {
-              openProfileDialog();
-            }}
-            sx={{ marginLeft: "-130px" }}
-          >
-            Profile
-          </ListItem>
-        </ListItemButton>
-      </Typography>
-      <Typography>
-        <ListItemButton>
-          <ListItem>
-            <AccountCircleIcon />
-          </ListItem>
-          <ListItem sx={{ marginLeft: "-130px" }}> Account</ListItem>
-        </ListItemButton>
-      </Typography>
-      <Typography>
-        <ListItemButton onClick={openContactDialog}>
-          <ListItem>
-            <MailIcon />
-          </ListItem>
-          <ListItem sx={{ marginLeft: "-130px" }}> Contact</ListItem>
-        </ListItemButton>
-      </Typography>
-      <Typography>
-        <ListItemButton>
-          <ListItem>
-            <SettingsIcon />
-          </ListItem>
-          <ListItem sx={{ marginLeft: "-130px" }}> Settings</ListItem>
-        </ListItemButton>
-      </Typography>
-      <Typography>
-        <ListItemButton
-          onClick={() => {
-            openInfoDialog();
-          }}
-        >
-          <ListItem>
-            <InfoIcon />
-          </ListItem>
-          <ListItem sx={{ marginLeft: "-130px" }}>Info</ListItem>
-        </ListItemButton>
-      </Typography>
-    </>
-  );
+  const handleApply = (job: any) => {
+    setAppliedJobs([...appliedJobs, job]);
+    toast.success(`Applied to ${job.job_title}! 🎉`);
+    setOpenDetails(false);
+  };
+
+  const handleFilterChange = (filterName: string, value: string) => {
+    setFilters({ ...filters, [filterName]: value });
+    if (!value) {
+      setData(completeData);
+      return;
+    }
+    const filtered = completeData.filter((job) =>
+      job[filterName]?.toLowerCase().includes(value.toLowerCase())
+    );
+    setData(filtered);
+  };
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchText(value);
+    if (!value) {
+      setData(completeData);
+    } else {
+      const filtered = completeData.filter(
+        (job) =>
+          job.job_title?.toLowerCase().includes(value.toLowerCase()) ||
+          job.company?.toLowerCase().includes(value.toLowerCase())
+      );
+      setData(filtered);
+    }
+  };
+
+  const stats = [
+    { icon: TrendingUp, label: "Active Jobs", value: "1,234", color: "purple" },
+    { icon: Users, label: "Companies", value: "856", color: "red" },
+    { icon: Zap, label: "Matches", value: "89%", color: "pink" },
+    { icon: Award, label: "Placements", value: "12.5K", color: "orange" },
+  ];
 
   return (
-    <>
-      <Box sx={{ display: "flex" }}>
-        <CssBaseline />
-        <AppBar
-          position="fixed"
-          sx={{
-            width: isMobile ? "100%" : `calc(100% - ${drawerWidth}px)`,
-            ml: isMobile ? 0 : `${drawerWidth}px`,
-            backgroundColor: "#fff",
-            boxShadow: "0",
-          }}
-        >
-          <Toolbar>
-            {isMobile && (
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ mr: 2, color: "gray" }}
-              >
-                <MenuIcon />
-              </IconButton>
-            )}
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{
-                color: "#000",
-                fontWeight: "bolder",
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%",
-              }}
-            >
-              <Typography
-                variant="h4"
-                sx={{
-                  fontFamily: "Gabarito, sans-serif",
-                  fontWeight: "bold",
-                  fontSize: {
-                    md: "2.5rem",
-                  },
-                  display: {
-                    xs: "none", // hidden on phones
-                    sm: "none", // hidden on tablets
-                    md: "block", // visible on desktops and above
-                  },
-                  textAlign: "center",
-                }}
-              >
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-red-900">
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`fixed top-0 left-0 h-full w-72 bg-gray-900/95 backdrop-blur-xl border-r border-purple-500/30 z-50 transform transition-transform duration-300 lg:translate-x-0 ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+      >
+        <div className="flex flex-col h-full">
+          {/* Sidebar Header */}
+          <div className="p-6 border-b border-purple-500/30">
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-red-500 rounded-xl flex items-center justify-center">
+                <TrendingUp className="w-5 h-5 text-white" />
+              </div>
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-red-400 bg-clip-text text-transparent">
                 Jobable
-              </Typography>
+              </h2>
+            </div>
+          </div>
 
-              <Box
-                sx={{
-                  display: { xs: "block", sm: "block", md: "none" }, // Only visible on small screens
-                  width: "100%", // full width on navbar
-                  px: 2,
+          {/* User Profile */}
+          <div className="p-6 text-center border-b border-purple-500/30">
+            <div className="relative inline-block">
+              <img
+                className="w-24 h-24 rounded-full border-4 border-purple-500 object-cover mx-auto"
+                src={userData?.image || "https://via.placeholder.com/96"}
+                alt="Profile"
+              />
+              <div className="absolute bottom-0 right-0 w-5 h-5 bg-green-500 rounded-full border-2 border-gray-900"></div>
+            </div>
+            <h3 className="text-white font-semibold mt-3">{userData?.fullName || "User"}</h3>
+            <p className="text-gray-400 text-sm">@{userData?.userName || "username"}</p>
+            <p className="text-purple-400 text-xs mt-1">{userData?.industry || "Professional"}</p>
+          </div>
+
+          {/* Navigation */}
+          <nav className="flex-1 p-4 space-y-2">
+            {[
+              { icon: User, label: "Profile", onClick: () => setOpenProfile(true) },
+              { icon: Briefcase, label: "My Jobs", onClick: () => setOpenAppliedJobs(true) },
+              { icon: Mail, label: "Contact", onClick: () => setOpenContact(true) },
+              { icon: Settings, label: "Settings", onClick: () => { } },
+              { icon: Info, label: "About", onClick: () => setOpenInfo(true) },
+            ].map((item, idx) => (
+              <button
+                key={idx}
+                onClick={() => {
+                  item.onClick();
+                  setMobileMenuOpen(false);
                 }}
+                className="w-full flex items-center gap-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-purple-600/20 rounded-xl transition-all duration-200 group"
               >
-                <input
-                  style={{
-                    width: "100%",
-                    borderRadius: "5px",
-                    paddingLeft: "10px",
-                    padding: "5px",
-                    border: "1px solid gray",
-                    marginTop: "10px",
-                    marginBottom: "10px",
-                  }}
-                  autoComplete="off"
-                  type="text"
-                  name="search"
-                  placeholder="Search here"
-                  value={searchText}
-                  onChange={(e) => {
-                    setSearchText(e.target.value);
-                    if (e.target.value === "") {
-                      setData(jobListings);
-                    } else {
-                      const finalResult = data.filter(
-                        (items) =>
-                          items.job_title &&
-                          items.job_title
-                            .toLowerCase()
-                            .includes(e.target.value.toLowerCase())
-                      );
-                      setData(finalResult);
-                    }
-                  }}
-                />
-              </Box>
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          variant={isMobile ? "temporary" : "permanent"}
-          open={isMobile ? mobileOpen : true}
-          onClose={handleDrawerToggle}
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-            },
-          }}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          anchor="left"
-        >
-          {drawerContent}
-        </Drawer>
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            bgcolor: "background.default",
-            p: 3,
-            backgroundColor: "#e6f3ff",
-            padding: "60px",
-            marginTop: "-30px",
-          }}
-        >
-          <Toolbar />
-          <Typography
-            variant="h4"
-            sx={{ fontFamily: "monospace", fontWeight: "bolder" }}
-          >
-            Job Board
-          </Typography>
-          <Typography
-            sx={{
-              display: {
-                xs: "none", // Mobile pe hide hoga
-                sm: "flex", // Small screen and above pe dikhega
-              },
-              justifyContent: "space-around",
-            }}
-          >
-            <Box
-              component="form"
-              noValidate
-              autoComplete="off"
-              sx={{ width: "16%", backgroundColor: "#fff" }}
-            >
-              <div>
-                <TextField
-                  select
-                  label="Job Type"
-                  variant="filled"
-                  fullWidth
-                  onChange={(e: any) => {
-                    const filteredData = completeData.filter((val) =>
-                      val.job_type
-                        .toLowerCase()
-                        .includes(e.target.value.toLowerCase())
-                    );
-                    setData(filteredData);
-                  }}
-                >
-                  {Array.from(
-                    new Set(jobListings.map((val) => val.job_type))
-                  ).map((jobType) => (
-                    <MenuItem key={jobType} value={jobType}>
-                      {jobType}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </div>
-            </Box>
+                <item.icon className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <span>{item.label}</span>
+              </button>
+            ))}
+          </nav>
 
-            <Box
-              component="form"
-              noValidate
-              autoComplete="off"
-              sx={{ width: "16%", backgroundColor: "#fff" }}
+          {/* Logout Button */}
+          <div className="p-4 border-t border-purple-500/30">
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:text-red-300 hover:bg-red-600/20 rounded-xl transition-all duration-200"
             >
-              <div>
-                <TextField
-                  select
-                  label="Company"
-                  variant="filled"
-                  fullWidth
-                  onChange={(e: any) => {
-                    const filteredData = completeData.filter((val) =>
-                      val.company
-                        .toLowerCase()
-                        .includes(e.target.value.toLowerCase())
-                    );
-                    setData(filteredData);
-                  }}
-                >
-                  {Array.from(
-                    new Set(jobListings.map((val) => val.company))
-                  ).map((company) => (
-                    <MenuItem key={company} value={company}>
-                      {company}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </div>
-            </Box>
+              <LogOut className="w-5 h-5" />
+              <span>Logout</span>
+            </button>
+          </div>
+        </div>
+      </aside>
 
-            <Box
-              component="form"
-              noValidate
-              autoComplete="off"
-              sx={{ width: "16%", backgroundColor: "#fff" }}
-            >
-              <div>
-                <TextField
-                  select
-                  label="Location"
-                  variant="filled"
-                  fullWidth
-                  onChange={(e: any) => {
-                    const filteredData = completeData.filter((val) =>
-                      val.location
-                        .toLowerCase()
-                        .includes(e.target.value.toLowerCase())
-                    );
-                    setData(filteredData);
-                  }}
-                >
-                  {Array.from(
-                    new Set(jobListings.map((val) => val.location))
-                  ).map((location) => (
-                    <MenuItem key={location} value={location}>
-                      {location}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </div>
-            </Box>
+      {/* Main Content */}
+      <main className="lg:ml-72 min-h-screen">
+        {/* Header */}
+        <header className="sticky top-0 z-30 bg-gray-900/80 backdrop-blur-xl border-b border-purple-500/30">
+          <div className="px-4 py-3">
+            <div className="flex items-center gap-4">
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setMobileMenuOpen(true)}
+                className="lg:hidden p-2 text-white hover:bg-purple-600/20 rounded-lg transition-colors"
+              >
+                <Menu className="w-6 h-6" />
+              </button>
 
-            <Box
-              component="form"
-              noValidate
-              autoComplete="off"
-              sx={{ width: "16%", backgroundColor: "#fff" }}
-            >
-              <div>
-                <TextField
-                  select
-                  label="Job Title"
-                  variant="filled"
-                  fullWidth
-                  onChange={(e: any) => {
-                    const filteredData = completeData.filter((val) =>
-                      val.job_title
-                        .toLowerCase()
-                        .includes(e.target.value.toLowerCase())
-                    );
-                    setData(filteredData);
-                  }}
-                >
-                  {Array.from(
-                    new Set(jobListings.map((val) => val.job_title))
-                  ).map((jobTitle) => (
-                    <MenuItem key={jobTitle} value={jobTitle}>
-                      {jobTitle}
-                    </MenuItem>
-                  ))}
-                </TextField>
+              {/* Search Bar - Mobile */}
+              <div className="flex-1 lg:hidden">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search jobs..."
+                    value={searchText}
+                    onChange={handleSearch}
+                    className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-purple-500/30 rounded-xl focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
+                  />
+                </div>
               </div>
-            </Box>
 
-            <Box
-              component="form"
-              noValidate
-              autoComplete="off"
-              sx={{ width: "16%", backgroundColor: "#fff" }}
-            >
-              <div>
-                <TextField
-                  select
-                  label="Industry"
-                  variant="filled"
-                  fullWidth
-                  onChange={(e: any) => {
-                    const filteredData = completeData.filter((val) =>
-                      val.industry
-                        .toLowerCase()
-                        .includes(e.target.value.toLowerCase())
-                    );
-                    setData(filteredData);
-                  }}
-                >
-                  {Array.from(
-                    new Set(jobListings.map((val) => val.industry))
-                  ).map((industry) => (
-                    <MenuItem key={industry} value={industry}>
-                      {industry}
-                    </MenuItem>
-                  ))}
-                </TextField>
+              {/* Welcome Text */}
+              <div className="hidden lg:block flex-1">
+                <h1 className="text-2xl font-bold text-white">
+                  Welcome back, <span className="text-transparent bg-gradient-to-r from-purple-400 to-red-400 bg-clip-text">{userData?.fullName?.split(' ')[0] || "User"}</span>
+                </h1>
+                <p className="text-gray-400 text-sm">Find your dream job today</p>
               </div>
-            </Box>
 
-            <Box
-              component="form"
-              noValidate
-              autoComplete="off"
-              sx={{ width: "16%", backgroundColor: "#fff" }}
-            >
-              <div>
-                <TextField
-                  select
-                  label="Salary"
-                  variant="filled"
-                  fullWidth
-                  onChange={(e: any) => {
-                    const filteredData = completeData.filter((val) =>
-                      val.salary
-                        .toLowerCase()
-                        .includes(e.target.value.toLowerCase())
-                    );
-                    setData(filteredData);
-                  }}
-                >
-                  {Array.from(
-                    new Set(jobListings.map((val) => val.salary))
-                  ).map((salary) => (
-                    <MenuItem key={salary} value={salary}>
-                      {salary}
-                    </MenuItem>
-                  ))}
-                </TextField>
+              {/* Stats Icons */}
+              <div className="flex gap-2">
+                {stats.slice(0, 2).map((stat, idx) => (
+                  <div key={idx} className="hidden sm:flex items-center gap-2 px-3 py-1 bg-purple-600/20 rounded-full">
+                    <stat.icon className={`w-4 h-4 text-${stat.color}-400`} />
+                    <span className="text-white text-sm font-semibold">{stat.value}</span>
+                  </div>
+                ))}
               </div>
-            </Box>
-          </Typography>
+            </div>
+          </div>
+        </header>
 
-          <Typography>
-            <p
-              style={{
-                marginTop: "25px",
-                fontSize: "1.5rem",
-                fontWeight: "bold",
-              }}
-            >
-              We are Hiring!
-            </p>
+        {/* Stats Cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+          {stats.map((stat, idx) => (
             <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-                gap: "20px",
-                marginTop: "20px",
-              }}
+              key={idx}
+              className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 border border-purple-500/30 hover:border-purple-500 transition-all duration-300"
             >
-              {data.map((items, idx) => {
-                return (
-                  <div
-                    onClick={() => {
-                      open();
-                      setCompleteDetails(items);
-                    }}
-                    className="content"
-                    key={idx}
-                    style={{
-                      cursor: "pointer",
-                      borderRadius: "15px",
-                      backgroundColor: "#fff",
-                      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                      overflow: "hidden",
-                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "scale(1.05)";
-                      e.currentTarget.style.boxShadow =
-                        "0px 6px 15px rgba(0, 0, 0, 0.2)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "scale(1)";
-                      e.currentTarget.style.boxShadow =
-                        "0px 4px 10px rgba(0, 0, 0, 0.1)";
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        padding: "20px",
-                        borderBottom: "1px solid #f0f0f0",
-                      }}
-                    >
-                      <img
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          borderRadius: "8px",
-                        }}
-                        src={items.logo}
-                        alt=""
-                      />
-                      <div style={{ marginLeft: "15px" }}>
-                        <h2 style={{ fontSize: "1.2rem", margin: "0" }}>
-                          {items.job_title}
-                        </h2>
-                        <p
-                          style={{
-                            fontSize: "0.9rem",
-                            color: "#666",
-                            margin: "5px 0",
-                          }}
-                        >
-                          {items.company}
-                        </p>
-                      </div>
+              <div className="flex items-center justify-between mb-2">
+                <stat.icon className={`w-5 h-5 text-${stat.color}-400`} />
+                <span className="text-2xl font-bold text-white">{stat.value}</span>
+              </div>
+              <p className="text-gray-400 text-sm">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Filters - Desktop */}
+        <div className="hidden lg:block px-4 mb-6">
+          <div className="flex flex-wrap gap-3">
+            {[
+              { label: "Job Type", key: "jobType", options: [...new Set(jobListings.map(j => j.job_type))] },
+              { label: "Company", key: "company", options: [...new Set(jobListings.map(j => j.company))] },
+              { label: "Location", key: "location", options: [...new Set(jobListings.map(j => j.location))] },
+              { label: "Job Title", key: "jobTitle", options: [...new Set(jobListings.map(j => j.job_title))] },
+              { label: "Industry", key: "industry", options: [...new Set(jobListings.map(j => j.industry))] },
+              { label: "Salary", key: "salary", options: [...new Set(jobListings.map(j => j.salary))] },
+            ].map((filter, idx) => (
+              <select
+                key={idx}
+                value={filters[filter.key as keyof typeof filters]}
+                onChange={(e) => handleFilterChange(filter.key, e.target.value)}
+                className="px-4 py-2 bg-gray-800 border border-purple-500/30 rounded-xl focus:outline-none focus:border-purple-500 text-white text-sm cursor-pointer"
+              >
+                <option value="">All {filter.label}</option>
+                {filter.options.map((opt, i) => (
+                  <option key={i} value={opt}>{opt}</option>
+                ))}
+              </select>
+            ))}
+          </div>
+        </div>
+
+        {/* Search Bar - Desktop */}
+        <div className="hidden lg:block px-4 mb-6">
+          <div className="relative max-w-md">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search jobs by title or company..."
+              value={searchText}
+              onChange={handleSearch}
+              className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-purple-500/30 rounded-xl focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
+            />
+          </div>
+        </div>
+
+        {/* Job Listings */}
+        <div className="p-4">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-white">Available Positions</h2>
+            <p className="text-gray-400 text-sm">{data.length} jobs found</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {data.map((job, idx) => (
+              <div
+                key={idx}
+                onClick={() => {
+                  setCompleteDetails(job);
+                  setOpenDetails(true);
+                }}
+                className="group bg-gray-800/50 backdrop-blur-sm rounded-xl overflow-hidden border border-purple-500/30 hover:border-purple-500 transition-all duration-300 cursor-pointer hover:transform hover:scale-105"
+              >
+                <div className="p-5">
+                  <div className="flex items-start gap-4">
+                    <img
+                      src={job.logo}
+                      alt={job.company}
+                      className="w-12 h-12 rounded-lg object-cover"
+                    />
+                    <div className="flex-1">
+                      <h3 className="text-white font-semibold text-lg group-hover:text-purple-400 transition-colors">
+                        {job.job_title}
+                      </h3>
+                      <p className="text-gray-400 text-sm">{job.company}</p>
                     </div>
-                    <div style={{ padding: "20px" }}>
-                      <p
-                        style={{
-                          fontSize: "0.9rem",
-                          color: "#333",
-                          margin: "0 0 10px",
-                        }}
-                      >
-                        {items.requirements.slice(0, 65)}...
-                      </p>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
-                        <p
-                          style={{
-                            fontSize: "1rem",
-                            fontWeight: "bold",
-                            color: "#e60000",
-                            margin: "0",
-                          }}
-                        >
-                          {items.salary}
-                        </p>
-                        <p
-                          style={{
-                            fontSize: "0.8rem",
-                            color: "#999",
-                            margin: "0",
-                          }}
-                        >
-                          {items.posted_date}
-                        </p>
+                  </div>
+
+                  <div className="mt-4 space-y-2">
+                    <div className="flex items-center gap-2 text-gray-400 text-sm">
+                      <MapPin className="w-4 h-4" />
+                      <span>{job.location}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-400 text-sm">
+                      <IndianRupee className="w-4 h-4" />
+                      <span>{job.salary}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-400 text-sm">
+                      <Briefcase className="w-4 h-4" />
+                      <span>{job.job_type}</span>
+                    </div>
+                  </div>
+
+                  <p className="mt-4 text-gray-300 text-sm line-clamp-2">
+                    {job.requirements}
+                  </p>
+
+                  <div className="mt-4 flex items-center justify-between">
+                    <span className="text-xs text-gray-500">{job.posted_date}</span>
+                    <button className="px-4 py-1.5 bg-gradient-to-r from-purple-600 to-red-600 rounded-lg text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition-all duration-300">
+                      Apply Now
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {data.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-400">No jobs found matching your criteria</p>
+            </div>
+          )}
+        </div>
+      </main>
+
+      {/* Job Details Dialog */}
+      {openDetails && completeDetails && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
+          <div className="relative w-full max-w-2xl bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl border border-purple-500/30 max-h-[90vh] overflow-hidden animate-slideUp">
+            <div className="sticky top-0 bg-gradient-to-r from-purple-600 to-red-600 p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <img src={completeDetails.logo} alt="" className="w-8 h-8 rounded-lg" />
+                  <h2 className="text-xl font-bold text-white">{completeDetails.job_title}</h2>
+                </div>
+                <button onClick={() => setOpenDetails(false)} className="p-1 hover:bg-white/10 rounded-lg">
+                  <X className="w-5 h-5 text-white" />
+                </button>
+              </div>
+            </div>
+
+            <div className="overflow-y-auto p-6 space-y-4 max-h-[calc(90vh-80px)] custom-scrollbar">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex items-center gap-2 text-gray-300">
+                  <Building className="w-4 h-4 text-purple-400" />
+                  <span>{completeDetails.company}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-300">
+                  <MapPin className="w-4 h-4 text-purple-400" />
+                  <span>{completeDetails.location}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-300">
+                  <IndianRupee className="w-4 h-4 text-purple-400" />
+                  <span>{completeDetails.salary}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-300">
+                  <Briefcase className="w-4 h-4 text-purple-400" />
+                  <span>{completeDetails.job_type}</span>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-white font-semibold mb-2">Description</h3>
+                <p className="text-gray-300 text-sm leading-relaxed">{completeDetails.description}</p>
+              </div>
+
+              <div>
+                <h3 className="text-white font-semibold mb-2">Requirements</h3>
+                <p className="text-gray-300 text-sm leading-relaxed">{completeDetails.requirements}</p>
+              </div>
+
+              <div>
+                <h3 className="text-white font-semibold mb-2">About Company</h3>
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  IT involves the use of computers, software, and networks to store, process, and transmit data.
+                </p>
+              </div>
+            </div>
+
+            <div className="p-4 border-t border-purple-500/30">
+              <button
+                onClick={() => handleApply(completeDetails)}
+                className="w-full bg-gradient-to-r from-purple-600 to-red-600 hover:from-purple-700 hover:to-red-700 text-white font-semibold py-3 rounded-xl transition-all duration-300"
+              >
+                Apply Now
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Profile Dialog */}
+      {openProfile && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm animate-fadeIn">
+          <div className="min-h-screen p-4">
+            <div className="relative max-w-4xl mx-auto bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl border border-purple-500/30">
+              <div className="sticky top-0 bg-gray-900/95 p-4 border-b border-purple-500/30 flex items-center gap-4">
+                <button onClick={() => setOpenProfile(false)} className="p-2 hover:bg-purple-600/20 rounded-lg">
+                  <ArrowLeft className="w-5 h-5 text-white" />
+                </button>
+                <h2 className="text-xl font-bold text-white">Profile</h2>
+              </div>
+
+              <div className="p-6">
+                <div className="grid md:grid-cols-3 gap-6">
+                  {/* Profile Card */}
+                  <div className="bg-gray-800/50 rounded-xl p-6 text-center border border-purple-500/30">
+                    <img
+                      src={userData?.image || "https://via.placeholder.com/128"}
+                      alt="Profile"
+                      className="w-32 h-32 rounded-full mx-auto border-4 border-purple-500 object-cover"
+                    />
+                    <h3 className="text-white text-xl font-semibold mt-4">{userData?.fullName}</h3>
+                    <p className="text-purple-400">@{userData?.userName}</p>
+                    <p className="text-gray-400 text-sm mt-2">{userData?.role}</p>
+                    <button
+                      onClick={() => {
+                        setOpenProfile(false);
+                        setOpenAppliedJobs(true);
+                      }}
+                      className="mt-4 px-4 py-2 bg-purple-600/20 hover:bg-purple-600/30 text-purple-400 rounded-lg text-sm transition-colors"
+                    >
+                      View Applied Jobs
+                    </button>
+                  </div>
+
+                  {/* Details */}
+                  <div className="md:col-span-2 bg-gray-800/50 rounded-xl p-6 border border-purple-500/30">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-gray-400 text-sm">Location</p>
+                        <p className="text-white">{userData?.location || "Not specified"}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-400 text-sm">Experience</p>
+                        <p className="text-white">{userData?.experience || "0"} years</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-400 text-sm">Company</p>
+                        <p className="text-white">{userData?.company || "Not specified"}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-400 text-sm">Industry</p>
+                        <p className="text-white">{userData?.industry || "Not specified"}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-400 text-sm">Education</p>
+                        <p className="text-white">{userData?.education || "Not specified"}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-400 text-sm">Email</p>
+                        <p className="text-white">{userData?.email}</p>
+                      </div>
+                      <div className="md:col-span-2">
+                        <p className="text-gray-400 text-sm">Skills</p>
+                        <div className="flex flex-wrap gap-2 mt-1">
+                          {userData?.skill?.split(',').map((skill: string, idx: number) => (
+                            <span key={idx} className="px-2 py-1 bg-purple-600/20 text-purple-400 rounded-lg text-xs">
+                              {skill.trim()}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="md:col-span-2">
+                        <p className="text-gray-400 text-sm">About Me</p>
+                        <p className="text-gray-300 mt-1">{userData?.about || "No description provided"}</p>
                       </div>
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          </Typography>
-        </Box>
-      </Box>
-      {openDetails && completeDetails && (
-        <React.Fragment>
-          <BootstrapDialog
-            aria-labelledby="customized-dialog-title"
-            open={openDetails}
-          >
-            <IconButton
-              onClick={close}
-              aria-label="close"
-              sx={{
-                position: "absolute",
-                right: 8,
-                top: 8,
-                color: (theme) => theme.palette.grey[500],
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-            <div
-              style={{
-                fontSize: "25px",
-                fontFamily: "Gabarito, sans-serif",
-                fontWeight: "bold",
-                display: "flex",
-                padding: "10px 20px",
-              }}
-            >
-              <div>
-                <img
-                  style={{ width: "35px" }}
-                  src={completeDetails.logo}
-                  alt=""
-                />
-              </div>
-              <div style={{ marginLeft: "10px" }}>
-                {completeDetails.job_title}
-              </div>
-            </div>
-            <DialogContent dividers>
-              <div style={{ padding: "10px 20px" }}>
-                <Typography gutterBottom sx={{ fontFamily: "Kanit" }}>
-                  <BusinessCenterIcon sx={{ fontSize: "20px" }} />
-                  {completeDetails.company}
-                </Typography>
-                <Typography gutterBottom sx={{ fontFamily: "Kanit" }}>
-                  <LocationOnIcon sx={{ fontSize: "20px" }} />
-                  {completeDetails.location}
-                </Typography>
-                <Typography gutterBottom sx={{ fontFamily: "Kanit" }}>
-                  <CurrencyRupeeIcon sx={{ fontSize: "20px" }} />
-                  {completeDetails.salary}
-                </Typography>
-
-                <div>
-                  <h3>Descriptions</h3>
-                  <p>{completeDetails.description}</p>
-                  <h3>Requirements</h3>
-                  <p>{completeDetails.requirements}</p>
                 </div>
-                <Typography gutterBottom sx={{ fontFamily: "Kanit" }}>
-                  <BusinessIcon sx={{ fontSize: "20px" }} />
-                  {completeDetails.industry}
-                </Typography>
-                <Typography gutterBottom sx={{ fontFamily: "Kanit" }}>
-                  <MergeTypeIcon sx={{ fontSize: "20px" }} />
-                  {completeDetails.job_type}
-                </Typography>
-                <h3>About Company</h3>
-                <p>
-                  IT involves the use of computers, software, and networks to
-                  store, process, and transmit data. It includes everything from
-                  personal computers to cloud computing and artificial
-                  intelligence.
-                </p>
               </div>
-            </DialogContent>
-            <DialogActions>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Applied Jobs Dialog */}
+      {openAppliedJobs && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm animate-fadeIn">
+          <div className="min-h-screen p-4">
+            <div className="relative max-w-4xl mx-auto bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl border border-purple-500/30">
+              <div className="sticky top-0 bg-gray-900/95 p-4 border-b border-purple-500/30 flex items-center gap-4">
+                <button onClick={() => setOpenAppliedJobs(false)} className="p-2 hover:bg-purple-600/20 rounded-lg">
+                  <ArrowLeft className="w-5 h-5 text-white" />
+                </button>
+                <h2 className="text-xl font-bold text-white">Applied Jobs</h2>
+              </div>
+
+              <div className="p-6">
+                {appliedJobs.length === 0 ? (
+                  <div className="text-center py-12">
+                    <Briefcase className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                    <p className="text-gray-400">No jobs applied yet</p>
+                    <button
+                      onClick={() => setOpenAppliedJobs(false)}
+                      className="mt-4 px-4 py-2 bg-purple-600/20 text-purple-400 rounded-lg"
+                    >
+                      Browse Jobs
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {appliedJobs.map((job, idx) => (
+                      <div key={idx} className="bg-gray-800/50 rounded-xl p-4 border border-purple-500/30 flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <img src={job.logo} alt="" className="w-12 h-12 rounded-lg" />
+                          <div>
+                            <h3 className="text-white font-semibold">{job.job_title}</h3>
+                            <p className="text-gray-400 text-sm">{job.company}</p>
+                            <p className="text-purple-400 text-xs mt-1 flex items-center gap-1">
+                              <Clock className="w-3 h-3" />
+                              Applied recently
+                            </p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => setAppliedJobs(appliedJobs.filter((_, i) => i !== idx))}
+                          className="p-2 hover:bg-red-600/20 rounded-lg text-red-400"
+                        >
+                          <X className="w-5 h-5" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Info Dialog */}
+      {openInfo && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm animate-fadeIn">
+          <div className="min-h-screen p-4">
+            <div className="relative max-w-2xl mx-auto bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl border border-purple-500/30">
+              <div className="sticky top-0 bg-gray-900/95 p-4 border-b border-purple-500/30 flex items-center justify-between">
+                <h2 className="text-xl font-bold text-white">About Jobable</h2>
+                <button onClick={() => setOpenInfo(false)} className="p-2 hover:bg-purple-600/20 rounded-lg">
+                  <X className="w-5 h-5 text-white" />
+                </button>
+              </div>
+
+              <div className="p-6 space-y-6">
+                <div>
+                  <h3 className="text-purple-400 font-semibold mb-2">Our Mission</h3>
+                  <p className="text-gray-300">
+                    To connect talented individuals with perfect job opportunities and assist companies in finding ideal candidates.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-purple-400 font-semibold mb-2">Our Vision</h3>
+                  <p className="text-gray-300">
+                    A world where job search is transparent, efficient, and fulfilling for both job seekers and employers.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-purple-400 font-semibold mb-2">Our Commitment</h3>
+                  <p className="text-gray-300">
+                    We are committed to facilitating your professional growth with transparency, integrity, and innovation.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Contact Dialog */}
+      {openContact && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
+          <div className="relative w-full max-w-md bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl border border-purple-500/30 animate-slideUp">
+            <div className="p-4 border-b border-purple-500/30 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-white">Contact Us</h2>
+              <button onClick={() => setOpenContact(false)} className="p-1 hover:bg-purple-600/20 rounded-lg">
+                <X className="w-5 h-5 text-white" />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <input
+                type="text"
+                placeholder="Your Name"
+                className="w-full px-4 py-2 bg-gray-800 border border-purple-500/30 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
+              />
+              <input
+                type="email"
+                placeholder="Your Email"
+                className="w-full px-4 py-2 bg-gray-800 border border-purple-500/30 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
+              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  className="w-full px-4 py-2 bg-gray-800 border border-purple-500/30 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-500 pr-10"
+                />
+                <button
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+              <textarea
+                placeholder="Your Message"
+                rows={4}
+                className="w-full px-4 py-2 bg-gray-800 border border-purple-500/30 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-500 resize-none"
+              />
               <button
                 onClick={() => {
-                  setTimeout(() => {
-                    notify();
-                  }, 1000);
-
-                  close();
-                  setAppliedJobs([...appliedJobs, completeDetails]);
+                  setOpenContact(false);
+                  toast.success("Message sent successfully!");
                 }}
-                style={{
-                  backgroundColor: "#1a75ff",
-                  color: "#fff",
-                  padding: "5px 20px",
-                  fontSize: "20px",
-                  border: "none",
-                  borderRadius: "50px",
-                  cursor: "pointer",
-                  textAlign: "center",
-                  fontFamily: "Kanit",
-                }}
+                className="w-full bg-gradient-to-r from-purple-600 to-red-600 hover:from-purple-700 hover:to-red-700 text-white font-semibold py-2 rounded-xl transition-all duration-300"
               >
-                Apply
+                Send Message
               </button>
-            </DialogActions>
-          </BootstrapDialog>
-        </React.Fragment>
-      )}
-      {openInfo && (
-        <React.Fragment>
-          <Dialog open={openInfo} fullScreen>
-            <IconButton
-              onClick={closeInfoDialog}
-              sx={{
-                position: "absolute",
-                right: 8,
-                top: 8,
-                color: (theme) => theme.palette.grey[500],
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-            <div
-              style={{
-                fontSize: "30px",
-                fontFamily: "Gabarito, sans-serif",
-                fontWeight: "bold",
-                display: "flex",
-                padding: "10px 20px",
-              }}
-            >
-              <div>
-                <img style={{ width: "27%" }} src={Logo} alt="" />
-              </div>
             </div>
-            <DialogContent dividers>
-              <Typography sx={{ marginTop: "-20px" }}>
-                <h3>About Us</h3>
-                <p>
-                  Welcome to Jobable, your trusted partner in the world of
-                  employment and career growth. Our mission is to connect
-                  talented individuals with the perfect job opportunities and
-                  assist companies in finding the ideal candidates to fuel their
-                  growth.
-                </p>
-              </Typography>
-              <Typography>
-                <h3>Our Vision</h3>
-                <p>
-                  At Jobable, we envision a world where the job search process
-                  is transparent, efficient, and fulfilling for both job seekers
-                  and employers. We strive to be the bridge that connects
-                  ambition with opportunity, paving the way for meaningful and
-                  prosperous careers.
-                </p>
-              </Typography>
-              <Typography>
-                <h3>Who We Are</h3>
-                <p>
-                  We are a dedicated team of professionals passionate about the
-                  future of work. Our diverse backgrounds and experiences bring
-                  a unique perspective to the challenges and opportunities in
-                  the job market. With expertise in technology, HR, and user
-                  experience, we've created an innovative platform designed to
-                  make your job search or hiring process straightforward and
-                  rewarding.
-                </p>
-              </Typography>
-              <Typography>
-                <h3>Our Commitment</h3>
-                <p>
-                  We are committed to facilitating your professional growth and
-                  ensuring that every interaction with Jobable is a positive
-                  one. Our values of transparency, integrity, and innovation
-                  drive us to constantly improve and provide the best experience
-                  for job seekers and employers alike.
-                </p>
-              </Typography>
-              <Typography>
-                <p>
-                  Join Jobable today and take the next step towards a brighter
-                  future. Your dream job or ideal candidate may be just a few
-                  clicks away. Thank you for choosing Jobable to be a part of
-                  your career journey.
-                </p>
-              </Typography>
-            </DialogContent>
-          </Dialog>
-        </React.Fragment>
+          </div>
+        </div>
       )}
-      {openContact && (
-        <React.Fragment>
-          <Dialog open={openContact} fullWidth maxWidth="sm">
-            {/* Close Button */}
-            <IconButton
-              onClick={closeContactDialog}
-              sx={{
-                position: "absolute",
-                right: 8,
-                top: 8,
-                color: (theme) => theme.palette.grey[500],
-                zIndex: 1,
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
 
-            {/* Heading */}
-            <Box sx={{ mt: 4, mb: 1, ml: 3 }}>
-              <Typography
-                variant="h5"
-                sx={{ fontFamily: "Gabarito, sans-serif", fontWeight: 600 }}
-              >
-                Get in touch
-              </Typography>
-            </Box>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        theme="dark"
+        closeOnClick
+        pauseOnHover
+        toastStyle={{
+          background: "#1f2937",
+          color: "#fff",
+          border: "1px solid #9333ea",
+        }}
+      />
 
-            {/* Form Fields */}
-            <DialogContent dividers>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    autoComplete="off"
-                    required
-                    autoFocus
-                    fullWidth
-                    label="Name"
-                    type="text"
-                    variant="standard"
-                  />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    label="Email"
-                    type="email"
-                    variant="standard"
-                  />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <FormControl fullWidth variant="standard" required>
-                    <InputLabel htmlFor="standard-adornment-password">
-                      Password
-                    </InputLabel>
-                    <Input
-                      id="standard-adornment-password"
-                      type={showPassword ? "text" : "password"}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-
-                <Grid item xs={12}>
-                  <Typography sx={{ mb: 1, mt: 2 }}>
-                    Enter Your Message:
-                  </Typography>
-                  <TextField
-                    placeholder="Message"
-                    multiline
-                    rows={5}
-                    fullWidth
-                    variant="outlined"
-                  />
-                </Grid>
-              </Grid>
-            </DialogContent>
-
-            {/* Send Button */}
-            <DialogActions>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  closeContactDialog();
-                  emailNotify();
-                }}
-              >
-                Send
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </React.Fragment>
-      )}
-      {openProfile && (
-        <Dialog open={openProfile} fullScreen>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              padding: "16px",
-              position: "sticky",
-              top: 0,
-              backgroundColor: "#fff",
-              zIndex: 1000,
-            }}
-          >
-            <IconButton onClick={closeProfileDialog}>
-              <ArrowBackIcon />
-            </IconButton>
-            <Typography
-              variant="h6"
-              sx={{ marginLeft: "16px", fontWeight: "bold" }}
-            >
-              Profile
-            </Typography>
-          </Box>
-
-          <DialogContent dividers>
-            <Grid
-              container
-              spacing={4}
-              sx={{ mt: 4, px: { xs: 1, sm: 4 }, py: 2 }}
-              justifyContent="center"
-            >
-              {/* Left Profile Section */}
-              <Grid item xs={12} md={4}>
-                <Card
-                  sx={{
-                    p: 3,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    textAlign: "center",
-                    boxShadow: 3,
-                  }}
-                >
-                  <img
-                    src={userData?.image}
-                    alt="Profile"
-                    style={{
-                      width: "120px",
-                      height: "120px",
-                      borderRadius: "50%",
-                      border: "4px solid gray",
-                      marginBottom: "10px",
-                    }}
-                  />
-                  <h2 style={{ fontFamily: "Gabarito, sans-serif" }}>
-                    {userData?.fullName}
-                  </h2>
-                  <h3 style={{ color: "gray", fontWeight: 400 }}>
-                    @{userData?.userName}
-                  </h3>
-                  <h4 style={{ fontWeight: 500 }}>{userData?.role}</h4>
-                  <Button
-                    variant="outlined"
-                    onClick={openAppliedJobDialog}
-                    sx={{ mt: 2, fontFamily: "Kanit" }}
-                    startIcon={<BusinessCenterIcon />}
-                  >
-                    Your Jobs
-                  </Button>
-                </Card>
-              </Grid>
-
-              {/* Right Info Section */}
-              <Grid item xs={12} md={8}>
-                <Card sx={{ p: 3, boxShadow: 3 }}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                      <p>
-                        <LocationOnIcon
-                          sx={{ fontSize: "18px", color: "gray" }}
-                        />{" "}
-                        <strong>{userData?.location}</strong>
-                      </p>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <p>
-                        Experience:{" "}
-                        <strong>
-                          {userData?.experience || "Not Provided"}
-                        </strong>
-                      </p>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <p>
-                        Company:{" "}
-                        <strong>{userData?.company || "Not Provided"}</strong>
-                      </p>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <p>
-                        Industry:{" "}
-                        <strong>{userData?.industry || "Not Provided"}</strong>
-                      </p>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <p>
-                        Education:{" "}
-                        <strong>{userData?.education || "Not Provided"}</strong>
-                      </p>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <p>
-                        Email: <strong>{userData?.email}</strong>
-                      </p>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <p>
-                        Skills:{" "}
-                        <strong>{userData?.skill || "No skills listed"}</strong>
-                      </p>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Divider sx={{ my: 2 }} />
-                      <h3>About Me</h3>
-                      <p style={{ lineHeight: 1.6 }}>
-                        {userData?.about || "No about info provided."}
-                      </p>
-                    </Grid>
-                  </Grid>
-                </Card>
-              </Grid>
-            </Grid>
-          </DialogContent>
-        </Dialog>
-      )}
-      {openAppliedJobs && appliedJobs && (
-        <React.Fragment>
-          <Dialog open={openAppliedJobs} fullScreen>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                padding: "16px",
-                position: "sticky",
-                top: 0,
-                backgroundColor: "#fff",
-                zIndex: 1000,
-              }}
-            >
-              <IconButton onClick={closeAppliedJobDialog}>
-                <ArrowBackIcon />
-              </IconButton>
-              <Typography
-                variant="h6"
-                sx={{ marginLeft: "16px", fontWeight: "bold" }}
-              >
-                Applied Jobs
-              </Typography>
-            </Box>
-
-            <DialogContent dividers>
-              <Grid container spacing={2}>
-                {appliedJobs?.map((i, id) => (
-                  <Grid item xs={12} md={6} key={id}>
-                    <Card
-                      sx={{
-                        position: "relative",
-                        padding: 2,
-                        borderLeft: "5px solid #80bfff",
-                        backgroundColor: "#e6e6e6",
-                        borderTopRightRadius: "10px",
-                        borderBottomRightRadius: "10px",
-                        boxShadow: 2,
-                        minHeight: "120px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          width: "90%",
-                        }}
-                      >
-                        <img
-                          src={i.logo}
-                          alt="Company Logo"
-                          style={{
-                            width: "40px",
-                            height: "40px",
-                            marginRight: "20px",
-                          }}
-                        />
-                        <Box>
-                          <h3 style={{ margin: 0 }}>{i.job_title}</h3>
-                          <p
-                            style={{
-                              color: "#3399ff",
-                              marginTop: "8px",
-                              marginBottom: 0,
-                              fontSize: "14px",
-                            }}
-                          >
-                            {userData?.userName} applied this job{" "}
-                            {Math.ceil(Math.random() * 10)} min ago
-                          </p>
-                        </Box>
-                      </Box>
-
-                      <IconButton
-                        onClick={() =>
-                          setAppliedJobs(
-                            appliedJobs.filter((val) => val.id !== i.id)
-                          )
-                        }
-                        sx={{
-                          position: "absolute",
-                          top: 8,
-                          right: 8,
-                          color: "red",
-                        }}
-                      >
-                        <CloseIcon />
-                      </IconButton>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            </DialogContent>
-          </Dialog>
-        </React.Fragment>
-      )}
-      <div>
-        <ToastContainer
-          position="top-center"
-          autoClose={3000}
-          limit={3}
-          newestOnTop
-          closeOnClick
-          pauseOnFocusLoss
-          pauseOnHover
-          toastStyle={{
-            fontSize: "1rem",
-            fontFamily: "Gabarito, sans-serif",
-            maxWidth: "70vw",
-            textAlign: "center",
-          }}
-        />
-      </div>
-    </>
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out;
+        }
+        
+        .animate-slideUp {
+          animation: slideUp 0.4s ease-out;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: #1f2937;
+          border-radius: 10px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: linear-gradient(to bottom, #9333ea, #ef4444);
+          border-radius: 10px;
+        }
+        
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
+    </div>
   );
 }
