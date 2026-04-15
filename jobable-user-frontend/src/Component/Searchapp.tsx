@@ -26,21 +26,72 @@ import {
 } from "lucide-react";
 import { jobListings } from "../jobListData";
 
-export default function Dashboard() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [searchText, setSearchText] = useState("");
-  const [data, setData] = useState(jobListings);
-  const [completeData] = useState(jobListings);
-  const [openDetails, setOpenDetails] = useState(false);
-  const [completeDetails, setCompleteDetails] = useState<any>(null);
-  const [appliedJobs, setAppliedJobs] = useState<any[]>([]);
-  const [openAppliedJobs, setOpenAppliedJobs] = useState(false);
-  const [openInfo, setOpenInfo] = useState(false);
-  const [openContact, setOpenContact] = useState(false);
-  const [openProfile, setOpenProfile] = useState(false);
-  const [userData, setUserData] = useState<any>(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [filters, setFilters] = useState({
+// Type definitions
+interface Job {
+  job_title: string;
+  company: string;
+  location: string;
+  salary: string;
+  job_type: string;
+  requirements: string;
+  description: string;
+  posted_date: string;
+  logo: string;
+  industry: string;
+}
+
+interface UserData {
+  fullName: string;
+  userName: string;
+  email: string;
+  image?: string;
+  role?: string;
+  location?: string;
+  experience?: string;
+  company?: string;
+  industry?: string;
+  education?: string;
+  skill?: string;
+  about?: string;
+}
+
+interface Filters {
+  jobType: string;
+  company: string;
+  location: string;
+  jobTitle: string;
+  industry: string;
+  salary: string;
+}
+
+interface Stat {
+  icon: React.FC<{ className?: string; style?: React.CSSProperties }>;
+  label: string;
+  value: string;
+  color: string;
+}
+
+interface FilterConfig {
+  label: string;
+  key: keyof Filters;
+  options: string[];
+}
+
+export default function Dashboard(): React.ReactElement {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [searchText, setSearchText] = useState<string>("");
+  const [data, setData] = useState<Job[]>(jobListings);
+  const [completeData] = useState<Job[]>(jobListings);
+  const [openDetails, setOpenDetails] = useState<boolean>(false);
+  const [completeDetails, setCompleteDetails] = useState<Job | null>(null);
+  const [appliedJobs, setAppliedJobs] = useState<Job[]>([]);
+  const [openAppliedJobs, setOpenAppliedJobs] = useState<boolean>(false);
+  const [openInfo, setOpenInfo] = useState<boolean>(false);
+  const [openContact, setOpenContact] = useState<boolean>(false);
+  const [openProfile, setOpenProfile] = useState<boolean>(false);
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  const [filters, setFilters] = useState<Filters>({
     jobType: "",
     company: "",
     location: "",
@@ -51,45 +102,45 @@ export default function Dashboard() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useEffect((): void => {
     const localStorageUserData = localStorage.getItem("userData");
     if (localStorageUserData) {
-      setUserData(JSON.parse(localStorageUserData));
+      setUserData(JSON.parse(localStorageUserData) as UserData);
     }
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = (): void => {
     localStorage.removeItem("userData");
     toast.success("Logged out successfully!");
-    setTimeout(() => navigate("/"), 1500);
+    setTimeout((): void => navigate("/"), 1500);
   };
 
-  const handleApply = (job: any) => {
+  const handleApply = (job: Job): void => {
     setAppliedJobs([...appliedJobs, job]);
     toast.success(`Applied to ${job.job_title}! 🎉`);
     setOpenDetails(false);
   };
 
-  const handleFilterChange = (filterName: string, value: string) => {
+  const handleFilterChange = (filterName: keyof Filters, value: string): void => {
     setFilters({ ...filters, [filterName]: value });
     if (!value) {
       setData(completeData);
       return;
     }
-    const filtered = completeData.filter((job) =>
-      job[filterName]?.toLowerCase().includes(value.toLowerCase())
+    const filtered: Job[] = completeData.filter((job: Job): boolean =>
+      job[filterName as keyof Job]?.toLowerCase().includes(value.toLowerCase())
     );
     setData(filtered);
   };
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const value: string = e.target.value;
     setSearchText(value);
     if (!value) {
       setData(completeData);
     } else {
-      const filtered = completeData.filter(
-        (job) =>
+      const filtered: Job[] = completeData.filter(
+        (job: Job): boolean =>
           job.job_title?.toLowerCase().includes(value.toLowerCase()) ||
           job.company?.toLowerCase().includes(value.toLowerCase())
       );
@@ -97,11 +148,32 @@ export default function Dashboard() {
     }
   };
 
-  const stats = [
+  const stats: Stat[] = [
     { icon: TrendingUp, label: "Active Jobs", value: "1,234", color: "#d4a373" },
     { icon: Users, label: "Companies", value: "856", color: "#d4a373" },
     { icon: Zap, label: "Matches", value: "89%", color: "#d4a373" },
     { icon: Award, label: "Placements", value: "12.5K", color: "#d4a373" },
+  ];
+
+  const navItems: Array<{
+    icon: React.FC<{ className?: string }>;
+    label: string;
+    onClick: () => void;
+  }> = [
+    { icon: User, label: "Profile", onClick: (): void => setOpenProfile(true) },
+    { icon: Briefcase, label: "My Jobs", onClick: (): void => setOpenAppliedJobs(true) },
+    { icon: Mail, label: "Contact", onClick: (): void => setOpenContact(true) },
+    { icon: Settings, label: "Settings", onClick: (): void => {} },
+    { icon: Info, label: "About", onClick: (): void => setOpenInfo(true) },
+  ];
+
+  const filterConfigs: FilterConfig[] = [
+    { label: "Job Type", key: "jobType", options: [...new Set(jobListings.map((j: Job): string => j.job_type))] },
+    { label: "Company", key: "company", options: [...new Set(jobListings.map((j: Job): string => j.company))] },
+    { label: "Location", key: "location", options: [...new Set(jobListings.map((j: Job): string => j.location))] },
+    { label: "Job Title", key: "jobTitle", options: [...new Set(jobListings.map((j: Job): string => j.job_title))] },
+    { label: "Industry", key: "industry", options: [...new Set(jobListings.map((j: Job): string => j.industry))] },
+    { label: "Salary", key: "salary", options: [...new Set(jobListings.map((j: Job): string => j.salary))] },
   ];
 
   return (
@@ -110,14 +182,15 @@ export default function Dashboard() {
       {mobileMenuOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-          onClick={() => setMobileMenuOpen(false)}
+          onClick={(): void => setMobileMenuOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full w-72 bg-[#1e1610] border-r border-[#d4a373]/20 z-50 transform transition-transform duration-300 lg:translate-x-0 ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
+        className={`fixed top-0 left-0 h-full w-72 bg-[#1e1610] border-r border-[#d4a373]/20 z-50 transform transition-transform duration-300 lg:translate-x-0 ${
+          mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
         <div className="flex flex-col h-full">
           {/* Sidebar Header */}
@@ -149,16 +222,10 @@ export default function Dashboard() {
 
           {/* Navigation */}
           <nav className="flex-1 p-4 space-y-1">
-            {[
-              { icon: User, label: "Profile", onClick: () => setOpenProfile(true) },
-              { icon: Briefcase, label: "My Jobs", onClick: () => setOpenAppliedJobs(true) },
-              { icon: Mail, label: "Contact", onClick: () => setOpenContact(true) },
-              { icon: Settings, label: "Settings", onClick: () => { } },
-              { icon: Info, label: "About", onClick: () => setOpenInfo(true) },
-            ].map((item, idx) => (
+            {navItems.map((item, idx: number) => (
               <button
                 key={idx}
-                onClick={() => {
+                onClick={(): void => {
                   item.onClick();
                   setMobileMenuOpen(false);
                 }}
@@ -191,7 +258,7 @@ export default function Dashboard() {
             <div className="flex items-center gap-4">
               {/* Mobile Menu Button */}
               <button
-                onClick={() => setMobileMenuOpen(true)}
+                onClick={(): void => setMobileMenuOpen(true)}
                 className="lg:hidden p-2 text-[#a68a6b] hover:text-[#d4a373] hover:bg-[#d4a373]/10 rounded-lg transition-colors"
               >
                 <Menu className="w-5 h-5" />
@@ -221,7 +288,7 @@ export default function Dashboard() {
 
               {/* Stats Icons */}
               <div className="flex gap-2">
-                {stats.slice(0, 2).map((stat, idx) => (
+                {stats.slice(0, 2).map((stat: Stat, idx: number) => (
                   <div key={idx} className="hidden sm:flex items-center gap-2 px-3 py-1 bg-[#d4a373]/10 rounded-full">
                     <stat.icon className="w-3 h-3" style={{ color: stat.color }} />
                     <span className="text-[#f0e6d8] text-xs font-medium">{stat.value}</span>
@@ -234,7 +301,7 @@ export default function Dashboard() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 p-4">
-          {stats.map((stat, idx) => (
+          {stats.map((stat: Stat, idx: number) => (
             <div
               key={idx}
               className="bg-[#241a13] rounded-xl p-4 border border-[#d4a373]/20 hover:border-[#d4a373]/40 transition-all duration-300"
@@ -251,23 +318,20 @@ export default function Dashboard() {
         {/* Filters - Desktop */}
         <div className="hidden lg:block px-4 mb-6">
           <div className="flex flex-wrap gap-2">
-            {[
-              { label: "Job Type", key: "jobType", options: [...new Set(jobListings.map(j => j.job_type))] },
-              { label: "Company", key: "company", options: [...new Set(jobListings.map(j => j.company))] },
-              { label: "Location", key: "location", options: [...new Set(jobListings.map(j => j.location))] },
-              { label: "Job Title", key: "jobTitle", options: [...new Set(jobListings.map(j => j.job_title))] },
-              { label: "Industry", key: "industry", options: [...new Set(jobListings.map(j => j.industry))] },
-              { label: "Salary", key: "salary", options: [...new Set(jobListings.map(j => j.salary))] },
-            ].map((filter, idx) => (
+            {filterConfigs.map((filter: FilterConfig, idx: number) => (
               <select
                 key={idx}
-                value={filters[filter.key as keyof typeof filters]}
-                onChange={(e) => handleFilterChange(filter.key, e.target.value)}
+                value={filters[filter.key]}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>): void =>
+                  handleFilterChange(filter.key, e.target.value)
+                }
                 className="px-3 py-1.5 bg-[#241a13] border border-[#d4a373]/20 rounded-lg focus:outline-none focus:border-[#d4a373] text-[#f0e6d8] text-sm cursor-pointer"
               >
                 <option value="">All {filter.label}</option>
-                {filter.options.map((opt, i) => (
-                  <option key={i} value={opt}>{opt}</option>
+                {filter.options.map((opt: string, i: number) => (
+                  <option key={i} value={opt}>
+                    {opt}
+                  </option>
                 ))}
               </select>
             ))}
@@ -296,10 +360,10 @@ export default function Dashboard() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {data.map((job, idx) => (
+            {data.map((job: Job, idx: number) => (
               <div
                 key={idx}
-                onClick={() => {
+                onClick={(): void => {
                   setCompleteDetails(job);
                   setOpenDetails(true);
                 }}
@@ -368,7 +432,7 @@ export default function Dashboard() {
                   <img src={completeDetails.logo} alt="" className="w-8 h-8 rounded-lg" />
                   <h2 className="text-lg font-medium text-[#1a120b]">{completeDetails.job_title}</h2>
                 </div>
-                <button onClick={() => setOpenDetails(false)} className="p-1 hover:bg-black/10 rounded-lg">
+                <button onClick={(): void => setOpenDetails(false)} className="p-1 hover:bg-black/10 rounded-lg">
                   <X className="w-5 h-5 text-[#1a120b]" />
                 </button>
               </div>
@@ -414,7 +478,7 @@ export default function Dashboard() {
 
             <div className="p-4 border-t border-[#d4a373]/20">
               <button
-                onClick={() => handleApply(completeDetails)}
+                onClick={(): void => handleApply(completeDetails)}
                 className="w-full bg-[#d4a373] hover:bg-[#c49a6c] text-[#1a120b] font-medium py-2.5 rounded-lg transition-all duration-300 text-sm"
               >
                 Apply Now
@@ -430,7 +494,7 @@ export default function Dashboard() {
           <div className="min-h-screen p-4">
             <div className="relative max-w-4xl mx-auto bg-[#1e1610] rounded-xl border border-[#d4a373]/30">
               <div className="sticky top-0 bg-[#1e1610] p-4 border-b border-[#d4a373]/20 flex items-center gap-4">
-                <button onClick={() => setOpenProfile(false)} className="p-2 hover:bg-[#d4a373]/10 rounded-lg">
+                <button onClick={(): void => setOpenProfile(false)} className="p-2 hover:bg-[#d4a373]/10 rounded-lg">
                   <ArrowLeft className="w-5 h-5 text-[#a68a6b]" />
                 </button>
                 <h2 className="text-lg font-medium text-[#f0e6d8]">Profile</h2>
@@ -449,7 +513,7 @@ export default function Dashboard() {
                     <p className="text-[#d4a373] text-sm">@{userData?.userName}</p>
                     <p className="text-[#a68a6b] text-xs mt-2">{userData?.role}</p>
                     <button
-                      onClick={() => {
+                      onClick={(): void => {
                         setOpenProfile(false);
                         setOpenAppliedJobs(true);
                       }}
@@ -515,7 +579,7 @@ export default function Dashboard() {
           <div className="min-h-screen p-4">
             <div className="relative max-w-4xl mx-auto bg-[#1e1610] rounded-xl border border-[#d4a373]/30">
               <div className="sticky top-0 bg-[#1e1610] p-4 border-b border-[#d4a373]/20 flex items-center gap-4">
-                <button onClick={() => setOpenAppliedJobs(false)} className="p-2 hover:bg-[#d4a373]/10 rounded-lg">
+                <button onClick={(): void => setOpenAppliedJobs(false)} className="p-2 hover:bg-[#d4a373]/10 rounded-lg">
                   <ArrowLeft className="w-5 h-5 text-[#a68a6b]" />
                 </button>
                 <h2 className="text-lg font-medium text-[#f0e6d8]">Applied Jobs</h2>
@@ -527,7 +591,7 @@ export default function Dashboard() {
                     <Briefcase className="w-12 h-12 text-[#6b5a4a] mx-auto mb-3" />
                     <p className="text-[#a68a6b] text-sm">No jobs applied yet</p>
                     <button
-                      onClick={() => setOpenAppliedJobs(false)}
+                      onClick={(): void => setOpenAppliedJobs(false)}
                       className="mt-4 px-4 py-1.5 bg-[#d4a373]/10 text-[#d4a373] rounded-lg text-xs"
                     >
                       Browse Jobs
@@ -535,7 +599,7 @@ export default function Dashboard() {
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    {appliedJobs.map((job, idx) => (
+                    {appliedJobs.map((job: Job, idx: number) => (
                       <div key={idx} className="bg-[#241a13] rounded-lg p-4 border border-[#d4a373]/20 flex items-center justify-between">
                         <div className="flex items-center gap-3">
                           <img src={job.logo} alt="" className="w-10 h-10 rounded-lg" />
@@ -549,7 +613,7 @@ export default function Dashboard() {
                           </div>
                         </div>
                         <button
-                          onClick={() => setAppliedJobs(appliedJobs.filter((_, i) => i !== idx))}
+                          onClick={(): void => setAppliedJobs(appliedJobs.filter((_: Job, i: number): boolean => i !== idx))}
                           className="p-1.5 hover:bg-red-500/10 rounded-lg text-red-400"
                         >
                           <X className="w-4 h-4" />
@@ -571,7 +635,7 @@ export default function Dashboard() {
             <div className="relative max-w-2xl mx-auto bg-[#1e1610] rounded-xl border border-[#d4a373]/30">
               <div className="sticky top-0 bg-[#1e1610] p-4 border-b border-[#d4a373]/20 flex items-center justify-between">
                 <h2 className="text-lg font-medium text-[#f0e6d8]">About Jobable</h2>
-                <button onClick={() => setOpenInfo(false)} className="p-2 hover:bg-[#d4a373]/10 rounded-lg">
+                <button onClick={(): void => setOpenInfo(false)} className="p-2 hover:bg-[#d4a373]/10 rounded-lg">
                   <X className="w-5 h-5 text-[#a68a6b]" />
                 </button>
               </div>
@@ -607,7 +671,7 @@ export default function Dashboard() {
           <div className="relative w-full max-w-md bg-[#1e1610] rounded-xl border border-[#d4a373]/30 animate-slideUp">
             <div className="p-4 border-b border-[#d4a373]/20 flex items-center justify-between">
               <h2 className="text-lg font-medium text-[#f0e6d8]">Contact Us</h2>
-              <button onClick={() => setOpenContact(false)} className="p-1 hover:bg-[#d4a373]/10 rounded-lg">
+              <button onClick={(): void => setOpenContact(false)} className="p-1 hover:bg-[#d4a373]/10 rounded-lg">
                 <X className="w-5 h-5 text-[#a68a6b]" />
               </button>
             </div>
@@ -630,7 +694,7 @@ export default function Dashboard() {
                   className="w-full px-4 py-2 bg-[#241a13] border border-[#d4a373]/20 rounded-lg focus:outline-none focus:border-[#d4a373] text-[#f0e6d8] placeholder-[#6b5a4a] text-sm pr-10"
                 />
                 <button
-                  onClick={() => setShowPassword(!showPassword)}
+                  onClick={(): void => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#6b5a4a]"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -642,7 +706,7 @@ export default function Dashboard() {
                 className="w-full px-4 py-2 bg-[#241a13] border border-[#d4a373]/20 rounded-lg focus:outline-none focus:border-[#d4a373] text-[#f0e6d8] placeholder-[#6b5a4a] text-sm resize-none"
               />
               <button
-                onClick={() => {
+                onClick={(): void => {
                   setOpenContact(false);
                   toast.success("Message sent successfully!");
                 }}
