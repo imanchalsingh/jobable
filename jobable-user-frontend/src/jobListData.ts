@@ -1,3 +1,17 @@
+// interface Job {
+//   job_title: string;
+//   company: string;
+//   location: string;
+//   salary: string;
+//   job_type: string;
+//   requirements: string;
+//   description: string;
+//   posted_date: string;
+//   logo: string;
+//   industry: string;
+//   id: string;
+// }
+
 export const jobListings = [
   {
     id: 1,
@@ -330,7 +344,7 @@ export const jobListings = [
     logo: "https://logodix.com/logo/8947.png",
   },
   {
-    job_id: 23,
+    id: 23,
     job_title: "Product Manager",
     company: "InnovateTech Solutions",
     location: "San Jose, CA",
@@ -345,7 +359,7 @@ export const jobListings = [
     logo: "https://logodix.com/logo/8947.png",
   },
   {
-    job_id: 24,
+    id: 24,
     job_title: "Nurse Practitioner",
     company: "HealthCare Plus Clinic",
     location: "Philadelphia, PA",
@@ -360,7 +374,7 @@ export const jobListings = [
     logo: "https://logowiki.net/wp-content/uploads/imgp/N-logo-1-6867.png",
   },
   {
-    job_id: 25,
+    id: 25,
     job_title: "Digital Marketing Specialist",
     company: "Online Growth Marketing",
     location: "Seattle, WA",
@@ -375,7 +389,7 @@ export const jobListings = [
     logo: "https://www.freepnglogos.com/uploads/letter-d-logo-circle-png-32.png",
   },
   {
-    job_id: 26,
+    id: 26,
     job_title: "Mechanical Design Engineer",
     company: "TechMech Solutions",
     location: "Austin, TX",
@@ -390,7 +404,7 @@ export const jobListings = [
     logo: "https://miels.nl/wordpress/wp-content/uploads/2017/01/m.png",
   },
   {
-    job_id: 27,
+    id: 27,
     job_title: "Customer Success Manager",
     company: "CustServe Solutions",
     location: "Chicago, IL",
@@ -405,7 +419,7 @@ export const jobListings = [
     logo: "https://pngimg.com/uploads/letter_c/letter_c_PNG12.png",
   },
   {
-    job_id: 28,
+    id: 28,
     job_title: "Data Scientist",
     company: "DataInsights Innovations",
     location: "New York, NY",
@@ -420,7 +434,7 @@ export const jobListings = [
     logo: "https://www.freepnglogos.com/uploads/letter-d-logo-circle-png-32.png",
   },
   {
-    job_id: 29,
+    id: 29,
     job_title: "Architect",
     company: "DesignArch Studio",
     location: "Los Angeles, CA",
@@ -435,7 +449,7 @@ export const jobListings = [
     logo: "http://pluspng.com/img-png/avengers-logo-png-combatants-1000.png",
   },
   {
-    job_id: 30,
+    id: 30,
     job_title: "Financial Advisor",
     company: "WealthWise Financial Services",
     location: "Dallas, TX",
@@ -450,7 +464,7 @@ export const jobListings = [
     logo: "http://pngimg.com/uploads/letter_f/letter_f_PNG83.png",
   },
   {
-    job_id: 31,
+    id: 31,
     job_title: "Legal Counsel",
     company: "LawFirm Associates",
     location: "San Francisco, CA",
@@ -465,7 +479,7 @@ export const jobListings = [
     logo: "https://logodownload.org/wp-content/uploads/2014/09/lol-league-of-Legends-logo-1-1.png",
   },
   {
-    job_id: 32,
+    id: 32,
     job_title: "Social Worker",
     company: "Community Care Services",
     location: "Phoenix, AZ",
@@ -480,7 +494,7 @@ export const jobListings = [
     logo: "https://www.transparentpng.com/thumb/s/lkybg6-file-bahn-logo-svg-wikimedia-commons.png",
   },
   {
-    job_id: 33,
+    id: 33,
     job_title: "UX/UI Designer",
     company: "UserExperience Labs",
     location: "Portland, OR",
@@ -495,7 +509,7 @@ export const jobListings = [
     logo: "https://www.devenir-associeu.com/assets/img/logo-u.png",
   },
   {
-    job_id: 34,
+    id: 34,
     job_title: "Research Scientist",
     company: "ScienceTech Innovations",
     location: "Denver, CO",
@@ -510,7 +524,7 @@ export const jobListings = [
     logo: "http://www.pngall.com/wp-content/uploads/2/R-Letter-PNG-File.png",
   },
   {
-    job_id: 35,
+    id: 35,
     job_title: "Account Manager",
     company: "AccountPro Solutions",
     location: "Houston, TX",
@@ -525,7 +539,7 @@ export const jobListings = [
     logo: "http://pluspng.com/img-png/avengers-logo-png-combatants-1000.png",
   },
   {
-    job_id: 36,
+    id: 36,
     job_title: "Elementary School Teacher",
     company: "Bright Beginnings School",
     location: "Miami, FL",
@@ -540,7 +554,7 @@ export const jobListings = [
     logo: "https://www.neto.com.au/assets/themes/neto/images/branding/e-blue.png",
   },
   {
-    job_id: 37,
+    id: 37,
     job_title: "IT Security Analyst",
     company: "SecureTech Systems",
     location: "Atlanta, GA",
@@ -555,7 +569,7 @@ export const jobListings = [
     logo: "https://pngimg.com/uploads/letter_i/letter_i_PNG60.png",
   },
   {
-    job_id: 38,
+    id: 38,
     job_title: "Dental Hygienist",
     company: "HealthySmiles Dental Clinic",
     location: "Columbus, OH",
@@ -570,7 +584,7 @@ export const jobListings = [
     logo: "https://www.freepnglogos.com/uploads/letter-d-logo-circle-png-32.png",
   },
   {
-    job_id: 39,
+    id: 39,
     job_title: "Digital Artist",
     company: "CreativePixel Studios",
     location: "Raleigh, NC",
@@ -585,7 +599,7 @@ export const jobListings = [
     logo: "https://www.freepnglogos.com/uploads/letter-d-logo-circle-png-32.png",
   },
   {
-    job_id: 40,
+    id: 40,
     job_title: "Pharmacy Technician",
     company: "QuickMeds Pharmacy",
     location: "Las Vegas, NV",
@@ -600,7 +614,7 @@ export const jobListings = [
     logo: "https://logodix.com/logo/8947.png",
   },
   {
-    job_id: 41,
+    id: 41,
     job_title: "Front-End Developer",
     company: "WebSolutions Inc.",
     location: "San Francisco, CA",
@@ -615,7 +629,7 @@ export const jobListings = [
     logo: "http://pngimg.com/uploads/letter_f/letter_f_PNG83.png",
   },
   {
-    job_id: 42,
+    id: 42,
     job_title: "Physician",
     company: "HealthCare Excellence Clinic",
     location: "New York, NY",
@@ -630,7 +644,7 @@ export const jobListings = [
     logo: "https://logodix.com/logo/8947.png",
   },
   {
-    job_id: 43,
+    id: 43,
     job_title: "Content Marketing Manager",
     company: "ContentMasters Co.",
     location: "Seattle, WA",
@@ -645,7 +659,7 @@ export const jobListings = [
     logo: "https://pngimg.com/uploads/letter_c/letter_c_PNG12.png",
   },
   {
-    job_id: 44,
+    id: 44,
     job_title: "Civil Engineer",
     company: "CivilWorks Solutions",
     location: "Austin, TX",
@@ -660,7 +674,7 @@ export const jobListings = [
     logo: "https://pngimg.com/uploads/letter_c/letter_c_PNG12.png",
   },
   {
-    job_id: 45,
+    id: 45,
     job_title: "HR Specialist",
     company: "HRPros Services",
     location: "Chicago, IL",
@@ -675,7 +689,7 @@ export const jobListings = [
     logo: "https://pngimg.com/uploads/letter_h/letter_h_PNG106.png",
   },
   {
-    job_id: 46,
+    id: 46,
     job_title: "Data Engineer",
     company: "DataTech Innovations",
     location: "Los Angeles, CA",
@@ -690,7 +704,7 @@ export const jobListings = [
     logo: "https://www.freepnglogos.com/uploads/letter-d-logo-circle-png-32.png",
   },
   {
-    job_id: 47,
+    id: 47,
     job_title: "Architectural Designer",
     company: "ArchitectPro Studio",
     location: "New Orleans, LA",
@@ -705,7 +719,7 @@ export const jobListings = [
     logo: "http://pluspng.com/img-png/avengers-logo-png-combatants-1000.png",
   },
   {
-    job_id: 48,
+    id: 48,
     job_title: "Investment Analyst",
     company: "InvestWise Capital",
     location: "Dallas, TX",
@@ -720,7 +734,7 @@ export const jobListings = [
     logo: "https://pngimg.com/uploads/letter_i/letter_i_PNG60.png",
   },
   {
-    job_id: 49,
+    id: 49,
     job_title: "Legal Assistant",
     company: "LegalSupport Law Firm",
     location: "San Jose, CA",
@@ -735,7 +749,7 @@ export const jobListings = [
     logo: "https://logodownload.org/wp-content/uploads/2014/09/lol-league-of-Legends-logo-1-1.png",
   },
   {
-    job_id: 50,
+    id: 50,
     job_title: "Social Services Coordinator",
     company: "CommunitySupport Services",
     location: "Philadelphia, PA",
@@ -750,7 +764,7 @@ export const jobListings = [
     logo: "https://www.transparentpng.com/thumb/s/lkybg6-file-bahn-logo-svg-wikimedia-commons.png",
   },
   {
-    job_id: 51,
+    id: 51,
     job_title: "UI/UX Designer",
     company: "PixelCraft Studios",
     location: "Seattle, WA",
@@ -765,7 +779,7 @@ export const jobListings = [
     logo: "https://www.devenir-associeu.com/assets/img/logo-u.png",
   },
   {
-    job_id: 52,
+    id: 52,
     job_title: "Environmental Scientist",
     company: "EcoSolutions Research",
     location: "Portland, OR",
@@ -780,7 +794,7 @@ export const jobListings = [
     logo: "https://www.neto.com.au/assets/themes/neto/images/branding/e-blue.png",
   },
   {
-    job_id: 53,
+    id: 53,
     job_title: "Marketing Coordinator",
     company: "Marketer's Hub",
     location: "Atlanta, GA",
@@ -795,7 +809,7 @@ export const jobListings = [
     logo: "https://miels.nl/wordpress/wp-content/uploads/2017/01/m.png",
   },
   {
-    job_id: 54,
+    id: 54,
     job_title: "Speech-Language Pathologist",
     company: "SpeakWell Therapy Center",
     location: "Denver, CO",
@@ -810,7 +824,7 @@ export const jobListings = [
     logo: "https://www.transparentpng.com/thumb/s/lkybg6-file-bahn-logo-svg-wikimedia-commons.png",
   },
   {
-    job_id: 55,
+    id: 55,
     job_title: "Accounting Manager",
     company: "AccounTech Solutions",
     location: "Minneapolis, MN",
@@ -825,7 +839,7 @@ export const jobListings = [
     logo: "http://pluspng.com/img-png/avengers-logo-png-combatants-1000.png",
   },
   {
-    job_id: 56,
+    id: 56,
     job_title: "Elementary School Principal",
     company: "Education Excellence Academy",
     location: "Miami, FL",
@@ -840,7 +854,7 @@ export const jobListings = [
     logo: "https://www.neto.com.au/assets/themes/neto/images/branding/e-blue.png",
   },
   {
-    job_id: 57,
+    id: 57,
     job_title: "Database Administrator",
     company: "DataMaster Systems",
     location: "Columbus, OH",
@@ -855,7 +869,7 @@ export const jobListings = [
     logo: "https://www.freepnglogos.com/uploads/letter-d-logo-circle-png-32.png",
   },
   {
-    job_id: 58,
+    id: 58,
     job_title: "Registered Nurse",
     company: "HealthyCare Hospital",
     location: "Houston, TX",
@@ -870,7 +884,7 @@ export const jobListings = [
     logo: "http://www.pngall.com/wp-content/uploads/2/R-Letter-PNG-File.png",
   },
   {
-    job_id: 59,
+    id: 59,
     job_title: "Graphic Designer",
     company: "VisualArt Creations",
     location: "Raleigh, NC",
@@ -885,7 +899,7 @@ export const jobListings = [
     logo: "https://www.pngplay.com/wp-content/uploads/1/Letter-G-PNG-Stock-Photo.png",
   },
   {
-    job_id: 60,
+    id: 60,
     job_title: "Pharmacy Manager",
     company: "Pharmacia Plus",
     location: "Las Vegas, NV",

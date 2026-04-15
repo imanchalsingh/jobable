@@ -24,7 +24,7 @@ import {
   Zap,
   Search,
 } from "lucide-react";
-import { jobListings } from "../jobListData";
+import { jobListings } from "../jobListData.ts";
 
 // Type definitions
 interface Job {
@@ -112,7 +112,7 @@ export default function Dashboard(): React.ReactElement {
   const handleLogout = (): void => {
     localStorage.removeItem("userData");
     toast.success("Logged out successfully!");
-    setTimeout((): void => navigate("/"), 1500);
+    setTimeout((): any => navigate("/"), 1500);
   };
 
   const handleApply = (job: Job): void => {
@@ -160,20 +160,44 @@ export default function Dashboard(): React.ReactElement {
     label: string;
     onClick: () => void;
   }> = [
-    { icon: User, label: "Profile", onClick: (): void => setOpenProfile(true) },
-    { icon: Briefcase, label: "My Jobs", onClick: (): void => setOpenAppliedJobs(true) },
-    { icon: Mail, label: "Contact", onClick: (): void => setOpenContact(true) },
-    { icon: Settings, label: "Settings", onClick: (): void => {} },
-    { icon: Info, label: "About", onClick: (): void => setOpenInfo(true) },
-  ];
+      { icon: User, label: "Profile", onClick: (): void => setOpenProfile(true) },
+      { icon: Briefcase, label: "My Jobs", onClick: (): void => setOpenAppliedJobs(true) },
+      { icon: Mail, label: "Contact", onClick: (): void => setOpenContact(true) },
+      { icon: Settings, label: "Settings", onClick: (): void => { } },
+      { icon: Info, label: "About", onClick: (): void => setOpenInfo(true) },
+    ];
 
   const filterConfigs: FilterConfig[] = [
-    { label: "Job Type", key: "jobType", options: [...new Set(jobListings.map((j: Job): string => j.job_type))] },
-    { label: "Company", key: "company", options: [...new Set(jobListings.map((j: Job): string => j.company))] },
-    { label: "Location", key: "location", options: [...new Set(jobListings.map((j: Job): string => j.location))] },
-    { label: "Job Title", key: "jobTitle", options: [...new Set(jobListings.map((j: Job): string => j.job_title))] },
-    { label: "Industry", key: "industry", options: [...new Set(jobListings.map((j: Job): string => j.industry))] },
-    { label: "Salary", key: "salary", options: [...new Set(jobListings.map((j: Job): string => j.salary))] },
+    {
+      label: "Job Type",
+      key: "jobType",
+      options: [...new Set((jobListings as Job[]).map(j => j.job_type))],
+    },
+    {
+      label: "Company",
+      key: "company",
+      options: [...new Set((jobListings as Job[]).map(j => j.company))],
+    },
+    {
+      label: "Location",
+      key: "location",
+      options: [...new Set((jobListings as Job[]).map(j => j.location))],
+    },
+    {
+      label: "Job Title",
+      key: "jobTitle",
+      options: [...new Set((jobListings as Job[]).map(j => j.job_title))],
+    },
+    {
+      label: "Industry",
+      key: "industry",
+      options: [...new Set((jobListings as Job[]).map(j => j.industry))],
+    },
+    {
+      label: "Salary",
+      key: "salary",
+      options: [...new Set((jobListings as Job[]).map(j => j.salary))],
+    },
   ];
 
   return (
@@ -188,9 +212,8 @@ export default function Dashboard(): React.ReactElement {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full w-72 bg-[#1e1610] border-r border-[#d4a373]/20 z-50 transform transition-transform duration-300 lg:translate-x-0 ${
-          mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`fixed top-0 left-0 h-full w-72 bg-[#1e1610] border-r border-[#d4a373]/20 z-50 transform transition-transform duration-300 lg:translate-x-0 ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
       >
         <div className="flex flex-col h-full">
           {/* Sidebar Header */}
