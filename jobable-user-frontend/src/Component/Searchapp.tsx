@@ -98,14 +98,14 @@ export default function Dashboard() {
   };
 
   const stats = [
-    { icon: TrendingUp, label: "Active Jobs", value: "1,234", color: "purple" },
-    { icon: Users, label: "Companies", value: "856", color: "red" },
-    { icon: Zap, label: "Matches", value: "89%", color: "pink" },
-    { icon: Award, label: "Placements", value: "12.5K", color: "orange" },
+    { icon: TrendingUp, label: "Active Jobs", value: "1,234", color: "#d4a373" },
+    { icon: Users, label: "Companies", value: "856", color: "#d4a373" },
+    { icon: Zap, label: "Matches", value: "89%", color: "#d4a373" },
+    { icon: Award, label: "Placements", value: "12.5K", color: "#d4a373" },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-red-900">
+    <div className="min-h-screen bg-[#1a120b]">
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
         <div
@@ -116,39 +116,39 @@ export default function Dashboard() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full w-72 bg-gray-900/95 backdrop-blur-xl border-r border-purple-500/30 z-50 transform transition-transform duration-300 lg:translate-x-0 ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        className={`fixed top-0 left-0 h-full w-72 bg-[#1e1610] border-r border-[#d4a373]/20 z-50 transform transition-transform duration-300 lg:translate-x-0 ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
           }`}
       >
         <div className="flex flex-col h-full">
           {/* Sidebar Header */}
-          <div className="p-6 border-b border-purple-500/30">
+          <div className="p-6 border-b border-[#d4a373]/20">
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-red-500 rounded-xl flex items-center justify-center">
-                <TrendingUp className="w-5 h-5 text-white" />
+              <div className="w-8 h-8 bg-[#d4a373] rounded-lg flex items-center justify-center">
+                <TrendingUp className="w-4 h-4 text-[#1a120b]" />
               </div>
-              <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-red-400 bg-clip-text text-transparent">
+              <h2 className="text-xl font-semibold text-[#d4a373] tracking-tight">
                 Jobable
               </h2>
             </div>
           </div>
 
           {/* User Profile */}
-          <div className="p-6 text-center border-b border-purple-500/30">
+          <div className="p-6 text-center border-b border-[#d4a373]/20">
             <div className="relative inline-block">
               <img
-                className="w-24 h-24 rounded-full border-4 border-purple-500 object-cover mx-auto"
+                className="w-24 h-24 rounded-full border-2 border-[#d4a373] object-cover mx-auto"
                 src={userData?.image || "https://via.placeholder.com/96"}
                 alt="Profile"
               />
-              <div className="absolute bottom-0 right-0 w-5 h-5 bg-green-500 rounded-full border-2 border-gray-900"></div>
+              <div className="absolute bottom-0 right-0 w-4 h-4 bg-emerald-600 rounded-full border-2 border-[#1e1610]"></div>
             </div>
-            <h3 className="text-white font-semibold mt-3">{userData?.fullName || "User"}</h3>
-            <p className="text-gray-400 text-sm">@{userData?.userName || "username"}</p>
-            <p className="text-purple-400 text-xs mt-1">{userData?.industry || "Professional"}</p>
+            <h3 className="text-[#f0e6d8] font-medium mt-3">{userData?.fullName || "User"}</h3>
+            <p className="text-[#a68a6b] text-sm">@{userData?.userName || "username"}</p>
+            <p className="text-[#d4a373] text-xs mt-1">{userData?.industry || "Professional"}</p>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 p-4 space-y-2">
+          <nav className="flex-1 p-4 space-y-1">
             {[
               { icon: User, label: "Profile", onClick: () => setOpenProfile(true) },
               { icon: Briefcase, label: "My Jobs", onClick: () => setOpenAppliedJobs(true) },
@@ -162,22 +162,22 @@ export default function Dashboard() {
                   item.onClick();
                   setMobileMenuOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-purple-600/20 rounded-xl transition-all duration-200 group"
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-[#a68a6b] hover:text-[#d4a373] hover:bg-[#d4a373]/10 rounded-lg transition-all duration-200 group"
               >
-                <item.icon className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                <span>{item.label}</span>
+                <item.icon className="w-4 h-4" />
+                <span className="text-sm">{item.label}</span>
               </button>
             ))}
           </nav>
 
           {/* Logout Button */}
-          <div className="p-4 border-t border-purple-500/30">
+          <div className="p-4 border-t border-[#d4a373]/20">
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:text-red-300 hover:bg-red-600/20 rounded-xl transition-all duration-200"
+              className="w-full flex items-center gap-3 px-4 py-2.5 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-all duration-200"
             >
-              <LogOut className="w-5 h-5" />
-              <span>Logout</span>
+              <LogOut className="w-4 h-4" />
+              <span className="text-sm">Logout</span>
             </button>
           </div>
         </div>
@@ -186,45 +186,45 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="lg:ml-72 min-h-screen">
         {/* Header */}
-        <header className="sticky top-0 z-30 bg-gray-900/80 backdrop-blur-xl border-b border-purple-500/30">
+        <header className="sticky top-0 z-30 bg-[#1a120b]/95 backdrop-blur-sm border-b border-[#d4a373]/20">
           <div className="px-4 py-3">
             <div className="flex items-center gap-4">
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="lg:hidden p-2 text-white hover:bg-purple-600/20 rounded-lg transition-colors"
+                className="lg:hidden p-2 text-[#a68a6b] hover:text-[#d4a373] hover:bg-[#d4a373]/10 rounded-lg transition-colors"
               >
-                <Menu className="w-6 h-6" />
+                <Menu className="w-5 h-5" />
               </button>
 
               {/* Search Bar - Mobile */}
               <div className="flex-1 lg:hidden">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#6b5a4a]" />
                   <input
                     type="text"
                     placeholder="Search jobs..."
                     value={searchText}
                     onChange={handleSearch}
-                    className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-purple-500/30 rounded-xl focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
+                    className="w-full pl-10 pr-4 py-2 bg-[#241a13] border border-[#d4a373]/20 rounded-lg focus:outline-none focus:border-[#d4a373] text-[#f0e6d8] placeholder-[#6b5a4a] text-sm"
                   />
                 </div>
               </div>
 
               {/* Welcome Text */}
               <div className="hidden lg:block flex-1">
-                <h1 className="text-2xl font-bold text-white">
-                  Welcome back, <span className="text-transparent bg-gradient-to-r from-purple-400 to-red-400 bg-clip-text">{userData?.fullName?.split(' ')[0] || "User"}</span>
+                <h1 className="text-xl font-medium text-[#f0e6d8]">
+                  Welcome back, <span className="text-[#d4a373]">{userData?.fullName?.split(' ')[0] || "User"}</span>
                 </h1>
-                <p className="text-gray-400 text-sm">Find your dream job today</p>
+                <p className="text-[#a68a6b] text-sm">Find your dream job today</p>
               </div>
 
               {/* Stats Icons */}
               <div className="flex gap-2">
                 {stats.slice(0, 2).map((stat, idx) => (
-                  <div key={idx} className="hidden sm:flex items-center gap-2 px-3 py-1 bg-purple-600/20 rounded-full">
-                    <stat.icon className={`w-4 h-4 text-${stat.color}-400`} />
-                    <span className="text-white text-sm font-semibold">{stat.value}</span>
+                  <div key={idx} className="hidden sm:flex items-center gap-2 px-3 py-1 bg-[#d4a373]/10 rounded-full">
+                    <stat.icon className="w-3 h-3" style={{ color: stat.color }} />
+                    <span className="text-[#f0e6d8] text-xs font-medium">{stat.value}</span>
                   </div>
                 ))}
               </div>
@@ -237,20 +237,20 @@ export default function Dashboard() {
           {stats.map((stat, idx) => (
             <div
               key={idx}
-              className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 border border-purple-500/30 hover:border-purple-500 transition-all duration-300"
+              className="bg-[#241a13] rounded-xl p-4 border border-[#d4a373]/20 hover:border-[#d4a373]/40 transition-all duration-300"
             >
               <div className="flex items-center justify-between mb-2">
-                <stat.icon className={`w-5 h-5 text-${stat.color}-400`} />
-                <span className="text-2xl font-bold text-white">{stat.value}</span>
+                <stat.icon className="w-5 h-5" style={{ color: stat.color }} />
+                <span className="text-xl font-semibold text-[#f0e6d8]">{stat.value}</span>
               </div>
-              <p className="text-gray-400 text-sm">{stat.label}</p>
+              <p className="text-[#a68a6b] text-sm">{stat.label}</p>
             </div>
           ))}
         </div>
 
         {/* Filters - Desktop */}
         <div className="hidden lg:block px-4 mb-6">
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2">
             {[
               { label: "Job Type", key: "jobType", options: [...new Set(jobListings.map(j => j.job_type))] },
               { label: "Company", key: "company", options: [...new Set(jobListings.map(j => j.company))] },
@@ -263,7 +263,7 @@ export default function Dashboard() {
                 key={idx}
                 value={filters[filter.key as keyof typeof filters]}
                 onChange={(e) => handleFilterChange(filter.key, e.target.value)}
-                className="px-4 py-2 bg-gray-800 border border-purple-500/30 rounded-xl focus:outline-none focus:border-purple-500 text-white text-sm cursor-pointer"
+                className="px-3 py-1.5 bg-[#241a13] border border-[#d4a373]/20 rounded-lg focus:outline-none focus:border-[#d4a373] text-[#f0e6d8] text-sm cursor-pointer"
               >
                 <option value="">All {filter.label}</option>
                 {filter.options.map((opt, i) => (
@@ -277,13 +277,13 @@ export default function Dashboard() {
         {/* Search Bar - Desktop */}
         <div className="hidden lg:block px-4 mb-6">
           <div className="relative max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#6b5a4a]" />
             <input
               type="text"
               placeholder="Search jobs by title or company..."
               value={searchText}
               onChange={handleSearch}
-              className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-purple-500/30 rounded-xl focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
+              className="w-full pl-10 pr-4 py-2 bg-[#241a13] border border-[#d4a373]/20 rounded-lg focus:outline-none focus:border-[#d4a373] text-[#f0e6d8] placeholder-[#6b5a4a] text-sm"
             />
           </div>
         </div>
@@ -291,11 +291,11 @@ export default function Dashboard() {
         {/* Job Listings */}
         <div className="p-4">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-white">Available Positions</h2>
-            <p className="text-gray-400 text-sm">{data.length} jobs found</p>
+            <h2 className="text-lg font-medium text-[#f0e6d8]">Available Positions</h2>
+            <p className="text-[#a68a6b] text-sm">{data.length} jobs found</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {data.map((job, idx) => (
               <div
                 key={idx}
@@ -303,45 +303,45 @@ export default function Dashboard() {
                   setCompleteDetails(job);
                   setOpenDetails(true);
                 }}
-                className="group bg-gray-800/50 backdrop-blur-sm rounded-xl overflow-hidden border border-purple-500/30 hover:border-purple-500 transition-all duration-300 cursor-pointer hover:transform hover:scale-105"
+                className="group bg-[#241a13] rounded-xl overflow-hidden border border-[#d4a373]/20 hover:border-[#d4a373]/40 transition-all duration-300 cursor-pointer hover:shadow-lg"
               >
                 <div className="p-5">
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-3">
                     <img
                       src={job.logo}
                       alt={job.company}
-                      className="w-12 h-12 rounded-lg object-cover"
+                      className="w-10 h-10 rounded-lg object-cover"
                     />
                     <div className="flex-1">
-                      <h3 className="text-white font-semibold text-lg group-hover:text-purple-400 transition-colors">
+                      <h3 className="text-[#f0e6d8] font-medium group-hover:text-[#d4a373] transition-colors">
                         {job.job_title}
                       </h3>
-                      <p className="text-gray-400 text-sm">{job.company}</p>
+                      <p className="text-[#a68a6b] text-sm">{job.company}</p>
                     </div>
                   </div>
 
-                  <div className="mt-4 space-y-2">
-                    <div className="flex items-center gap-2 text-gray-400 text-sm">
-                      <MapPin className="w-4 h-4" />
+                  <div className="mt-4 space-y-1.5">
+                    <div className="flex items-center gap-2 text-[#a68a6b] text-xs">
+                      <MapPin className="w-3 h-3" />
                       <span>{job.location}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-gray-400 text-sm">
-                      <IndianRupee className="w-4 h-4" />
+                    <div className="flex items-center gap-2 text-[#a68a6b] text-xs">
+                      <IndianRupee className="w-3 h-3" />
                       <span>{job.salary}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-gray-400 text-sm">
-                      <Briefcase className="w-4 h-4" />
+                    <div className="flex items-center gap-2 text-[#a68a6b] text-xs">
+                      <Briefcase className="w-3 h-3" />
                       <span>{job.job_type}</span>
                     </div>
                   </div>
 
-                  <p className="mt-4 text-gray-300 text-sm line-clamp-2">
+                  <p className="mt-4 text-[#c4b5a0] text-xs line-clamp-2">
                     {job.requirements}
                   </p>
 
                   <div className="mt-4 flex items-center justify-between">
-                    <span className="text-xs text-gray-500">{job.posted_date}</span>
-                    <button className="px-4 py-1.5 bg-gradient-to-r from-purple-600 to-red-600 rounded-lg text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    <span className="text-[#6b5a4a] text-xs">{job.posted_date}</span>
+                    <button className="px-3 py-1 bg-[#d4a373] hover:bg-[#c49a6c] rounded-lg text-[#1a120b] text-xs font-medium transition-colors">
                       Apply Now
                     </button>
                   </div>
@@ -352,7 +352,7 @@ export default function Dashboard() {
 
           {data.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-gray-400">No jobs found matching your criteria</p>
+              <p className="text-[#a68a6b]">No jobs found matching your criteria</p>
             </div>
           )}
         </div>
@@ -360,62 +360,62 @@ export default function Dashboard() {
 
       {/* Job Details Dialog */}
       {openDetails && completeDetails && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-          <div className="relative w-full max-w-2xl bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl border border-purple-500/30 max-h-[90vh] overflow-hidden animate-slideUp">
-            <div className="sticky top-0 bg-gradient-to-r from-purple-600 to-red-600 p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn">
+          <div className="relative w-full max-w-2xl bg-[#1e1610] rounded-xl border border-[#d4a373]/30 max-h-[90vh] overflow-hidden animate-slideUp">
+            <div className="sticky top-0 bg-[#d4a373] p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <img src={completeDetails.logo} alt="" className="w-8 h-8 rounded-lg" />
-                  <h2 className="text-xl font-bold text-white">{completeDetails.job_title}</h2>
+                  <h2 className="text-lg font-medium text-[#1a120b]">{completeDetails.job_title}</h2>
                 </div>
-                <button onClick={() => setOpenDetails(false)} className="p-1 hover:bg-white/10 rounded-lg">
-                  <X className="w-5 h-5 text-white" />
+                <button onClick={() => setOpenDetails(false)} className="p-1 hover:bg-black/10 rounded-lg">
+                  <X className="w-5 h-5 text-[#1a120b]" />
                 </button>
               </div>
             </div>
 
             <div className="overflow-y-auto p-6 space-y-4 max-h-[calc(90vh-80px)] custom-scrollbar">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex items-center gap-2 text-gray-300">
-                  <Building className="w-4 h-4 text-purple-400" />
+                <div className="flex items-center gap-2 text-[#a68a6b] text-sm">
+                  <Building className="w-4 h-4 text-[#d4a373]" />
                   <span>{completeDetails.company}</span>
                 </div>
-                <div className="flex items-center gap-2 text-gray-300">
-                  <MapPin className="w-4 h-4 text-purple-400" />
+                <div className="flex items-center gap-2 text-[#a68a6b] text-sm">
+                  <MapPin className="w-4 h-4 text-[#d4a373]" />
                   <span>{completeDetails.location}</span>
                 </div>
-                <div className="flex items-center gap-2 text-gray-300">
-                  <IndianRupee className="w-4 h-4 text-purple-400" />
+                <div className="flex items-center gap-2 text-[#a68a6b] text-sm">
+                  <IndianRupee className="w-4 h-4 text-[#d4a373]" />
                   <span>{completeDetails.salary}</span>
                 </div>
-                <div className="flex items-center gap-2 text-gray-300">
-                  <Briefcase className="w-4 h-4 text-purple-400" />
+                <div className="flex items-center gap-2 text-[#a68a6b] text-sm">
+                  <Briefcase className="w-4 h-4 text-[#d4a373]" />
                   <span>{completeDetails.job_type}</span>
                 </div>
               </div>
 
               <div>
-                <h3 className="text-white font-semibold mb-2">Description</h3>
-                <p className="text-gray-300 text-sm leading-relaxed">{completeDetails.description}</p>
+                <h3 className="text-[#f0e6d8] font-medium mb-2 text-sm">Description</h3>
+                <p className="text-[#c4b5a0] text-sm leading-relaxed">{completeDetails.description}</p>
               </div>
 
               <div>
-                <h3 className="text-white font-semibold mb-2">Requirements</h3>
-                <p className="text-gray-300 text-sm leading-relaxed">{completeDetails.requirements}</p>
+                <h3 className="text-[#f0e6d8] font-medium mb-2 text-sm">Requirements</h3>
+                <p className="text-[#c4b5a0] text-sm leading-relaxed">{completeDetails.requirements}</p>
               </div>
 
               <div>
-                <h3 className="text-white font-semibold mb-2">About Company</h3>
-                <p className="text-gray-300 text-sm leading-relaxed">
+                <h3 className="text-[#f0e6d8] font-medium mb-2 text-sm">About Company</h3>
+                <p className="text-[#c4b5a0] text-sm leading-relaxed">
                   IT involves the use of computers, software, and networks to store, process, and transmit data.
                 </p>
               </div>
             </div>
 
-            <div className="p-4 border-t border-purple-500/30">
+            <div className="p-4 border-t border-[#d4a373]/20">
               <button
                 onClick={() => handleApply(completeDetails)}
-                className="w-full bg-gradient-to-r from-purple-600 to-red-600 hover:from-purple-700 hover:to-red-700 text-white font-semibold py-3 rounded-xl transition-all duration-300"
+                className="w-full bg-[#d4a373] hover:bg-[#c49a6c] text-[#1a120b] font-medium py-2.5 rounded-lg transition-all duration-300 text-sm"
               >
                 Apply Now
               </button>
@@ -426,79 +426,79 @@ export default function Dashboard() {
 
       {/* Profile Dialog */}
       {openProfile && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm animate-fadeIn">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/70 backdrop-blur-sm animate-fadeIn">
           <div className="min-h-screen p-4">
-            <div className="relative max-w-4xl mx-auto bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl border border-purple-500/30">
-              <div className="sticky top-0 bg-gray-900/95 p-4 border-b border-purple-500/30 flex items-center gap-4">
-                <button onClick={() => setOpenProfile(false)} className="p-2 hover:bg-purple-600/20 rounded-lg">
-                  <ArrowLeft className="w-5 h-5 text-white" />
+            <div className="relative max-w-4xl mx-auto bg-[#1e1610] rounded-xl border border-[#d4a373]/30">
+              <div className="sticky top-0 bg-[#1e1610] p-4 border-b border-[#d4a373]/20 flex items-center gap-4">
+                <button onClick={() => setOpenProfile(false)} className="p-2 hover:bg-[#d4a373]/10 rounded-lg">
+                  <ArrowLeft className="w-5 h-5 text-[#a68a6b]" />
                 </button>
-                <h2 className="text-xl font-bold text-white">Profile</h2>
+                <h2 className="text-lg font-medium text-[#f0e6d8]">Profile</h2>
               </div>
 
               <div className="p-6">
                 <div className="grid md:grid-cols-3 gap-6">
                   {/* Profile Card */}
-                  <div className="bg-gray-800/50 rounded-xl p-6 text-center border border-purple-500/30">
+                  <div className="bg-[#241a13] rounded-xl p-6 text-center border border-[#d4a373]/20">
                     <img
                       src={userData?.image || "https://via.placeholder.com/128"}
                       alt="Profile"
-                      className="w-32 h-32 rounded-full mx-auto border-4 border-purple-500 object-cover"
+                      className="w-28 h-28 rounded-full mx-auto border-2 border-[#d4a373] object-cover"
                     />
-                    <h3 className="text-white text-xl font-semibold mt-4">{userData?.fullName}</h3>
-                    <p className="text-purple-400">@{userData?.userName}</p>
-                    <p className="text-gray-400 text-sm mt-2">{userData?.role}</p>
+                    <h3 className="text-[#f0e6d8] font-medium mt-4">{userData?.fullName}</h3>
+                    <p className="text-[#d4a373] text-sm">@{userData?.userName}</p>
+                    <p className="text-[#a68a6b] text-xs mt-2">{userData?.role}</p>
                     <button
                       onClick={() => {
                         setOpenProfile(false);
                         setOpenAppliedJobs(true);
                       }}
-                      className="mt-4 px-4 py-2 bg-purple-600/20 hover:bg-purple-600/30 text-purple-400 rounded-lg text-sm transition-colors"
+                      className="mt-4 px-4 py-1.5 bg-[#d4a373]/10 hover:bg-[#d4a373]/20 text-[#d4a373] rounded-lg text-xs transition-colors"
                     >
                       View Applied Jobs
                     </button>
                   </div>
 
                   {/* Details */}
-                  <div className="md:col-span-2 bg-gray-800/50 rounded-xl p-6 border border-purple-500/30">
+                  <div className="md:col-span-2 bg-[#241a13] rounded-xl p-6 border border-[#d4a373]/20">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <p className="text-gray-400 text-sm">Location</p>
-                        <p className="text-white">{userData?.location || "Not specified"}</p>
+                        <p className="text-[#a68a6b] text-xs">Location</p>
+                        <p className="text-[#f0e6d8] text-sm mt-0.5">{userData?.location || "Not specified"}</p>
                       </div>
                       <div>
-                        <p className="text-gray-400 text-sm">Experience</p>
-                        <p className="text-white">{userData?.experience || "0"} years</p>
+                        <p className="text-[#a68a6b] text-xs">Experience</p>
+                        <p className="text-[#f0e6d8] text-sm mt-0.5">{userData?.experience || "0"} years</p>
                       </div>
                       <div>
-                        <p className="text-gray-400 text-sm">Company</p>
-                        <p className="text-white">{userData?.company || "Not specified"}</p>
+                        <p className="text-[#a68a6b] text-xs">Company</p>
+                        <p className="text-[#f0e6d8] text-sm mt-0.5">{userData?.company || "Not specified"}</p>
                       </div>
                       <div>
-                        <p className="text-gray-400 text-sm">Industry</p>
-                        <p className="text-white">{userData?.industry || "Not specified"}</p>
+                        <p className="text-[#a68a6b] text-xs">Industry</p>
+                        <p className="text-[#f0e6d8] text-sm mt-0.5">{userData?.industry || "Not specified"}</p>
                       </div>
                       <div>
-                        <p className="text-gray-400 text-sm">Education</p>
-                        <p className="text-white">{userData?.education || "Not specified"}</p>
+                        <p className="text-[#a68a6b] text-xs">Education</p>
+                        <p className="text-[#f0e6d8] text-sm mt-0.5">{userData?.education || "Not specified"}</p>
                       </div>
                       <div>
-                        <p className="text-gray-400 text-sm">Email</p>
-                        <p className="text-white">{userData?.email}</p>
+                        <p className="text-[#a68a6b] text-xs">Email</p>
+                        <p className="text-[#f0e6d8] text-sm mt-0.5">{userData?.email}</p>
                       </div>
                       <div className="md:col-span-2">
-                        <p className="text-gray-400 text-sm">Skills</p>
-                        <div className="flex flex-wrap gap-2 mt-1">
+                        <p className="text-[#a68a6b] text-xs">Skills</p>
+                        <div className="flex flex-wrap gap-1.5 mt-1">
                           {userData?.skill?.split(',').map((skill: string, idx: number) => (
-                            <span key={idx} className="px-2 py-1 bg-purple-600/20 text-purple-400 rounded-lg text-xs">
+                            <span key={idx} className="px-2 py-0.5 bg-[#d4a373]/10 text-[#d4a373] rounded text-xs">
                               {skill.trim()}
                             </span>
                           ))}
                         </div>
                       </div>
                       <div className="md:col-span-2">
-                        <p className="text-gray-400 text-sm">About Me</p>
-                        <p className="text-gray-300 mt-1">{userData?.about || "No description provided"}</p>
+                        <p className="text-[#a68a6b] text-xs">About Me</p>
+                        <p className="text-[#c4b5a0] text-sm mt-1">{userData?.about || "No description provided"}</p>
                       </div>
                     </div>
                   </div>
@@ -511,38 +511,38 @@ export default function Dashboard() {
 
       {/* Applied Jobs Dialog */}
       {openAppliedJobs && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm animate-fadeIn">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/70 backdrop-blur-sm animate-fadeIn">
           <div className="min-h-screen p-4">
-            <div className="relative max-w-4xl mx-auto bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl border border-purple-500/30">
-              <div className="sticky top-0 bg-gray-900/95 p-4 border-b border-purple-500/30 flex items-center gap-4">
-                <button onClick={() => setOpenAppliedJobs(false)} className="p-2 hover:bg-purple-600/20 rounded-lg">
-                  <ArrowLeft className="w-5 h-5 text-white" />
+            <div className="relative max-w-4xl mx-auto bg-[#1e1610] rounded-xl border border-[#d4a373]/30">
+              <div className="sticky top-0 bg-[#1e1610] p-4 border-b border-[#d4a373]/20 flex items-center gap-4">
+                <button onClick={() => setOpenAppliedJobs(false)} className="p-2 hover:bg-[#d4a373]/10 rounded-lg">
+                  <ArrowLeft className="w-5 h-5 text-[#a68a6b]" />
                 </button>
-                <h2 className="text-xl font-bold text-white">Applied Jobs</h2>
+                <h2 className="text-lg font-medium text-[#f0e6d8]">Applied Jobs</h2>
               </div>
 
               <div className="p-6">
                 {appliedJobs.length === 0 ? (
                   <div className="text-center py-12">
-                    <Briefcase className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                    <p className="text-gray-400">No jobs applied yet</p>
+                    <Briefcase className="w-12 h-12 text-[#6b5a4a] mx-auto mb-3" />
+                    <p className="text-[#a68a6b] text-sm">No jobs applied yet</p>
                     <button
                       onClick={() => setOpenAppliedJobs(false)}
-                      className="mt-4 px-4 py-2 bg-purple-600/20 text-purple-400 rounded-lg"
+                      className="mt-4 px-4 py-1.5 bg-[#d4a373]/10 text-[#d4a373] rounded-lg text-xs"
                     >
                       Browse Jobs
                     </button>
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     {appliedJobs.map((job, idx) => (
-                      <div key={idx} className="bg-gray-800/50 rounded-xl p-4 border border-purple-500/30 flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                          <img src={job.logo} alt="" className="w-12 h-12 rounded-lg" />
+                      <div key={idx} className="bg-[#241a13] rounded-lg p-4 border border-[#d4a373]/20 flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <img src={job.logo} alt="" className="w-10 h-10 rounded-lg" />
                           <div>
-                            <h3 className="text-white font-semibold">{job.job_title}</h3>
-                            <p className="text-gray-400 text-sm">{job.company}</p>
-                            <p className="text-purple-400 text-xs mt-1 flex items-center gap-1">
+                            <h3 className="text-[#f0e6d8] font-medium text-sm">{job.job_title}</h3>
+                            <p className="text-[#a68a6b] text-xs">{job.company}</p>
+                            <p className="text-[#d4a373] text-xs mt-0.5 flex items-center gap-1">
                               <Clock className="w-3 h-3" />
                               Applied recently
                             </p>
@@ -550,9 +550,9 @@ export default function Dashboard() {
                         </div>
                         <button
                           onClick={() => setAppliedJobs(appliedJobs.filter((_, i) => i !== idx))}
-                          className="p-2 hover:bg-red-600/20 rounded-lg text-red-400"
+                          className="p-1.5 hover:bg-red-500/10 rounded-lg text-red-400"
                         >
-                          <X className="w-5 h-5" />
+                          <X className="w-4 h-4" />
                         </button>
                       </div>
                     ))}
@@ -566,32 +566,32 @@ export default function Dashboard() {
 
       {/* Info Dialog */}
       {openInfo && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm animate-fadeIn">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/70 backdrop-blur-sm animate-fadeIn">
           <div className="min-h-screen p-4">
-            <div className="relative max-w-2xl mx-auto bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl border border-purple-500/30">
-              <div className="sticky top-0 bg-gray-900/95 p-4 border-b border-purple-500/30 flex items-center justify-between">
-                <h2 className="text-xl font-bold text-white">About Jobable</h2>
-                <button onClick={() => setOpenInfo(false)} className="p-2 hover:bg-purple-600/20 rounded-lg">
-                  <X className="w-5 h-5 text-white" />
+            <div className="relative max-w-2xl mx-auto bg-[#1e1610] rounded-xl border border-[#d4a373]/30">
+              <div className="sticky top-0 bg-[#1e1610] p-4 border-b border-[#d4a373]/20 flex items-center justify-between">
+                <h2 className="text-lg font-medium text-[#f0e6d8]">About Jobable</h2>
+                <button onClick={() => setOpenInfo(false)} className="p-2 hover:bg-[#d4a373]/10 rounded-lg">
+                  <X className="w-5 h-5 text-[#a68a6b]" />
                 </button>
               </div>
 
-              <div className="p-6 space-y-6">
+              <div className="p-6 space-y-5">
                 <div>
-                  <h3 className="text-purple-400 font-semibold mb-2">Our Mission</h3>
-                  <p className="text-gray-300">
+                  <h3 className="text-[#d4a373] font-medium mb-1 text-sm">Our Mission</h3>
+                  <p className="text-[#c4b5a0] text-sm">
                     To connect talented individuals with perfect job opportunities and assist companies in finding ideal candidates.
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-purple-400 font-semibold mb-2">Our Vision</h3>
-                  <p className="text-gray-300">
+                  <h3 className="text-[#d4a373] font-medium mb-1 text-sm">Our Vision</h3>
+                  <p className="text-[#c4b5a0] text-sm">
                     A world where job search is transparent, efficient, and fulfilling for both job seekers and employers.
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-purple-400 font-semibold mb-2">Our Commitment</h3>
-                  <p className="text-gray-300">
+                  <h3 className="text-[#d4a373] font-medium mb-1 text-sm">Our Commitment</h3>
+                  <p className="text-[#c4b5a0] text-sm">
                     We are committed to facilitating your professional growth with transparency, integrity, and innovation.
                   </p>
                 </div>
@@ -603,35 +603,35 @@ export default function Dashboard() {
 
       {/* Contact Dialog */}
       {openContact && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-          <div className="relative w-full max-w-md bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl border border-purple-500/30 animate-slideUp">
-            <div className="p-4 border-b border-purple-500/30 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-white">Contact Us</h2>
-              <button onClick={() => setOpenContact(false)} className="p-1 hover:bg-purple-600/20 rounded-lg">
-                <X className="w-5 h-5 text-white" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn">
+          <div className="relative w-full max-w-md bg-[#1e1610] rounded-xl border border-[#d4a373]/30 animate-slideUp">
+            <div className="p-4 border-b border-[#d4a373]/20 flex items-center justify-between">
+              <h2 className="text-lg font-medium text-[#f0e6d8]">Contact Us</h2>
+              <button onClick={() => setOpenContact(false)} className="p-1 hover:bg-[#d4a373]/10 rounded-lg">
+                <X className="w-5 h-5 text-[#a68a6b]" />
               </button>
             </div>
 
-            <div className="p-6 space-y-4">
+            <div className="p-5 space-y-4">
               <input
                 type="text"
                 placeholder="Your Name"
-                className="w-full px-4 py-2 bg-gray-800 border border-purple-500/30 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
+                className="w-full px-4 py-2 bg-[#241a13] border border-[#d4a373]/20 rounded-lg focus:outline-none focus:border-[#d4a373] text-[#f0e6d8] placeholder-[#6b5a4a] text-sm"
               />
               <input
                 type="email"
                 placeholder="Your Email"
-                className="w-full px-4 py-2 bg-gray-800 border border-purple-500/30 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
+                className="w-full px-4 py-2 bg-[#241a13] border border-[#d4a373]/20 rounded-lg focus:outline-none focus:border-[#d4a373] text-[#f0e6d8] placeholder-[#6b5a4a] text-sm"
               />
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
-                  className="w-full px-4 py-2 bg-gray-800 border border-purple-500/30 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-500 pr-10"
+                  className="w-full px-4 py-2 bg-[#241a13] border border-[#d4a373]/20 rounded-lg focus:outline-none focus:border-[#d4a373] text-[#f0e6d8] placeholder-[#6b5a4a] text-sm pr-10"
                 />
                 <button
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#6b5a4a]"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -639,14 +639,14 @@ export default function Dashboard() {
               <textarea
                 placeholder="Your Message"
                 rows={4}
-                className="w-full px-4 py-2 bg-gray-800 border border-purple-500/30 rounded-lg focus:outline-none focus:border-purple-500 text-white placeholder-gray-500 resize-none"
+                className="w-full px-4 py-2 bg-[#241a13] border border-[#d4a373]/20 rounded-lg focus:outline-none focus:border-[#d4a373] text-[#f0e6d8] placeholder-[#6b5a4a] text-sm resize-none"
               />
               <button
                 onClick={() => {
                   setOpenContact(false);
                   toast.success("Message sent successfully!");
                 }}
-                className="w-full bg-gradient-to-r from-purple-600 to-red-600 hover:from-purple-700 hover:to-red-700 text-white font-semibold py-2 rounded-xl transition-all duration-300"
+                className="w-full bg-[#d4a373] hover:bg-[#c49a6c] text-[#1a120b] font-medium py-2 rounded-lg transition-all duration-300 text-sm"
               >
                 Send Message
               </button>
@@ -662,9 +662,9 @@ export default function Dashboard() {
         closeOnClick
         pauseOnHover
         toastStyle={{
-          background: "#1f2937",
-          color: "#fff",
-          border: "1px solid #9333ea",
+          background: "#1e1610",
+          color: "#f0e6d8",
+          border: "1px solid #d4a373",
         }}
       />
 
@@ -686,24 +686,24 @@ export default function Dashboard() {
         }
         
         .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
+          animation: fadeIn 0.2s ease-out;
         }
         
         .animate-slideUp {
-          animation: slideUp 0.4s ease-out;
+          animation: slideUp 0.3s ease-out;
         }
         
         .custom-scrollbar::-webkit-scrollbar {
-          width: 8px;
+          width: 6px;
         }
         
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: #1f2937;
+          background: #241a13;
           border-radius: 10px;
         }
         
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: linear-gradient(to bottom, #9333ea, #ef4444);
+          background: #d4a373;
           border-radius: 10px;
         }
         
